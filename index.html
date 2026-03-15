@@ -1,545 +1,788 @@
-
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TransAtlantique — Toute la France ↔ Tout le Sénégal</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
+:root {
+  --sand: #F5E6C8;
+  --terracotta: #C85A2E;
+  --terra-dark: #a84825;
+  --deep-blue: #0A1628;
+  --ocean: #163854;
+  --gold: #D4A843;
+  --gold-pale: #EBC870;
+  --cream: #FAF5EC;
+  --warm-gray: #8B7355;
+  --ink: #060E1A;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'DM Sans', sans-serif; background: var(--deep-blue); color: var(--cream); overflow-x: hidden; }
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--ink); }
+::-webkit-scrollbar-thumb { background: var(--terracotta); }
 
-  .app-shell{display:flex;justify-content:center;align-items:flex-start;padding:2rem 1rem 3rem;min-height:920px}
-  .phone{width:390px;height:860px;background:#0A1628;border-radius:48px;overflow:hidden;position:relative;box-shadow:0 40px 80px rgba(0,0,0,.45),0 0 0 10px #1a2a40,0 0 0 12px #0e1e30;font-family:'DM Sans',sans-serif;display:flex;flex-direction:column}
+@keyframes fadeDown { from { opacity:0; transform:translateY(-20px); } to { opacity:1; transform:none; } }
+@keyframes fadeUp   { from { opacity:0; transform:translateY(40px);  } to { opacity:1; transform:none; } }
+@keyframes wavemove { to { transform: translateX(-50%); } }
+@keyframes dotsshift { to { background-position: 32px 32px; } }
+@keyframes pulse    { 0%,100%{ opacity:.3; transform:scale(.8); } 50%{ opacity:1; transform:scale(1.1); } }
+@keyframes blink    { 0%,100%{ opacity:1; } 50%{ opacity:.2; } }
+@keyframes marquee  { from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+@keyframes floatDot { 0%,100%{ opacity:0; transform:translateY(0) scale(.5); } 50%{ opacity:.7; transform:translateY(-8px) scale(1); } }
+@keyframes popIn    { from{ opacity:0; transform:scale(.94); } to{ opacity:1; transform:none; } }
+@keyframes countUp  { from{ opacity:0; transform:translateY(12px); } to{ opacity:1; transform:none; } }
 
-  .notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:126px;height:34px;background:#0A1628;border-radius:0 0 20px 20px;z-index:50;display:flex;align-items:center;justify-content:center;gap:6px}
-  .notch-cam{width:12px;height:12px;border-radius:50%;background:#111d30;border:2px solid #1d2f4a}
-  .notch-spk{width:40px;height:5px;border-radius:3px;background:#111d30}
+/* ══ NAV ══ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 300;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.6rem 4rem;
+  transition: background .4s, padding .4s, border-color .4s;
+  border-bottom: 1px solid transparent;
+}
+nav.stuck { background: rgba(10,22,40,.95); backdrop-filter: blur(18px); padding: 1rem 4rem; border-color: rgba(212,168,67,.18); }
+.logo { font-family: 'Playfair Display', serif; font-size: 1.55rem; font-weight: 900; letter-spacing: -.02em; color: var(--cream); }
+.logo span { color: var(--gold); font-style: italic; }
+.nav-links { display: flex; gap: 2.2rem; list-style: none; }
+.nav-links a { font-family: 'Syne', sans-serif; font-size: .78rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: rgba(250,245,236,.65); text-decoration: none; transition: color .3s; position: relative; }
+.nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; right: 0; height: 1px; background: var(--gold); transform: scaleX(0); transform-origin: left; transition: transform .3s; }
+.nav-links a:hover { color: var(--gold); }
+.nav-links a:hover::after { transform: scaleX(1); }
+.nav-right { display: flex; gap: .8rem; align-items: center; }
+.btn-ghost-nav { font-family: 'Syne', sans-serif; font-size: .78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; background: transparent; color: var(--cream); border: 1px solid rgba(250,245,236,.3); cursor: pointer; padding: .6rem 1.4rem; border-radius: 2px; transition: all .3s; }
+.btn-ghost-nav:hover { border-color: var(--gold); color: var(--gold); }
+.nav-cta { font-family: 'Syne', sans-serif; font-size: .78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; background: var(--terracotta); color: var(--cream); border: none; cursor: pointer; padding: .7rem 1.6rem; border-radius: 2px; transition: background .3s, transform .2s, box-shadow .3s; }
+.nav-cta:hover { background: var(--terra-dark); transform: translateY(-1px); box-shadow: 0 8px 28px rgba(200,90,46,.4); }
 
-  .sbar{height:50px;flex-shrink:0;display:flex;align-items:flex-end;justify-content:space-between;padding:0 28px 6px;color:#FAF5EC;font-family:'Syne',sans-serif;position:relative;z-index:10}
-  .stime{font-size:14px;font-weight:800}
-  .sicons{display:flex;align-items:center;gap:5px}
-  .sig{display:flex;align-items:flex-end;gap:1.5px}
-  .sig span{background:#FAF5EC;border-radius:1px;width:3px}
-  .sig span:nth-child(1){height:4px}.sig span:nth-child(2){height:7px}.sig span:nth-child(3){height:10px}
-  .bat{width:22px;height:11px;border:1.5px solid rgba(250,245,236,.7);border-radius:3px;position:relative;display:flex;align-items:center;padding:1.5px}
-  .bat::after{content:'';position:absolute;right:-5px;top:50%;transform:translateY(-50%);width:3px;height:5px;background:rgba(250,245,236,.6);border-radius:0 1px 1px 0}
-  .bat-f{height:100%;width:75%;background:#FAF5EC;border-radius:1px}
+/* ══ HERO ══ */
+.hero { min-height: 100vh; position: relative; display: flex; flex-direction: column; overflow: hidden; padding-top: 5.5rem; }
+.hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 90% 70% at 75% 35%, rgba(22,56,84,.65) 0%, transparent 65%), radial-gradient(ellipse 55% 50% at 15% 80%, rgba(200,90,46,.22) 0%, transparent 55%), radial-gradient(ellipse 70% 40% at 50% -5%, rgba(212,168,67,.1) 0%, transparent 55%), var(--deep-blue); }
+.hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(212,168,67,.045) 1px, transparent 1px), linear-gradient(90deg, rgba(212,168,67,.045) 1px, transparent 1px); background-size: 64px 64px; }
+.map-dots { position: absolute; inset: 0; background-image: radial-gradient(circle, rgba(212,168,67,.13) 1px, transparent 1px); background-size: 32px 32px; animation: dotsshift 22s linear infinite; }
+.hero-path-dots { position: absolute; inset: 0; pointer-events: none; }
+.hpd { position: absolute; width: 6px; height: 6px; border-radius: 50%; background: var(--gold); animation: floatDot 4s ease-in-out infinite; }
+.hpd:nth-child(1){top:42%;left:22%;animation-delay:0s}
+.hpd:nth-child(2){top:48%;left:38%;animation-delay:.7s}
+.hpd:nth-child(3){top:52%;left:55%;animation-delay:1.4s}
+.hpd:nth-child(4){top:50%;left:70%;animation-delay:2.1s}
+.hpd:nth-child(5){top:44%;left:84%;animation-delay:2.8s}
+.waves { position: absolute; bottom: 0; left: 0; right: 0; height: 180px; overflow: hidden; }
+.waves svg { width: 200%; animation: wavemove 9s linear infinite; }
 
-  .screens{flex:1;position:relative;overflow:hidden}
-  .screen{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;display:none;flex-direction:column;scrollbar-width:none}
-  .screen::-webkit-scrollbar{display:none}
-  .screen.active{display:flex}
+.hero-body { flex: 1; display: flex; gap: 4rem; align-items: center; padding: 3rem 4rem 7rem; position: relative; z-index: 5; }
+.hero-left { flex: 1; max-width: 680px; animation: fadeUp 1s .2s ease both; }
+.hero-badge { font-family: 'Syne', sans-serif; font-size: .7rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); border: 1px solid rgba(212,168,67,.35); border-radius: 100px; padding: .4rem 1rem .4rem .7rem; margin-bottom: 2rem; display: inline-flex; align-items: center; gap: .6rem; }
+.badge-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--gold); animation: blink 1.4s infinite; }
+.hero-title { font-family: 'Playfair Display', serif; font-size: clamp(3.6rem, 7.5vw, 6.8rem); font-weight: 900; line-height: .96; letter-spacing: -.03em; margin-bottom: 1.6rem; }
+.hero-title .line1 { display: block; }
+.hero-title .line2 { display: block; color: var(--gold); font-style: italic; }
+.hero-title .route-line { display: flex; align-items: center; gap: 1rem; color: var(--terracotta); margin-top: .1em; }
+.arrow-line { flex: 1; max-width: 110px; height: 2px; background: var(--terracotta); position: relative; }
+.arrow-line::after { content: ''; position: absolute; right: -6px; top: -4px; border: 5px solid transparent; border-left: 8px solid var(--terracotta); }
+.hero-sub { font-size: 1.05rem; font-weight: 300; line-height: 1.78; color: rgba(250,245,236,.62); max-width: 540px; margin-bottom: 2.8rem; }
+.hero-sub strong { color: var(--cream); font-weight: 500; }
+.hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+.btn-primary { font-family: 'Syne', sans-serif; font-size: .88rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; background: var(--terracotta); color: var(--cream); border: none; cursor: pointer; padding: 1.05rem 2.6rem; border-radius: 2px; transition: background .3s, transform .2s, box-shadow .3s; text-decoration: none; display: inline-block; }
+.btn-primary:hover { background: var(--terra-dark); transform: translateY(-2px); box-shadow: 0 14px 44px rgba(200,90,46,.42); }
+.btn-outline { font-family: 'Syne', sans-serif; font-size: .88rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; background: transparent; color: var(--cream); border: 1px solid rgba(250,245,236,.3); cursor: pointer; padding: 1.05rem 2.6rem; border-radius: 2px; transition: border-color .3s, color .3s; text-decoration: none; display: inline-block; }
+.btn-outline:hover { border-color: var(--gold); color: var(--gold); }
 
-  @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
-  @keyframes pulse{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1.1)}}
+/* live widget */
+.hero-right { width: 290px; flex-shrink: 0; animation: fadeUp 1s .45s ease both; }
+.live-box { background: rgba(255,255,255,.04); border: 1px solid rgba(212,168,67,.22); border-radius: 8px; overflow: hidden; backdrop-filter: blur(12px); }
+.live-head { padding: 1rem 1.3rem; border-bottom: 1px solid rgba(212,168,67,.12); display: flex; align-items: center; gap: .6rem; }
+.live-dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; animation: blink .9s infinite; }
+.live-title { font-family: 'Syne', sans-serif; font-size: .68rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); }
+.live-items { padding: .3rem 0; }
+.live-item { padding: .65rem 1.3rem; display: flex; align-items: center; gap: .75rem; border-bottom: 1px solid rgba(255,255,255,.04); transition: background .2s; }
+.live-item:last-child { border-bottom: none; }
+.live-item:hover { background: rgba(212,168,67,.05); }
+.live-flag { font-size: 1rem; width: 22px; text-align: center; }
+.live-info { flex: 1; }
+.live-route { font-size: .78rem; font-weight: 600; color: var(--cream); }
+.live-loc { font-size: .67rem; color: rgba(250,245,236,.45); margin-top: .1rem; }
+.live-badge { font-size: .6rem; font-weight: 700; padding: .2rem .55rem; border-radius: 100px; letter-spacing: .05em; text-transform: uppercase; white-space: nowrap; }
+.badge-transit { background: rgba(212,168,67,.15); color: var(--gold-pale); }
+.badge-arrived { background: rgba(34,197,94,.15); color: #4ade80; }
+.badge-depart  { background: rgba(200,90,46,.2);  color: #f09070; }
 
-  /* HERO */
-  .hero{background:linear-gradient(160deg,#163854 0%,#0A1628 60%);padding:16px 20px 22px;position:relative;overflow:hidden}
-  .hero::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(212,168,67,.12) 1px,transparent 1px);background-size:24px 24px}
+/* stats strip */
+.stats-strip { position: relative; z-index: 5; display: grid; grid-template-columns: repeat(4,1fr); border-top: 1px solid rgba(212,168,67,.18); animation: fadeUp 1s .6s ease both; }
+.stat-item { padding: 1.8rem 4rem; border-right: 1px solid rgba(212,168,67,.1); }
+.stat-item:last-child { border-right: none; }
+.stat-num { font-family: 'Playfair Display', serif; font-size: 2.6rem; font-weight: 900; color: var(--gold); line-height: 1; }
+.stat-label { font-size: .72rem; font-weight: 400; color: rgba(250,245,236,.45); text-transform: uppercase; letter-spacing: .1em; margin-top: .25rem; }
 
-  .apphdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;position:relative;z-index:2}
-  .logo{font-family:'Playfair Display',serif;font-size:18px;font-weight:900;color:#FAF5EC}
-  .logo em{color:#D4A843;font-style:italic}
-  .hdrbtn{width:36px;height:36px;border-radius:12px;background:rgba(255,255,255,.08);border:1px solid rgba(212,168,67,.25);display:flex;align-items:center;justify-content:center;cursor:pointer}
-  .hdrbtn svg{width:18px;height:18px;stroke:#D4A843;fill:none;stroke-width:2}
+/* ══ MARQUEE ══ */
+.marquee-band { background: var(--terracotta); overflow: hidden; padding: .7rem 0; border-top: 1px solid rgba(255,255,255,.1); }
+.marquee-track { display: flex; width: max-content; animation: marquee 28s linear infinite; }
+.marquee-track:hover { animation-play-state: paused; }
+.m-item { display: flex; align-items: center; gap: .55rem; padding: 0 2rem; font-family: 'Syne', sans-serif; font-size: .72rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; white-space: nowrap; color: rgba(255,255,255,.88); }
+.m-sep { color: rgba(255,255,255,.35); }
 
-  .livechip{display:inline-flex;align-items:center;gap:5px;background:rgba(212,168,67,.12);border:1px solid rgba(212,168,67,.3);border-radius:100px;padding:4px 10px 4px 7px;font-family:'Syne',sans-serif;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#D4A843;margin-bottom:12px;position:relative;z-index:2}
-  .ldot{width:6px;height:6px;border-radius:50%;background:#22c55e;animation:blink 1.2s infinite}
+/* ══ DESTINATIONS ══ */
+.dest-section { background: var(--cream); color: var(--deep-blue); padding: 8rem 4rem; position: relative; overflow: hidden; }
+.dest-section::before { content: 'ROUTES'; position: absolute; right: -4rem; top: 50%; transform: translateY(-50%); font-family: 'Playfair Display', serif; font-size: 20rem; font-weight: 900; color: rgba(13,27,42,.04); pointer-events: none; white-space: nowrap; }
+.section-label { font-family: 'Syne', sans-serif; font-size: .72rem; font-weight: 700; letter-spacing: .17em; text-transform: uppercase; color: var(--terracotta); margin-bottom: .8rem; }
+.section-title { font-family: 'Playfair Display', serif; font-size: clamp(2.4rem,5vw,3.8rem); font-weight: 900; line-height: 1.08; margin-bottom: .8rem; }
+.section-sub { font-size: .95rem; color: var(--warm-gray); line-height: 1.7; max-width: 580px; margin-bottom: 3.5rem; }
 
-  /* Route visuelle France → Dakar */
-  .route-vis{position:relative;z-index:2;margin-bottom:14px}
-  .route-title{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;line-height:.95;letter-spacing:-.02em;color:#FAF5EC;margin-bottom:14px}
-  .route-title .hl{color:#D4A843;font-style:italic}
+.dest-panels { display: grid; grid-template-columns: 1fr 80px 1fr; gap: 2rem; align-items: start; }
+.dest-panel { background: var(--deep-blue); color: var(--cream); border-radius: 6px; overflow: hidden; }
+.panel-head { padding: 2rem 2.2rem; border-bottom: 1px solid rgba(212,168,67,.15); display: flex; align-items: center; gap: 1rem; background: linear-gradient(135deg, rgba(22,56,84,.8) 0%, transparent 100%); }
+.panel-flag { font-size: 2.2rem; }
+.panel-name { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; font-style: italic; }
+.panel-country { font-family: 'Syne', sans-serif; font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--gold); margin-top: .2rem; }
+.panel-body { padding: 1rem 0; max-height: 440px; overflow-y: auto; }
+.panel-body::-webkit-scrollbar { width: 2px; }
+.panel-body::-webkit-scrollbar-thumb { background: var(--terracotta); }
+.city-row { display: flex; align-items: center; justify-content: space-between; padding: .6rem 2.2rem; transition: background .2s; cursor: default; }
+.city-row:hover { background: rgba(212,168,67,.07); }
+.city-row-left { display: flex; align-items: center; gap: .8rem; }
+.city-bullet { width: 6px; height: 6px; border-radius: 50%; background: var(--terracotta); flex-shrink: 0; }
+.city-bullet.main { background: var(--gold); box-shadow: 0 0 8px rgba(212,168,67,.6); }
+.city-nm { font-size: .85rem; font-weight: 500; }
+.city-tag { font-family: 'Syne', sans-serif; font-size: .58rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: .18rem .55rem; border-radius: 100px; }
+.tag-hub  { background: rgba(200,90,46,.18); color: #f09070; }
+.tag-freq { background: rgba(212,168,67,.14); color: var(--gold); }
+.city-freq-label { font-size: .68rem; color: rgba(250,245,236,.35); }
+.dest-connector { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .8rem; padding-top: 6rem; }
+.conn-dist { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 900; color: var(--terracotta); text-align: center; line-height: 1.1; }
+.conn-sub { font-family: 'Syne', sans-serif; font-size: .62rem; letter-spacing: .1em; text-transform: uppercase; color: var(--warm-gray); text-align: center; }
+.conn-dots { display: flex; flex-direction: column; gap: 5px; align-items: center; margin: .8rem 0; }
+.conn-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--terracotta); animation: pulse 1.6s ease-in-out infinite; }
+.conn-dot:nth-child(2) { animation-delay: .3s; background: var(--gold); }
+.conn-dot:nth-child(3) { animation-delay: .6s; }
+.freq-pills { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 3rem; }
+.freq-pill { display: flex; align-items: center; gap: .7rem; padding: .85rem 1.4rem; border-radius: 4px; border: 1px solid rgba(13,27,42,.12); background: white; box-shadow: 0 2px 12px rgba(0,0,0,.06); transition: transform .25s, box-shadow .25s; }
+.freq-pill:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0,0,0,.1); }
+.freq-pill-icon { font-size: 1.2rem; }
+.freq-pill-text { font-size: .82rem; font-weight: 600; color: var(--deep-blue); }
+.freq-pill-sub { font-size: .68rem; color: var(--warm-gray); margin-top: .1rem; }
 
-  .route-flow{display:flex;align-items:center;gap:0;background:rgba(255,255,255,.04);border:1px solid rgba(212,168,67,.2);border-radius:14px;padding:12px 14px;gap:8px}
-  .rf-left{display:flex;flex-direction:column;gap:5px;flex:1}
-  .rf-city{display:flex;align-items:center;gap:7px;padding:6px 10px;border-radius:9px;background:rgba(22,56,84,.6);border:1px solid rgba(212,168,67,.18)}
-  .rf-city.active-city{background:rgba(200,90,46,.15);border-color:rgba(200,90,46,.4)}
-  .rf-flag{font-size:13px}
-  .rf-name{font-size:12px;font-weight:700;color:#FAF5EC;font-family:'Syne',sans-serif}
-  .rf-freq{font-size:9px;color:rgba(250,245,236,.4);margin-left:auto;font-family:'Syne',sans-serif}
+/* ══ SERVICES ══ */
+.services-section { background: var(--deep-blue); padding: 8rem 4rem; }
+.services-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5px; margin-top: 4rem; border: 1.5px solid rgba(212,168,67,.18); }
+.service-card { background: rgba(255,255,255,.02); padding: 3rem 2.5rem; border: 1.5px solid rgba(212,168,67,.08); transition: background .4s, border-color .4s; cursor: default; position: relative; overflow: hidden; }
+.service-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--terracotta); transform: scaleX(0); transform-origin: left; transition: transform .4s; }
+.service-card:hover { background: rgba(200,90,46,.05); border-color: rgba(200,90,46,.25); }
+.service-card:hover::before { transform: scaleX(1); }
+.service-icon { font-size: 2.4rem; margin-bottom: 1.6rem; display: block; }
+.service-name { font-family: 'Syne', sans-serif; font-size: 1.05rem; font-weight: 700; letter-spacing: .02em; margin-bottom: .8rem; color: var(--cream); }
+.service-desc { font-size: .87rem; line-height: 1.75; color: rgba(250,245,236,.5); }
+.service-price { margin-top: 1.6rem; font-family: 'Playfair Display', serif; font-size: 1.45rem; font-weight: 700; color: var(--gold); }
+.service-price span { font-family: 'DM Sans', sans-serif; font-size: .78rem; color: rgba(250,245,236,.35); }
+.service-badge { display: inline-block; margin-top: .6rem; font-family: 'Syne', sans-serif; font-size: .6rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: .2rem .65rem; border-radius: 100px; }
+.sbadge-pop { background: rgba(200,90,46,.2); color: #f09070; }
+.sbadge-eco { background: rgba(34,197,94,.12); color: #4ade80; }
 
-  .rf-arrow{display:flex;flex-direction:column;align-items:center;gap:5px;padding:0 4px}
-  .rf-adot{width:6px;height:6px;border-radius:50%;background:#C85A2E;animation:pulse 1.6s ease-in-out infinite}
-  .rf-adot:nth-child(2){animation-delay:.3s;background:#D4A843}
-  .rf-adot:nth-child(3){animation-delay:.6s}
+/* ══ PROCESS ══ */
+.process-section { background: var(--ocean); padding: 8rem 4rem; }
+.process-steps { display: grid; grid-template-columns: repeat(4,1fr); gap: 0; margin-top: 5rem; position: relative; }
+.process-steps::before { content: ''; position: absolute; top: 2.2rem; left: 10%; right: 10%; height: 1px; background: linear-gradient(90deg, var(--terracotta), var(--gold), rgba(212,168,67,.4), var(--terracotta)); z-index: 0; }
+.step { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 0 1.5rem; }
+.step-num { width: 4.4rem; height: 4.4rem; border-radius: 50%; background: var(--ocean); border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 900; color: var(--gold); margin-bottom: 1.8rem; box-shadow: 0 0 0 6px rgba(212,168,67,.08); }
+.step-title { font-family: 'Syne', sans-serif; font-size: .95rem; font-weight: 700; margin-bottom: .6rem; }
+.step-desc { font-size: .82rem; line-height: 1.65; color: rgba(250,245,236,.5); }
 
-  .rf-right{display:flex;flex-direction:column;justify-content:center;align-items:center;flex-shrink:0}
-  .rf-dest{background:rgba(212,168,67,.12);border:1.5px solid rgba(212,168,67,.4);border-radius:12px;padding:14px 16px;text-align:center}
-  .rf-dest-flag{font-size:22px;display:block;margin-bottom:4px}
-  .rf-dest-name{font-family:'Playfair Display',serif;font-size:18px;font-weight:900;font-style:italic;color:#D4A843;line-height:1}
-  .rf-dest-country{font-family:'Syne',sans-serif;font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(212,168,67,.6);margin-top:2px}
-  .rf-dest-km{font-size:10px;color:#C85A2E;font-weight:600;margin-top:6px}
+/* ══ DEVIS ══ */
+.devis-section { background: var(--sand); color: var(--deep-blue); padding: 8rem 4rem; }
+.devis-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start; }
+.form-group { margin-bottom: 1.4rem; }
+.form-label { font-family: 'Syne', sans-serif; font-size: .7rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; color: var(--warm-gray); display: block; margin-bottom: .5rem; }
+.form-input, .form-select, .form-textarea { width: 100%; background: white; border: 1.5px solid rgba(13,27,42,.14); border-radius: 3px; padding: .9rem 1.15rem; font-family: 'DM Sans', sans-serif; font-size: .93rem; color: var(--deep-blue); transition: border-color .3s, box-shadow .3s; outline: none; appearance: none; }
+.form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--terracotta); box-shadow: 0 0 0 3px rgba(200,90,46,.1); }
+.form-textarea { resize: vertical; min-height: 110px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.form-submit { width: 100%; font-family: 'Syne', sans-serif; font-size: .9rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; background: var(--terracotta); color: white; border: none; cursor: pointer; padding: 1.1rem; border-radius: 3px; margin-top: .5rem; transition: background .3s, transform .2s, box-shadow .3s; }
+.form-submit:hover { background: var(--terra-dark); transform: translateY(-2px); box-shadow: 0 12px 36px rgba(200,90,46,.35); }
+.devis-info { padding-top: 1rem; }
+.devis-info h2 { font-family: 'Playfair Display', serif; font-size: 2.8rem; font-weight: 900; line-height: 1.08; margin-bottom: 1.2rem; }
+.devis-info p { font-size: .98rem; line-height: 1.75; color: var(--warm-gray); margin-bottom: 2rem; }
+.info-points { display: flex; flex-direction: column; gap: 1rem; }
+.info-point { display: flex; align-items: flex-start; gap: 1rem; padding: 1.2rem 1.5rem; background: white; border-radius: 5px; border-left: 3px solid var(--terracotta); box-shadow: 0 2px 12px rgba(0,0,0,.06); transition: transform .25s; }
+.info-point:hover { transform: translateX(4px); }
+.info-point-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: .1rem; }
+.info-point-text { font-size: .88rem; line-height: 1.55; color: var(--warm-gray); }
+.info-point-text strong { color: var(--deep-blue); font-weight: 600; display: block; margin-bottom: .2rem; }
 
-  .hero-sub{font-size:11px;font-weight:300;line-height:1.6;color:rgba(250,245,236,.6);margin-bottom:14px;position:relative;z-index:2}
-  .hero-sub strong{color:#FAF5EC;font-weight:500}
-  .hero-btns{display:flex;gap:8px;position:relative;z-index:2}
-  .btnp{flex:1;padding:11px 14px;border-radius:10px;background:#C85A2E;border:none;cursor:pointer;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:white;transition:all .2s}
-  .btnp:active{transform:scale(.97);background:#a84825}
-  .btng{flex:1;padding:11px 14px;border-radius:10px;background:transparent;border:1px solid rgba(250,245,236,.25);cursor:pointer;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#FAF5EC;transition:all .2s}
-  .btng:active{background:rgba(255,255,255,.1)}
+/* ══ TESTIMONIALS ══ */
+.testimonials-section { background: var(--ink); padding: 8rem 4rem; position: relative; overflow: hidden; }
+.testimonials-section::before { content: '❝'; position: absolute; right: 2rem; top: -3rem; font-size: 24rem; color: rgba(212,168,67,.035); font-family: Georgia; line-height: 1; }
+.testimonials-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; margin-top: 4rem; position: relative; z-index: 1; }
+.testi-card { background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.08); border-radius: 6px; padding: 2.2rem; transition: border-color .3s, transform .3s, box-shadow .3s; }
+.testi-card:hover { border-color: rgba(212,168,67,.3); transform: translateY(-4px); box-shadow: 0 16px 50px rgba(0,0,0,.25); }
+.testi-stars { color: var(--gold); font-size: .95rem; letter-spacing: 2px; margin-bottom: 1.2rem; }
+.testi-text { font-family: 'Playfair Display', serif; font-size: 1rem; font-style: italic; line-height: 1.72; color: rgba(250,245,236,.8); margin-bottom: 1.5rem; }
+.testi-author { font-family: 'Syne', sans-serif; font-size: .8rem; font-weight: 700; color: var(--gold); }
+.testi-loc { font-size: .72rem; color: rgba(250,245,236,.4); margin-top: .2rem; display: flex; align-items: center; gap: .4rem; }
+.testi-arrow { color: var(--terracotta); }
 
-  .srow{display:grid;grid-template-columns:repeat(4,1fr);background:rgba(255,255,255,.04);border-top:1px solid rgba(212,168,67,.15);position:relative;z-index:2}
-  .st{padding:11px 4px;text-align:center;border-right:1px solid rgba(212,168,67,.1)}
-  .st:last-child{border-right:none}
-  .stn{font-family:'Playfair Display',serif;font-size:17px;font-weight:900;color:#D4A843;line-height:1}
-  .stl{font-size:8px;color:rgba(250,245,236,.4);text-transform:uppercase;letter-spacing:.07em;margin-top:2px}
+/* ══ CTA BAND ══ */
+.cta-band { padding: 6rem 4rem; text-align: center; background: linear-gradient(135deg, var(--terracotta) 0%, #8E3518 100%); position: relative; overflow: hidden; }
+.cta-band::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(circle, rgba(255,255,255,.07) 1px, transparent 1px); background-size: 26px 26px; }
+.cta-band h2 { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem,5vw,4rem); font-weight: 900; margin-bottom: 1rem; position: relative; z-index: 1; }
+.cta-band p { font-size: 1rem; color: rgba(255,255,255,.7); margin-bottom: 2.5rem; position: relative; z-index: 1; }
+.btn-cta-white { font-family: 'Syne', sans-serif; font-size: .88rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; background: white; color: var(--terracotta); border: none; cursor: pointer; padding: 1.15rem 3.5rem; border-radius: 2px; transition: transform .3s, box-shadow .3s; position: relative; z-index: 1; text-decoration: none; display: inline-block; }
+.btn-cta-white:hover { transform: translateY(-3px); box-shadow: 0 16px 50px rgba(0,0,0,.3); }
 
-  .sec{padding:16px 20px 0}
-  .sechd{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px}
-  .sect{font-family:'Syne',sans-serif;font-size:13px;font-weight:800;color:#FAF5EC}
-  .secl{font-size:11px;color:#D4A843;cursor:pointer}
+/* ══ FOOTER ══ */
+footer { background: #050B14; padding: 5rem 4rem 2.5rem; border-top: 1px solid rgba(212,168,67,.12); }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 4rem; }
+.footer-brand .logo { margin-bottom: 1.2rem; }
+.footer-brand p { font-size: .85rem; line-height: 1.75; color: rgba(250,245,236,.32); max-width: 270px; margin-bottom: 1.5rem; }
+.footer-socials { display: flex; gap: .55rem; }
+.social-btn { width: 34px; height: 34px; border-radius: 4px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); display: flex; align-items: center; justify-content: center; font-size: .9rem; transition: all .3s; cursor: pointer; text-decoration: none; }
+.social-btn:hover { background: var(--terracotta); border-color: var(--terracotta); }
+.footer-col h4 { font-family: 'Syne', sans-serif; font-size: .7rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.3rem; }
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: .65rem; }
+.footer-col a { font-size: .83rem; color: rgba(250,245,236,.32); text-decoration: none; transition: color .3s; }
+.footer-col a:hover { color: var(--cream); }
+.footer-bottom { border-top: 1px solid rgba(212,168,67,.08); padding-top: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+.footer-bottom p { font-size: .76rem; color: rgba(250,245,236,.22); }
+.footer-bottom a { color: rgba(250,245,236,.35); text-decoration: none; font-size: .76rem; }
+.footer-bottom a:hover { color: var(--cream); }
 
-  .tlist{display:flex;flex-direction:column;gap:7px}
-  .tcard{background:rgba(255,255,255,.04);border:1px solid rgba(212,168,67,.15);border-radius:13px;padding:10px 13px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:background .2s}
-  .tcard:active{background:rgba(212,168,67,.08)}
-  .tfc{width:34px;height:34px;border-radius:10px;background:rgba(22,56,84,.8);border:1px solid rgba(212,168,67,.2);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
-  .ti{flex:1;min-width:0}
-  .tir{font-size:12px;font-weight:600;color:#FAF5EC;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .tid{font-size:10px;color:rgba(250,245,236,.45);margin-top:1px}
-  .tbadge{font-size:9px;font-weight:700;padding:3px 7px;border-radius:100px;font-family:'Syne',sans-serif;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
-  .tbt{background:rgba(212,168,67,.15);color:#EBC870}
-  .tba{background:rgba(34,197,94,.15);color:#4ade80}
-  .tbd{background:rgba(200,90,46,.2);color:#f09070}
+/* ══ REVEAL ══ */
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
+.reveal.visible { opacity: 1; transform: none; }
 
-  .svcg{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
-  .svcc{background:rgba(255,255,255,.04);border:1px solid rgba(212,168,67,.12);border-radius:13px;padding:12px 9px;cursor:pointer;transition:all .2s;text-align:center}
-  .svcc:active{background:rgba(200,90,46,.1);transform:scale(.97)}
-  .svci{font-size:20px;margin-bottom:5px;display:block}
-  .svcn{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;color:#FAF5EC;margin-bottom:3px}
-  .svcp{font-size:10px;color:#D4A843;font-weight:600}
+/* ══ MODAL ══ */
+.modal-overlay { position: fixed; inset: 0; z-index: 1000; background: rgba(5,11,20,.9); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; }
+.modal-overlay.open { display: flex; }
+.modal { background: var(--deep-blue); border: 1px solid rgba(212,168,67,.3); border-radius: 8px; padding: 3rem; width: 90%; max-width: 490px; animation: popIn .3s ease; position: relative; }
+.modal-close { position: absolute; top: 1rem; right: 1rem; background: none; border: none; cursor: pointer; font-size: 1.4rem; color: rgba(250,245,236,.35); line-height: 1; transition: color .2s; }
+.modal-close:hover { color: var(--cream); }
+.modal h3 { font-family: 'Playfair Display', serif; font-size: 1.9rem; font-weight: 900; margin-bottom: .4rem; }
+.modal p { font-size: .88rem; color: rgba(250,245,236,.48); margin-bottom: 1.8rem; }
+.track-result { background: rgba(212,168,67,.07); border: 1px solid rgba(212,168,67,.22); border-radius: 4px; padding: 1.5rem; margin-top: 1rem; display: none; }
+.track-result.show { display: block; }
+.track-status { font-family: 'Syne', sans-serif; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--gold); margin-bottom: .5rem; }
+.track-info { font-size: .9rem; color: rgba(250,245,236,.78); line-height: 1.6; }
+.toast { position: fixed; bottom: 2rem; right: 2rem; z-index: 2000; background: #1a6b3a; color: white; padding: 1rem 1.6rem; border-radius: 4px; font-family: 'Syne', sans-serif; font-size: .85rem; font-weight: 600; border: 1px solid rgba(74,222,128,.3); transform: translateX(130%); transition: transform .4s ease; }
+.toast.show { transform: translateX(0); }
 
-  .bp{height:20px}
-
-  /* DEVIS */
-  .scrhdr{padding:14px 20px 13px;border-bottom:1px solid rgba(212,168,67,.15);background:#0A1628}
-  .scrt{font-family:'Playfair Display',serif;font-size:20px;font-weight:900;color:#FAF5EC}
-  .scrs{font-size:11px;color:rgba(250,245,236,.45);margin-top:2px}
-
-  .fscroll{padding:13px 20px;display:flex;flex-direction:column;gap:11px}
-  .fg{display:flex;flex-direction:column;gap:4px}
-  .fl{font-family:'Syne',sans-serif;font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(212,168,67,.7)}
-  .fi,.fs,.ft{background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);border-radius:10px;padding:10px 13px;font-family:'DM Sans',sans-serif;font-size:13px;color:#FAF5EC;outline:none;appearance:none;transition:border-color .25s;width:100%}
-  .fi::placeholder{color:rgba(250,245,236,.2)}
-  .fi:focus,.fs:focus,.ft:focus{border-color:#C85A2E}
-  .fs option{background:#0A1628;color:#FAF5EC}
-  .ft{resize:none;height:72px}
-  .fr2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-
-  /* Destination Dakar — bloc fixe et visible */
-  .dest-fixed{background:rgba(212,168,67,.08);border:1.5px solid rgba(212,168,67,.3);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:12px}
-  .dest-fixed-flag{font-size:26px}
-  .dest-fixed-info{}
-  .dest-fixed-label{font-family:'Syne',sans-serif;font-size:8px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(212,168,67,.6);margin-bottom:2px}
-  .dest-fixed-name{font-family:'Playfair Display',serif;font-size:20px;font-weight:900;font-style:italic;color:#D4A843;line-height:1}
-  .dest-fixed-sub{font-size:10px;color:rgba(250,245,236,.4);margin-top:2px}
-
-  .fsub{background:#C85A2E;border:none;border-radius:12px;padding:13px;cursor:pointer;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:white;transition:all .2s;margin-top:3px}
-  .fsub:active{transform:scale(.98);background:#a84825}
-
-  .perks{display:flex;flex-direction:column;gap:7px}
-  .perk{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,.03);border:1px solid rgba(212,168,67,.12);border-left:3px solid #C85A2E;border-radius:0 9px 9px 0;padding:9px 12px}
-  .pico{font-size:14px}
-  .pt{font-size:11px;font-weight:600;color:#FAF5EC}
-  .ps{font-size:10px;color:rgba(250,245,236,.4);margin-top:1px}
-
-  /* DESTINATIONS */
-  .dest-panel-wrap{padding:16px 20px;display:flex;flex-direction:column;gap:12px}
-
-  /* Route cards */
-  .route-card{background:rgba(255,255,255,.04);border:1px solid rgba(212,168,67,.15);border-radius:16px;overflow:hidden}
-  .rc-header{padding:12px 16px;border-bottom:1px solid rgba(212,168,67,.1);display:flex;align-items:center;justify-content:space-between}
-  .rc-from{display:flex;align-items:center;gap:8px}
-  .rc-flag{font-size:16px}
-  .rc-city{font-family:'Playfair Display',serif;font-size:16px;font-weight:900;font-style:italic;color:#FAF5EC}
-  .rc-to{display:flex;align-items:center;gap:6px}
-  .rc-arr{width:30px;height:1.5px;background:#C85A2E;position:relative}
-  .rc-arr::after{content:'';position:absolute;right:-5px;top:-3.5px;border:3.5px solid transparent;border-left:5px solid #C85A2E}
-  .rc-dest-name{font-family:'Playfair Display',serif;font-size:16px;font-weight:900;font-style:italic;color:#D4A843}
-  .rc-body{padding:10px 16px;display:flex;align-items:center;justify-content:space-between}
-  .rc-modes{display:flex;gap:6px}
-  .rc-mode{font-size:9px;font-weight:700;padding:3px 9px;border-radius:100px;font-family:'Syne',sans-serif;letter-spacing:.06em;text-transform:uppercase}
-  .mode-air{background:rgba(200,90,46,.2);color:#f09070}
-  .mode-sea{background:rgba(22,56,84,.8);border:1px solid rgba(212,168,67,.2);color:rgba(212,168,67,.8)}
-  .rc-freq{font-size:10px;color:rgba(250,245,236,.45);text-align:right}
-  .rc-freq strong{color:#D4A843;display:block;font-size:12px;font-weight:700}
-
-  /* highlight Paris card */
-  .route-card.featured{border-color:rgba(200,90,46,.4);background:rgba(200,90,46,.04)}
-  .route-card.featured .rc-header{border-color:rgba(200,90,46,.2);background:rgba(200,90,46,.06)}
-
-  .featured-badge{font-family:'Syne',sans-serif;font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:rgba(200,90,46,.25);color:#f09070;padding:2px 8px;border-radius:100px;margin-bottom:8px;display:inline-block}
-
-  .info-box{background:rgba(212,168,67,.07);border:1px solid rgba(212,168,67,.2);border-radius:14px;padding:14px 16px}
-  .ib-title{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(212,168,67,.7);margin-bottom:10px}
-  .ib-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid rgba(212,168,67,.08)}
-  .ib-row:last-child{border-bottom:none;padding-bottom:0}
-  .ib-left{font-size:12px;color:#FAF5EC;font-weight:500}
-  .ib-right{font-size:11px;color:#D4A843;font-weight:600}
-
-  /* SUIVI */
-  .tiw{padding:14px 20px}
-  .trow2{display:flex;gap:8px;align-items:center}
-  .tfield{flex:1;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.12);border-radius:12px;padding:11px 13px;font-family:'DM Sans',sans-serif;font-size:13px;color:#FAF5EC;outline:none;transition:border-color .25s}
-  .tfield::placeholder{color:rgba(250,245,236,.25)}
-  .tfield:focus{border-color:#C85A2E}
-  .tbtn{padding:11px 14px;border-radius:12px;background:#C85A2E;border:none;cursor:pointer;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:white;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;transition:all .2s}
-  .tbtn:active{transform:scale(.97);background:#a84825}
-  .trescard{margin:0 20px;background:rgba(212,168,67,.07);border:1px solid rgba(212,168,67,.22);border-radius:14px;padding:13px;display:none}
-  .trescard.show{display:block}
-  .trst{font-family:'Syne',sans-serif;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#D4A843;margin-bottom:5px}
-  .trloc{font-size:14px;font-weight:600;color:#FAF5EC;margin-bottom:3px}
-  .trdet{font-size:11px;color:rgba(250,245,236,.55);line-height:1.5}
-  .journey{padding:14px 20px}
-  .jtitle{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:rgba(250,245,236,.45);letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px}
-  .jsteps{position:relative}
-  .jsteps::before{content:'';position:absolute;left:15px;top:8px;bottom:8px;width:2px;background:linear-gradient(180deg,#C85A2E,#D4A843,rgba(212,168,67,.2));border-radius:1px}
-  .jstep{display:flex;align-items:flex-start;gap:13px;padding-bottom:13px;position:relative}
-  .jstep:last-child{padding-bottom:0}
-  .jd{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:3px;position:relative;z-index:1}
-  .jd.done{background:#D4A843;box-shadow:0 0 7px rgba(212,168,67,.5)}
-  .jd.cur{background:#C85A2E;box-shadow:0 0 7px rgba(200,90,46,.5);animation:blink 1s infinite}
-  .jd.pend{background:rgba(250,245,236,.15);border:1.5px solid rgba(250,245,236,.2)}
-  .jlbl{font-size:12px;font-weight:600;color:#FAF5EC}
-  .jlbl.dim{color:rgba(250,245,236,.4);font-weight:400}
-  .jsub{font-size:10px;color:rgba(250,245,236,.4);margin-top:1px}
-
-  /* PROFIL */
-  .phero{background:linear-gradient(160deg,#163854,#0A1628);padding:20px 20px 20px;text-align:center}
-  .pav{width:68px;height:68px;border-radius:22px;background:#C85A2E;margin:0 auto 9px;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:22px;font-weight:900;color:white;border:3px solid rgba(212,168,67,.4)}
-  .pname{font-family:'Playfair Display',serif;font-size:19px;font-weight:900;color:#FAF5EC}
-  .pemail{font-size:11px;color:rgba(250,245,236,.45);margin-top:2px}
-  .pstats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;padding:14px 20px}
-  .psc{background:rgba(255,255,255,.04);border:1px solid rgba(212,168,67,.12);border-radius:13px;padding:11px;text-align:center}
-  .psn{font-family:'Playfair Display',serif;font-size:20px;font-weight:900;color:#D4A843;line-height:1}
-  .psl{font-size:9px;color:rgba(250,245,236,.4);text-transform:uppercase;letter-spacing:.08em;margin-top:2px}
-  .msec{padding:0 20px 13px}
-  .mst{font-family:'Syne',sans-serif;font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(212,168,67,.6);margin-bottom:7px}
-  .mlist{background:rgba(255,255,255,.03);border:1px solid rgba(212,168,67,.1);border-radius:15px;overflow:hidden}
-  .mitem{display:flex;align-items:center;justify-content:space-between;padding:12px 15px;border-bottom:1px solid rgba(255,255,255,.05);cursor:pointer;transition:background .15s}
-  .mitem:last-child{border-bottom:none}
-  .mitem:active{background:rgba(212,168,67,.06)}
-  .mil{display:flex;align-items:center;gap:9px}
-  .mico{width:30px;height:30px;border-radius:9px;background:rgba(212,168,67,.1);display:flex;align-items:center;justify-content:center;font-size:14px}
-  .mn{font-size:13px;font-weight:500;color:#FAF5EC}
-  .mch{color:rgba(250,245,236,.25);font-size:15px}
-
-  /* BOTTOM NAV */
-  .bnav{height:74px;flex-shrink:0;background:rgba(6,14,26,.95);border-top:1px solid rgba(212,168,67,.15);display:flex;align-items:center;padding:0 8px 8px}
-  .nb{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:6px 3px;border-radius:11px;cursor:pointer;transition:all .2s;background:transparent;border:none}
-  .nb:active{background:rgba(255,255,255,.06)}
-  .nb.on .nlbl{color:#D4A843}
-  .nb.on .niw{background:rgba(212,168,67,.12)}
-  .niw{width:36px;height:27px;display:flex;align-items:center;justify-content:center;border-radius:8px;transition:background .2s}
-  .niw svg{width:19px;height:19px;stroke-width:1.8}
-  .nb .niw svg{stroke:rgba(250,245,236,.4);fill:none}
-  .nb.on .niw svg{stroke:#D4A843}
-  .nlbl{font-family:'Syne',sans-serif;font-size:8px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:rgba(250,245,236,.35);transition:color .2s}
-  .nbbadge{position:relative}
-  .nbbadge::after{content:'4';position:absolute;top:-4px;right:-5px;background:#C85A2E;color:white;font-size:8px;font-weight:700;font-family:'Syne',sans-serif;width:13px;height:13px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1.5px solid #0A1628}
-
-  .toast{position:absolute;bottom:88px;left:20px;right:20px;background:#1a6b3a;color:white;padding:11px 15px;border-radius:11px;font-family:'Syne',sans-serif;font-size:11px;font-weight:600;border:1px solid rgba(74,222,128,.3);transform:translateY(16px);opacity:0;transition:all .3s;pointer-events:none;z-index:100}
-  .toast.show{transform:translateY(0);opacity:1}
+/* ══ RESPONSIVE ══ */
+@media (max-width: 1100px) {
+  nav, .hero-body, .dest-section, .services-section, .process-section, .devis-section, .testimonials-section, .cta-band, footer { padding-left: 2rem; padding-right: 2rem; }
+  nav.stuck { padding-left: 2rem; padding-right: 2rem; }
+  .nav-links { display: none; }
+  .hero-body { flex-direction: column; padding-top: 2rem; padding-bottom: 5rem; }
+  .hero-right { width: 100%; }
+  .stats-strip { grid-template-columns: repeat(2,1fr); }
+  .stat-item { padding: 1.4rem 2rem; }
+  .dest-panels { grid-template-columns: 1fr; }
+  .dest-connector { flex-direction: row; padding-top: 0; justify-content: center; }
+  .services-grid { grid-template-columns: 1fr; }
+  .process-steps { grid-template-columns: repeat(2,1fr); gap: 3rem; }
+  .process-steps::before { display: none; }
+  .devis-wrap { grid-template-columns: 1fr; gap: 3rem; }
+  .testimonials-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+}
 </style>
+</head>
+<body>
 
-<div class="app-shell">
-<div class="phone">
-  <div class="notch"><div class="notch-cam"></div><div class="notch-spk"></div></div>
-  <div class="sbar">
-    <span class="stime">9:41</span>
-    <div class="sicons">
-      <div class="sig"><span></span><span></span><span></span></div>
-      <svg width="14" height="11" viewBox="0 0 16 12" fill="none"><path d="M1 4C4.3 1 11.7 1 15 4" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity=".4"/><path d="M3.5 6.5C5.5 4.5 10.5 4.5 12.5 6.5" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity=".7"/><path d="M6 9C7 8 9 8 10 9" stroke="white" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="11" r="1.2" fill="white"/></svg>
-      <div class="bat"><div class="bat-f"></div></div>
+<!-- MODAL SUIVI -->
+<div class="modal-overlay" id="trackModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h3>Suivre mon colis</h3>
+    <p>Entrez votre numéro de suivi TransAtlantique pour localiser votre envoi en temps réel.</p>
+    <div class="form-group">
+      <label class="form-label">Numéro de suivi</label>
+      <input class="form-input" id="trackInput" placeholder="Ex: TA-2025-78432" />
+    </div>
+    <button class="btn-primary" style="width:100%;margin-top:.5rem" onclick="trackPackage()">Rechercher mon colis →</button>
+    <div class="track-result" id="trackResult">
+      <div class="track-status">📍 En transit — Arrivée dans 3 jours</div>
+      <div class="track-info">Votre colis est actuellement à <strong>Las Palmas, Espagne</strong>.<br>Départ pour Dakar : <strong>demain matin</strong>.<br>Livraison estimée : <strong>dans 3 à 4 jours</strong></div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">✅ Demande envoyée — Réponse sous 24h !</div>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <div class="logo">Trans<span>Atlantique</span></div>
+  <ul class="nav-links">
+    <li><a href="#destinations">Destinations</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#process">Étapes</a></li>
+    <li><a href="#devis">Devis</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="btn-ghost-nav" onclick="openModal()">📦 Suivre mon colis</button>
+    <a href="#devis" class="nav-cta">Devis gratuit</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="map-dots"></div>
+  <div class="hero-path-dots">
+    <div class="hpd"></div><div class="hpd"></div><div class="hpd"></div><div class="hpd"></div><div class="hpd"></div>
+  </div>
+
+  <div class="hero-body">
+    <div class="hero-left">
+      <div class="hero-badge"><span class="badge-dot"></span> Service actif — Départs chaque semaine</div>
+      <h1 class="hero-title">
+        <span class="line1">Toute la France</span>
+        <span class="line2">vers tout le</span>
+        <div class="route-line">Sénégal <div class="arrow-line"></div></div>
+      </h1>
+      <p class="hero-sub">
+        De <strong>Paris, Lyon, Marseille, Bordeaux, Nantes, Rennes</strong> et partout en France —
+        vers <strong>Dakar, Thiès, Saint-Louis, Ziguinchor, Kaolack</strong> et toutes les régions du Sénégal.
+        Collecte à domicile, dédouanement inclus, suivi SMS.
+      </p>
+      <div class="hero-actions">
+        <a href="#devis" class="btn-primary">Demander un devis gratuit</a>
+        <a href="#destinations" class="btn-outline">Voir les destinations</a>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="live-box">
+        <div class="live-head"><div class="live-dot"></div><div class="live-title">Envois en cours</div></div>
+        <div class="live-items">
+          <div class="live-item"><div class="live-flag">🇫🇷</div><div class="live-info"><div class="live-route">Paris → Dakar</div><div class="live-loc">Las Palmas, Espagne</div></div><span class="live-badge badge-transit">Transit</span></div>
+          <div class="live-item"><div class="live-flag">🇸🇳</div><div class="live-info"><div class="live-route">Lyon → Saint-Louis</div><div class="live-loc">Port de Dakar</div></div><span class="live-badge badge-arrived">Arrivé ✓</span></div>
+          <div class="live-item"><div class="live-flag">🇫🇷</div><div class="live-info"><div class="live-route">Marseille → Thiès</div><div class="live-loc">Départ ce soir</div></div><span class="live-badge badge-depart">Départ</span></div>
+          <div class="live-item"><div class="live-flag">🇸🇳</div><div class="live-info"><div class="live-route">Dakar → Bordeaux</div><div class="live-loc">En préparation</div></div><span class="live-badge badge-depart">Départ</span></div>
+          <div class="live-item"><div class="live-flag">🇫🇷</div><div class="live-info"><div class="live-route">Nantes → Ziguinchor</div><div class="live-loc">Livré aujourd'hui</div></div><span class="live-badge badge-arrived">Livré ✓</span></div>
+          <div class="live-item"><div class="live-flag">🇫🇷</div><div class="live-info"><div class="live-route">Rennes → Kaolack</div><div class="live-loc">En transit maritime</div></div><span class="live-badge badge-transit">Transit</span></div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div class="screens">
+  <div class="stats-strip">
+    <div class="stat-item"><div class="stat-num">8 000+</div><div class="stat-label">Colis livrés</div></div>
+    <div class="stat-item"><div class="stat-num">15 ans</div><div class="stat-label">D'expérience</div></div>
+    <div class="stat-item"><div class="stat-num">98%</div><div class="stat-label">Clients satisfaits</div></div>
+    <div class="stat-item"><div class="stat-num">3–21j</div><div class="stat-label">Délai de livraison</div></div>
+  </div>
 
-    <!-- ACCUEIL -->
-    <div class="screen active" id="sc-home">
-      <div class="hero">
-        <div class="apphdr">
-          <div class="logo">Trans<em>Atlantique</em></div>
-          <button class="hdrbtn" onclick="go('track')"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></button>
-        </div>
-        <div class="livechip"><span class="ldot"></span>Départs chaque semaine vers Dakar</div>
+  <div class="waves">
+    <svg viewBox="0 0 1440 120" preserveAspectRatio="none" fill="none">
+      <path d="M0,60 C180,20 360,100 540,60 C720,20 900,100 1080,60 C1260,20 1350,80 1440,60 L1440,120 L0,120Z" fill="rgba(22,56,84,.15)"/>
+      <path d="M0,80 C200,40 400,110 600,70 C800,30 1000,100 1200,65 C1320,45 1380,90 1440,70 L1440,120 L0,120Z" fill="rgba(10,22,40,.8)"/>
+    </svg>
+  </div>
+</section>
 
-        <div class="route-title">
-          <span>France</span><br>
-          <span class="hl">vers Dakar</span>
-        </div>
+<!-- MARQUEE -->
+<div class="marquee-band">
+  <div class="marquee-track">
+    <span class="m-item">🌟 Paris ↔ Dakar — 3×/semaine <span class="m-sep">·</span></span>
+    <span class="m-item">✈️ Express aérien 3–7 jours <span class="m-sep">·</span></span>
+    <span class="m-item">🚢 Maritime économique 15–21 jours <span class="m-sep">·</span></span>
+    <span class="m-item">🏠 Collecte à domicile partout en France <span class="m-sep">·</span></span>
+    <span class="m-item">🔒 Dédouanement inclus <span class="m-sep">·</span></span>
+    <span class="m-item">📱 Suivi SMS en temps réel <span class="m-sep">·</span></span>
+    <span class="m-item">🇫🇷 Toute la France → 🇸🇳 Tout le Sénégal <span class="m-sep">·</span></span>
+    <span class="m-item">🌟 Paris ↔ Dakar — 3×/semaine <span class="m-sep">·</span></span>
+    <span class="m-item">✈️ Express aérien 3–7 jours <span class="m-sep">·</span></span>
+    <span class="m-item">🚢 Maritime économique 15–21 jours <span class="m-sep">·</span></span>
+    <span class="m-item">🏠 Collecte à domicile partout en France <span class="m-sep">·</span></span>
+    <span class="m-item">🔒 Dédouanement inclus <span class="m-sep">·</span></span>
+    <span class="m-item">📱 Suivi SMS en temps réel <span class="m-sep">·</span></span>
+    <span class="m-item">🇫🇷 Toute la France → 🇸🇳 Tout le Sénégal <span class="m-sep">·</span></span>
+  </div>
+</div>
 
-        <div class="route-flow">
-          <div class="rf-left">
-            <div class="rf-city active-city"><span class="rf-flag">🇫🇷</span><span class="rf-name">Paris</span><span class="rf-freq">3×/sem.</span></div>
-            <div class="rf-city active-city"><span class="rf-flag">🇫🇷</span><span class="rf-name">Rennes</span><span class="rf-freq">2×/sem.</span></div>
-            <div class="rf-city active-city"><span class="rf-flag">🇫🇷</span><span class="rf-name">Nantes</span><span class="rf-freq">2×/sem.</span></div>
-            <div class="rf-city active-city"><span class="rf-flag">🇫🇷</span><span class="rf-name">Le Mans</span><span class="rf-freq">1×/sem.</span></div>
-          </div>
-          <div class="rf-arrow">
-            <div class="rf-adot"></div>
-            <div class="rf-adot"></div>
-            <div class="rf-adot"></div>
-          </div>
-          <div class="rf-right">
-            <div class="rf-dest">
-              <span class="rf-dest-flag">🇸🇳</span>
-              <div class="rf-dest-name">Dakar</div>
-              <div class="rf-dest-country">Sénégal</div>
-              <div class="rf-dest-km">4 600 km</div>
-            </div>
-          </div>
-        </div>
+<!-- DESTINATIONS -->
+<section class="dest-section" id="destinations">
+  <div class="reveal">
+    <div class="section-label">Nos corridors</div>
+    <h2 class="section-title">Toute la France vers tout le Sénégal</h2>
+    <p class="section-sub">Nous collectons dans n'importe quelle ville française et livrons dans toutes les régions du Sénégal. <strong>Paris–Dakar</strong> est notre route phare avec <strong>3 départs par semaine</strong>.</p>
+  </div>
 
-        <p class="hero-sub" style="margin-top:13px">Collecte à domicile depuis <strong>Paris, Rennes, Nantes et Le Mans</strong> directement vers <strong>Dakar</strong>. Dédouanement inclus, suivi SMS.</p>
-        <div class="hero-btns">
-          <button class="btnp" onclick="go('devis')">Devis gratuit</button>
-          <button class="btng" onclick="go('track')">Suivre un colis</button>
-        </div>
+  <div class="dest-panels reveal">
+    <!-- FRANCE -->
+    <div class="dest-panel">
+      <div class="panel-head"><div class="panel-flag">🇫🇷</div><div><div class="panel-name">France</div><div class="panel-country">Toutes les villes desservies</div></div></div>
+      <div class="panel-body">
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet main"></div><div class="city-nm">Paris & Île-de-France</div></div><span class="city-tag tag-hub">Hub principal</span><span class="city-freq-label">3×/sem.</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet main"></div><div class="city-nm">Lyon</div></div><span class="city-tag tag-freq">Fréquent</span><span class="city-freq-label">2×/sem.</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet main"></div><div class="city-nm">Marseille</div></div><span class="city-tag tag-freq">Fréquent</span><span class="city-freq-label">2×/sem.</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet main"></div><div class="city-nm">Bordeaux</div></div><span class="city-tag tag-freq">Fréquent</span><span class="city-freq-label">1×/sem.</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet main"></div><div class="city-nm">Nantes</div></div><span class="city-tag tag-freq">Fréquent</span><span class="city-freq-label">1×/sem.</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Toulouse</div></div><span class="city-freq-label">1×/sem.</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Rennes</div></div><span class="city-freq-label">1×/sem.</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Strasbourg</div></div><span class="city-freq-label">1×/sem.</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Lille</div></div><span class="city-freq-label">1×/sem.</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Nice</div></div><span class="city-freq-label">1×/sem.</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Montpellier</div></div><span class="city-freq-label">1×/sem.</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Grenoble</div></div><span class="city-freq-label">1×/sem.</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Rouen</div></div><span class="city-freq-label">1×/sem.</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Dijon</div></div><span class="city-freq-label">1×/sem.</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Metz / Nancy</div></div><span class="city-freq-label">1×/sem.</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Tours / Orléans</div></div><span class="city-freq-label">1×/sem.</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Caen / Le Havre</div></div><span class="city-freq-label">1×/sem.</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Clermont-Ferrand</div></div><span class="city-freq-label">1×/sem.</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Brest / Rennes / Quimper</div></div><span class="city-freq-label">1×/sem.</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Pau / Bayonne</div></div><span class="city-freq-label">1×/sem.</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Angers / Le Mans</div></div><span class="city-freq-label">1×/sem.</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Perpignan / Toulon</div></div><span class="city-freq-label">1×/sem.</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Amiens / Reims</div></div><span class="city-freq-label">1×/sem.</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Toutes autres villes</div></div><span class="city-tag tag-freq">Collecte</span><span class="city-freq-label">sur demande</span></div>
       </div>
-
-      <div class="srow">
-        <div class="st"><div class="stn">8K+</div><div class="stl">Colis</div></div>
-        <div class="st"><div class="stn">15</div><div class="stl">Ans</div></div>
-        <div class="st"><div class="stn">98%</div><div class="stl">Satisfaits</div></div>
-        <div class="st"><div class="stn">3j</div><div class="stl">Express</div></div>
-      </div>
-
-      <div class="sec">
-        <div class="sechd"><div class="sect">Envois en cours</div><div class="secl" onclick="go('track')">Voir tout →</div></div>
-        <div class="tlist">
-          <div class="tcard"><div class="tfc">🇫🇷</div><div class="ti"><div class="tir">Paris → Dakar</div><div class="tid">Las Palmas, Espagne</div></div><span class="tbadge tbt">Transit</span></div>
-          <div class="tcard"><div class="tfc">🇫🇷</div><div class="ti"><div class="tir">Nantes → Dakar</div><div class="tid">Port de Dakar · Arrivé</div></div><span class="tbadge tba">Livré ✓</span></div>
-          <div class="tcard"><div class="tfc">🇫🇷</div><div class="ti"><div class="tir">Rennes → Dakar</div><div class="tid">Départ ce soir</div></div><span class="tbadge tbd">Départ</span></div>
-          <div class="tcard"><div class="tfc">🇫🇷</div><div class="ti"><div class="tir">Le Mans → Dakar</div><div class="tid">En transit maritime</div></div><span class="tbadge tbt">Transit</span></div>
-        </div>
-      </div>
-
-      <div class="sec" style="margin-top:16px">
-        <div class="sechd"><div class="sect">Nos services</div><div class="secl" onclick="go('dest')">Destinations →</div></div>
-        <div class="svcg">
-          <div class="svcc"><span class="svci">✈️</span><div class="svcn">Express</div><div class="svcp">dès 12€/kg</div></div>
-          <div class="svcc"><span class="svci">🚢</span><div class="svcn">Maritime</div><div class="svcp">dès 3€/kg</div></div>
-          <div class="svcc"><span class="svci">📦</span><div class="svcn">Standard</div><div class="svcp">dès 6€/kg</div></div>
-        </div>
-      </div>
-      <div class="bp"></div>
     </div>
 
-    <!-- DEVIS -->
-    <div class="screen" id="sc-devis">
-      <div class="scrhdr"><div class="scrt">Devis gratuit</div><div class="scrs">Réponse sous 24h — Aucun engagement</div></div>
-      <div class="fscroll">
+    <!-- CONNECTOR -->
+    <div class="dest-connector">
+      <div class="conn-dist">4 600<br>km</div>
+      <div class="conn-sub">maritime<br>ou aérien</div>
+      <div class="conn-dots"><div class="conn-dot"></div><div class="conn-dot"></div><div class="conn-dot"></div></div>
+      <div style="font-size:1.6rem;color:var(--terracotta)">⇅</div>
+    </div>
 
-        <div class="dest-fixed">
-          <span class="dest-fixed-flag">🇸🇳</span>
-          <div class="dest-fixed-info">
-            <div class="dest-fixed-label">Destination unique</div>
-            <div class="dest-fixed-name">Dakar</div>
-            <div class="dest-fixed-sub">Sénégal · Livraison à domicile incluse</div>
+    <!-- SÉNÉGAL -->
+    <div class="dest-panel">
+      <div class="panel-head"><div class="panel-flag">🇸🇳</div><div><div class="panel-name">Sénégal</div><div class="panel-country">Toutes les régions desservies</div></div></div>
+      <div class="panel-body">
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet main"></div><div class="city-nm">Dakar</div></div><span class="city-tag tag-hub">Hub principal</span><span class="city-freq-label">3×/sem.</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Pikine / Guédiawaye</div></div><span class="city-tag tag-freq">Fréquent</span><span class="city-freq-label">avec Dakar</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Rufisque / Bargny</div></div><span class="city-freq-label">avec Dakar</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet main"></div><div class="city-nm">Thiès</div></div><span class="city-tag tag-freq">Fréquent</span><span class="city-freq-label">2×/sem.</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Mbour / Saly</div></div><span class="city-freq-label">2×/sem.</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet main"></div><div class="city-nm">Saint-Louis</div></div><span class="city-tag tag-freq">Fréquent</span><span class="city-freq-label">2×/sem.</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Richard-Toll / Podor</div></div><span class="city-freq-label">1×/sem.</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet main"></div><div class="city-nm">Kaolack</div></div><span class="city-tag tag-freq">Fréquent</span><span class="city-freq-label">2×/sem.</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Fatick / Gossas</div></div><span class="city-freq-label">1×/sem.</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet main"></div><div class="city-nm">Ziguinchor</div></div><span class="city-tag tag-freq">Fréquent</span><span class="city-freq-label">2×/sem.</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Bignona / Oussouye</div></div><span class="city-freq-label">1×/sem.</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Diourbel / Mbacké</div></div><span class="city-freq-label">1×/sem.</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Touba</div></div><span class="city-freq-label">1×/sem.</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Tambacounda</div></div><span class="city-freq-label">1×/sem.</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Kédougou</div></div><span class="city-freq-label">1×/sem.</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Kolda / Vélingara</div></div><span class="city-freq-label">1×/sem.</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Sédhiou</div></div><span class="city-freq-label">1×/sem.</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Matam / Kanel</div></div><span class="city-freq-label">1×/sem.</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Louga / Linguère</div></div><span class="city-freq-label">1×/sem.</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Toutes autres localités</div></div><span class="city-tag tag-freq">Livraison</span><span class="city-freq-label">sur demande</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="freq-pills reveal">
+    <div class="freq-pill"><div class="freq-pill-icon">🌟</div><div><div class="freq-pill-text">Paris ↔ Dakar</div><div class="freq-pill-sub">3 départs par semaine</div></div></div>
+    <div class="freq-pill"><div class="freq-pill-icon">✈️</div><div><div class="freq-pill-text">Express aérien</div><div class="freq-pill-sub">3 à 7 jours ouvrés</div></div></div>
+    <div class="freq-pill"><div class="freq-pill-icon">🚢</div><div><div class="freq-pill-text">Maritime économique</div><div class="freq-pill-sub">15 à 21 jours</div></div></div>
+    <div class="freq-pill"><div class="freq-pill-icon">🏠</div><div><div class="freq-pill-text">Collecte à domicile</div><div class="freq-pill-sub">Partout en France</div></div></div>
+    <div class="freq-pill"><div class="freq-pill-icon">📦</div><div><div class="freq-pill-text">Livraison domicile</div><div class="freq-pill-sub">Partout au Sénégal</div></div></div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services-section" id="services">
+  <div class="reveal">
+    <div class="section-label">Ce que nous offrons</div>
+    <h2 class="section-title" style="color:var(--cream)">Des solutions pour chaque besoin</h2>
+  </div>
+  <div class="services-grid reveal">
+    <div class="service-card"><span class="service-icon">✈️</span><div class="service-name">Express Aérien</div><div class="service-desc">La rapidité avant tout. Vos colis urgents arrivent à Dakar en 3 à 7 jours ouvrés via fret aérien sécurisé.</div><div class="service-price">À partir de 12€ <span>/ kg</span></div><span class="service-badge sbadge-pop">⚡ Le plus rapide</span></div>
+    <div class="service-card"><span class="service-icon">🚢</span><div class="service-name">Maritime Économique</div><div class="service-desc">La solution idéale pour les gros volumes. Conteneur partagé ou dédié, livraison en 15 à 21 jours.</div><div class="service-price">À partir de 3€ <span>/ kg</span></div><span class="service-badge sbadge-eco">💚 Meilleur prix</span></div>
+    <div class="service-card"><span class="service-icon">📦</span><div class="service-name">Colis Standard</div><div class="service-desc">Pour les envois personnels et familiaux : vêtements, cadeaux, produits alimentaires non périssables.</div><div class="service-price">À partir de 6€ <span>/ kg</span></div></div>
+    <div class="service-card"><span class="service-icon">🏭</span><div class="service-name">Fret Commercial</div><div class="service-desc">Pour les entreprises et commerçants : marchandises en gros, équipements, dédouanement professionnel.</div><div class="service-price">Sur devis</div></div>
+    <div class="service-card"><span class="service-icon">🔐</span><div class="service-name">Valeurs Déclarées</div><div class="service-desc">Téléphones, ordinateurs, bijoux, documents officiels. Assurance complète incluse pour vos objets de valeur.</div><div class="service-price">À partir de 15€ <span>/ kg</span></div></div>
+    <div class="service-card"><span class="service-icon">🚐</span><div class="service-name">Collecte & Livraison</div><div class="service-desc">Nous venons chercher vos colis partout en France et les livrons directement chez le destinataire au Sénégal.</div><div class="service-price">+15€ <span>par collecte</span></div></div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process-section" id="process">
+  <div class="reveal">
+    <div class="section-label">Comment ça marche</div>
+    <h2 class="section-title" style="color:var(--cream)">Simple, rapide, fiable</h2>
+  </div>
+  <div class="process-steps reveal">
+    <div class="step"><div class="step-num">1</div><div class="step-title">Demandez votre devis</div><div class="step-desc">Remplissez notre formulaire en ligne. Estimation tarifaire sous 24h, sans engagement.</div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-title">Déposez ou faites collecter</div><div class="step-desc">En agence, point relais, ou collecte à domicile partout en France à votre adresse.</div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-title">Suivi en temps réel</div><div class="step-desc">Suivez votre colis étape par étape via notre espace client ou par SMS à chaque étape.</div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-title">Livraison au Sénégal</div><div class="step-desc">Remise à domicile partout au Sénégal ou retrait en agence. SMS de notification à l'arrivée.</div></div>
+  </div>
+</section>
+
+<!-- DEVIS -->
+<section class="devis-section" id="devis">
+  <div class="devis-wrap">
+    <div class="devis-info reveal">
+      <div class="section-label">Obtenir un tarif</div>
+      <h2>Demandez votre devis gratuit</h2>
+      <p>Décrivez votre envoi et recevez une offre personnalisée sous 24 heures. Aucun engagement requis.</p>
+      <div class="info-points">
+        <div class="info-point"><div class="info-point-icon">🔒</div><div class="info-point-text"><strong>Expédition assurée</strong>Tous vos colis sont assurés contre la perte et les dommages.</div></div>
+        <div class="info-point"><div class="info-point-icon">📋</div><div class="info-point-text"><strong>Dédouanement inclus</strong>Nous gérons toutes les formalités douanières pour vous.</div></div>
+        <div class="info-point"><div class="info-point-icon">📱</div><div class="info-point-text"><strong>Suivi SMS & email</strong>Vous et votre destinataire êtes informés à chaque étape.</div></div>
+        <div class="info-point"><div class="info-point-icon">🏠</div><div class="info-point-text"><strong>Collecte partout en France</strong>Nous venons récupérer vos colis à votre adresse.</div></div>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <!-- Formulaire connecté à Formspree -->
+      <form id="devisForm" action="https://formspree.io/f/mojkngdn" method="POST">
+
+        <!-- Champ caché pour le sujet de l'email -->
+        <input type="hidden" name="_subject" value="🚀 Nouveau devis TransAtlantique !" />
+        <input type="hidden" name="_language" value="fr" />
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Prénom</label>
+            <input type="text" name="prenom" class="form-input" placeholder="Mamadou" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Nom</label>
+            <input type="text" name="nom" class="form-input" placeholder="Diallo" required />
           </div>
         </div>
-
-        <div class="perks">
-          <div class="perk"><span class="pico">🏠</span><div><div class="pt">Collecte à domicile</div><div class="ps">Paris · Rennes · Nantes · Le Mans</div></div></div>
-          <div class="perk"><span class="pico">🔒</span><div><div class="pt">Expédition assurée</div><div class="ps">Perte & dommages couverts</div></div></div>
-          <div class="perk"><span class="pico">📋</span><div><div class="pt">Dédouanement inclus</div><div class="ps">Formalités gérées pour vous</div></div></div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input type="email" name="email" class="form-input" placeholder="mamadou@email.com" required />
         </div>
-
-        <div class="fr2">
-          <div class="fg"><label class="fl">Prénom</label><input class="fi" placeholder="Mamadou" /></div>
-          <div class="fg"><label class="fl">Nom</label><input class="fi" placeholder="Diallo" /></div>
+        <div class="form-group">
+          <label class="form-label">Téléphone</label>
+          <input type="tel" name="telephone" class="form-input" placeholder="+33 6 00 00 00 00" required />
         </div>
-        <div class="fg"><label class="fl">Email</label><input class="fi" type="email" placeholder="mamadou@email.com" /></div>
-        <div class="fg"><label class="fl">Téléphone</label><input class="fi" type="tel" placeholder="+33 6 00 00 00 00" /></div>
-
-        <div class="fg">
-          <label class="fl">Ville de départ</label>
-          <select class="fs">
-            <option>Paris / Île-de-France</option>
-            <option>Rennes</option>
-            <option>Nantes</option>
-            <option>Le Mans</option>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Ville de départ (France)</label>
+            <select name="ville_depart" class="form-select" required>
+              <option value="">Choisir une ville</option>
+              <option>Paris / Île-de-France</option>
+              <option>Rennes</option>
+              <option>Nantes</option>
+              <option>Le Mans</option>
+              <option>Autre ville française</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Destination (Sénégal)</label>
+            <select name="destination" class="form-select" required>
+              <option value="">Choisir une destination</option>
+              <option>Dakar</option><option>Pikine / Guédiawaye</option><option>Thiès / Mbour</option>
+              <option>Saint-Louis</option><option>Kaolack</option><option>Ziguinchor</option>
+              <option>Diourbel / Touba</option><option>Tambacounda</option><option>Kolda</option>
+              <option>Matam</option><option>Louga</option><option>Autre localité</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Poids estimé (kg)</label>
+            <input type="number" name="poids_kg" class="form-input" placeholder="10" min="1" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Type d'envoi</label>
+            <select name="type_envoi" class="form-select">
+              <option>Colis personnel</option>
+              <option>Fret commercial</option>
+              <option>Valeurs déclarées</option>
+              <option>Documents officiels</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Mode de transport</label>
+          <select name="transport" class="form-select">
+            <option>Express Aérien (3–7 jours)</option>
+            <option>Maritime Économique (15–21 jours)</option>
+            <option>Indifférent – meilleur prix</option>
           </select>
         </div>
-
-        <div class="fr2">
-          <div class="fg"><label class="fl">Poids (kg)</label><input class="fi" type="number" placeholder="10" min="1" /></div>
-          <div class="fg"><label class="fl">Transport</label><select class="fs"><option>Aérien 3–7j</option><option>Maritime 15–21j</option><option>Meilleur prix</option></select></div>
+        <div class="form-group">
+          <label class="form-label">Description du contenu</label>
+          <textarea name="description" class="form-textarea" placeholder="Décrivez brièvement le contenu de votre colis..."></textarea>
         </div>
 
-        <div class="fg"><label class="fl">Type d'envoi</label><select class="fs"><option>Colis personnel</option><option>Fret commercial</option><option>Valeurs déclarées</option><option>Documents officiels</option></select></div>
-        <div class="fg"><label class="fl">Description du contenu</label><textarea class="ft" placeholder="Vêtements, cadeaux, électronique..."></textarea></div>
-        <button class="fsub" onclick="submitDevis()">Envoyer ma demande →</button>
-        <div style="height:8px"></div>
-      </div>
+        <!-- Message succès / erreur -->
+        <div id="form-success" style="display:none; background:rgba(34,197,94,.12); border:1px solid rgba(34,197,94,.35); border-radius:6px; padding:1rem 1.2rem; margin-bottom:1rem; color:#4ade80; font-size:.9rem; font-weight:600;">
+          ✅ Demande envoyée ! Nous vous répondrons sous 24h.
+        </div>
+        <div id="form-error" style="display:none; background:rgba(200,90,46,.12); border:1px solid rgba(200,90,46,.35); border-radius:6px; padding:1rem 1.2rem; margin-bottom:1rem; color:#f09070; font-size:.9rem; font-weight:600;">
+          ❌ Une erreur est survenue. Veuillez réessayer ou nous contacter par téléphone.
+        </div>
+
+        <button type="submit" class="form-submit" id="submitBtn">Envoyer ma demande →</button>
+      </form>
     </div>
-
-    <!-- DESTINATIONS -->
-    <div class="screen" id="sc-dest">
-      <div class="scrhdr"><div class="scrt">Nos routes</div><div class="scrs">Paris · Rennes · Nantes · Le Mans → Dakar</div></div>
-      <div class="dest-panel-wrap">
-
-        <div class="featured-badge">⭐ Route principale</div>
-
-        <div class="route-card featured">
-          <div class="rc-header">
-            <div class="rc-from"><span class="rc-flag">🇫🇷</span><span class="rc-city">Paris</span></div>
-            <div class="rc-to"><div class="rc-arr"></div><span class="rc-dest-name">Dakar</span><span style="font-size:16px">🇸🇳</span></div>
-          </div>
-          <div class="rc-body">
-            <div class="rc-modes"><span class="rc-mode mode-air">✈️ 3–7j</span><span class="rc-mode mode-sea">🚢 15–21j</span></div>
-            <div class="rc-freq"><strong>3× / semaine</strong>départs réguliers</div>
-          </div>
-        </div>
-
-        <div class="route-card">
-          <div class="rc-header">
-            <div class="rc-from"><span class="rc-flag">🇫🇷</span><span class="rc-city">Rennes</span></div>
-            <div class="rc-to"><div class="rc-arr"></div><span class="rc-dest-name">Dakar</span><span style="font-size:16px">🇸🇳</span></div>
-          </div>
-          <div class="rc-body">
-            <div class="rc-modes"><span class="rc-mode mode-air">✈️ 3–7j</span><span class="rc-mode mode-sea">🚢 15–21j</span></div>
-            <div class="rc-freq"><strong>2× / semaine</strong>collecte à domicile</div>
-          </div>
-        </div>
-
-        <div class="route-card">
-          <div class="rc-header">
-            <div class="rc-from"><span class="rc-flag">🇫🇷</span><span class="rc-city">Nantes</span></div>
-            <div class="rc-to"><div class="rc-arr"></div><span class="rc-dest-name">Dakar</span><span style="font-size:16px">🇸🇳</span></div>
-          </div>
-          <div class="rc-body">
-            <div class="rc-modes"><span class="rc-mode mode-air">✈️ 3–7j</span><span class="rc-mode mode-sea">🚢 15–21j</span></div>
-            <div class="rc-freq"><strong>2× / semaine</strong>collecte à domicile</div>
-          </div>
-        </div>
-
-        <div class="route-card">
-          <div class="rc-header">
-            <div class="rc-from"><span class="rc-flag">🇫🇷</span><span class="rc-city">Le Mans</span></div>
-            <div class="rc-to"><div class="rc-arr"></div><span class="rc-dest-name">Dakar</span><span style="font-size:16px">🇸🇳</span></div>
-          </div>
-          <div class="rc-body">
-            <div class="rc-modes"><span class="rc-mode mode-air">✈️ 3–7j</span><span class="rc-mode mode-sea">🚢 15–21j</span></div>
-            <div class="rc-freq"><strong>1× / semaine</strong>collecte à domicile</div>
-          </div>
-        </div>
-
-        <div class="info-box">
-          <div class="ib-title">Infos pratiques</div>
-          <div class="ib-row"><span class="ib-left">📦 Collecte à domicile</span><span class="ib-right">+15€ / colis</span></div>
-          <div class="ib-row"><span class="ib-left">✈️ Aérien express</span><span class="ib-right">dès 12€ / kg</span></div>
-          <div class="ib-row"><span class="ib-left">🚢 Maritime éco</span><span class="ib-right">dès 3€ / kg</span></div>
-          <div class="ib-row"><span class="ib-left">🔒 Dédouanement</span><span class="ib-right">Inclus</span></div>
-          <div class="ib-row"><span class="ib-left">📱 Suivi SMS</span><span class="ib-right">Inclus</span></div>
-        </div>
-
-        <div style="height:8px"></div>
-      </div>
-    </div>
-
-    <!-- SUIVI -->
-    <div class="screen" id="sc-track">
-      <div class="scrhdr"><div class="scrt">Suivi de colis</div><div class="scrs">Localisez votre envoi en temps réel</div></div>
-      <div class="tiw">
-        <div class="trow2">
-          <input class="tfield" id="tfield" placeholder="Ex: TA-2025-78432" />
-          <button class="tbtn" onclick="doTrack()">Chercher</button>
-        </div>
-      </div>
-      <div class="trescard" id="tcard">
-        <div class="trst">📍 En transit — arrivée dans 3 jours</div>
-        <div class="trloc">Las Palmas, Espagne</div>
-        <div class="trdet">Départ pour Dakar demain matin. Livraison estimée dans 3–4 jours.</div>
-      </div>
-      <div class="journey">
-        <div class="jtitle">Itinéraire du colis</div>
-        <div class="jsteps">
-          <div class="jstep"><div class="jd done"></div><div><div class="jlbl">Collecté à Paris</div><div class="jsub">Lun. 10 mars — 09:14</div></div></div>
-          <div class="jstep"><div class="jd done"></div><div><div class="jlbl">Entrepôt Île-de-France</div><div class="jsub">Lun. 10 mars — 18:30</div></div></div>
-          <div class="jstep"><div class="jd done"></div><div><div class="jlbl">Embarquement maritime</div><div class="jsub">Mar. 11 mars — 06:00</div></div></div>
-          <div class="jstep"><div class="jd cur"></div><div><div class="jlbl">Las Palmas, Espagne</div><div class="jsub">En escale · Départ demain</div></div></div>
-          <div class="jstep"><div class="jd pend"></div><div><div class="jlbl dim">Port de Dakar</div><div class="jsub">Estimé : Jeu. 20 mars</div></div></div>
-          <div class="jstep"><div class="jd pend"></div><div><div class="jlbl dim">Livraison à domicile · Dakar</div><div class="jsub">Estimé : Ven. 21 mars</div></div></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- PROFIL -->
-    <div class="screen" id="sc-profil">
-      <div class="phero">
-        <div class="pav">MD</div>
-        <div class="pname">Mamadou Diallo</div>
-        <div class="pemail">mamadou@email.com · Paris</div>
-      </div>
-      <div class="pstats">
-        <div class="psc"><div class="psn">12</div><div class="psl">Envoyés</div></div>
-        <div class="psc"><div class="psn">4</div><div class="psl">En cours</div></div>
-        <div class="psc"><div class="psn">8</div><div class="psl">Livrés</div></div>
-      </div>
-      <div class="msec">
-        <div class="mst">Mon compte</div>
-        <div class="mlist">
-          <div class="mitem"><div class="mil"><div class="mico">📦</div><div class="mn">Mes colis</div></div><div class="mch">›</div></div>
-          <div class="mitem"><div class="mil"><div class="mico">📍</div><div class="mn">Mes adresses</div></div><div class="mch">›</div></div>
-          <div class="mitem"><div class="mil"><div class="mico">💳</div><div class="mn">Paiements</div></div><div class="mch">›</div></div>
-          <div class="mitem"><div class="mil"><div class="mico">🔔</div><div class="mn">Notifications</div></div><div class="mch">›</div></div>
-        </div>
-      </div>
-      <div class="msec">
-        <div class="mst">Support</div>
-        <div class="mlist">
-          <div class="mitem"><div class="mil"><div class="mico">📞</div><div class="mn">Contact & Support</div></div><div class="mch">›</div></div>
-          <div class="mitem"><div class="mil"><div class="mico">❓</div><div class="mn">FAQ</div></div><div class="mch">›</div></div>
-          <div class="mitem"><div class="mil"><div class="mico">📄</div><div class="mn">CGV</div></div><div class="mch">›</div></div>
-        </div>
-      </div>
-    </div>
-
   </div>
+</section>
 
-  <div class="bnav">
-    <button class="nb on" id="nb-home" onclick="go('home')">
-      <div class="niw"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
-      <span class="nlbl">Accueil</span>
-    </button>
-    <button class="nb" id="nb-devis" onclick="go('devis')">
-      <div class="niw"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></div>
-      <span class="nlbl">Devis</span>
-    </button>
-    <button class="nb" id="nb-dest" onclick="go('dest')">
-      <div class="niw"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div>
-      <span class="nlbl">Routes</span>
-    </button>
-    <button class="nb nbbadge" id="nb-track" onclick="go('track')">
-      <div class="niw"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
-      <span class="nlbl">Suivi</span>
-    </button>
-    <button class="nb" id="nb-profil" onclick="go('profil')">
-      <div class="niw"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-      <span class="nlbl">Profil</span>
-    </button>
+<!-- TÉMOIGNAGES -->
+<section class="testimonials-section">
+  <div class="reveal">
+    <div class="section-label" style="color:rgba(212,168,67,.8)">Ils nous font confiance</div>
+    <h2 class="section-title">Ce que disent nos clients</h2>
   </div>
+  <div class="testimonials-grid reveal">
+    <div class="testi-card"><div class="testi-stars">★★★★★</div><div class="testi-text">"Colis reçu en parfait état en 5 jours par voie aérienne. Le suivi SMS est très pratique, j'ai pu informer ma famille au Sénégal en temps réel."</div><div class="testi-author">Fatou N.</div><div class="testi-loc">Paris 18ème <span class="testi-arrow">→</span> Médina, Dakar</div></div>
+    <div class="testi-card"><div class="testi-stars">★★★★★</div><div class="testi-text">"Service irréprochable depuis Lyon. L'équipe a géré toutes les formalités douanières sans aucun problème. Je recommande vivement !"</div><div class="testi-author">Ibrahima S.</div><div class="testi-loc">Lyon <span class="testi-arrow">→</span> Plateau, Dakar</div></div>
+    <div class="testi-card"><div class="testi-stars">★★★★☆</div><div class="testi-text">"Très bon rapport qualité-prix pour la voie maritime. Ma famille a reçu tous les colis intacts depuis Bordeaux jusqu'à Saint-Louis."</div><div class="testi-author">Aminata D.</div><div class="testi-loc">Bordeaux <span class="testi-arrow">→</span> Saint-Louis</div></div>
+    <div class="testi-card"><div class="testi-stars">★★★★★</div><div class="testi-text">"J'envoie des colis de Nantes vers Ziguinchor depuis 3 ans. TransAtlantique est la seule société qui livre vraiment en Casamance."</div><div class="testi-author">Ousmane B.</div><div class="testi-loc">Nantes <span class="testi-arrow">→</span> Ziguinchor</div></div>
+    <div class="testi-card"><div class="testi-stars">★★★★★</div><div class="testi-text">"La collecte à domicile à Marseille est un vrai plus. Je n'ai pas à me déplacer. Mon colis arrive à Kaolack en 18 jours."</div><div class="testi-author">Mariama K.</div><div class="testi-loc">Marseille <span class="testi-arrow">→</span> Kaolack</div></div>
+    <div class="testi-card"><div class="testi-stars">★★★★★</div><div class="testi-text">"Téléphone et documents importants envoyés depuis Toulouse, assurés et livrés en main propre à Thiès. Sérieux et transparent."</div><div class="testi-author">Seydou F.</div><div class="testi-loc">Toulouse <span class="testi-arrow">→</span> Thiès</div></div>
+  </div>
+</section>
 
-  <div class="toast" id="toast">✅ Demande envoyée — Réponse sous 24h !</div>
-</div>
+<!-- CTA -->
+<div class="cta-band">
+  <h2>Prêt à expédier votre colis ?</h2>
+  <p>Devis gratuit en quelques minutes. Collecte partout en France, livraison partout au Sénégal.</p>
+  <a href="#devis" class="btn-cta-white">Demander un devis gratuit</a>
 </div>
 
-<script>
-const all=['home','devis','dest','track','profil'];
-function go(id){
-  all.forEach(s=>{
-    document.getElementById('sc-'+s).classList.remove('active');
-    const b=document.getElementById('nb-'+s);
-    if(b)b.classList.remove('on');
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo" style="margin-bottom:1rem">Trans<span>Atlantique</span></div>
+      <p>Spécialiste du transport de colis entre toute la France et tout le Sénégal depuis 2009. Fiabilité, sécurité, proximité.</p>
+      <div class="footer-socials">
+        <a class="social-btn" href="#">📘</a>
+        <a class="social-btn" href="#">📸</a>
+        <a class="social-btn" href="#">💬</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#">Express Aérien</a></li>
+        <li><a href="#">Maritime Économique</a></li>
+        <li><a href="#">Fret Commercial</a></li>
+        <li><a href="#">Collecte à domicile</a></li>
+        <li><a href="#">Valeurs déclarées</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Destinations</h4>
+      <ul>
+        <li><a href="#">Paris → Dakar</a></li>
+        <li><a href="#">Lyon → Thiès</a></li>
+        <li><a href="#">Marseille → Saint-Louis</a></li>
+        <li><a href="#">Bordeaux → Ziguinchor</a></li>
+        <li><a href="#">Toutes les routes →</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Informations</h4>
+      <ul>
+        <li><a href="#">Tarifs & Délais</a></li>
+        <li><a href="#">Produits acceptés</a></li>
+        <li><a href="#">Dédouanement</a></li>
+        <li><a href="#">Assurance colis</a></li>
+        <li><a href="#">FAQ</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="tel:+33100000000">📞 +33 1 00 00 00 00</a></li>
+        <li><a href="/cdn-cgi/l/email-protection#4a2925243e2b293e0a3e382b24392b3e262b243e233b3f2f642c38">✉️ <span class="__cf_email__" data-cfemail="beddd1d0cadfddcafecaccdfd0cddfcad2dfd0cad7cfcbdb90d8cc">[email&#160;protected]</span></a></li>
+        <li><a href="#">📍 Paris, France</a></li>
+        <li><a href="#">📍 Dakar, Sénégal</a></li>
+        <li><a href="#">⏰ Lun–Sam 8h–20h</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 TransAtlantique — Tous droits réservés</p>
+    <div style="display:flex;gap:1.5rem">
+      <a href="#">Mentions légales</a>
+      <a href="#">Confidentialité</a>
+      <a href="#">CGV</a>
+    </div>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// Sticky nav
+const nav = document.getElementById('mainNav');
+window.addEventListener('scroll', () => nav.classList.toggle('stuck', window.scrollY > 60));
+
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) setTimeout(() => entry.target.classList.add('visible'), i * 80);
   });
-  document.getElementById('sc-'+id).classList.add('active');
-  const b=document.getElementById('nb-'+id);
-  if(b)b.classList.add('on');
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Modal
+function openModal() { document.getElementById('trackModal').classList.add('open'); }
+function closeModal() {
+  document.getElementById('trackModal').classList.remove('open');
+  document.getElementById('trackResult').classList.remove('show');
+  document.getElementById('trackInput').value = '';
 }
-function doTrack(){
-  if(document.getElementById('tfield').value.trim())
-    document.getElementById('tcard').classList.add('show');
+document.getElementById('trackModal').addEventListener('click', (e) => {
+  if (e.target === e.currentTarget) closeModal();
+});
+function trackPackage() {
+  if (document.getElementById('trackInput').value.trim())
+    document.getElementById('trackResult').classList.add('show');
 }
-function submitDevis(){
-  const t=document.getElementById('toast');
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),3000);
+
+// Formspree — envoi du formulaire de devis
+const devisForm = document.getElementById('devisForm');
+if (devisForm) {
+  devisForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submitBtn');
+    const successMsg = document.getElementById('form-success');
+    const errorMsg = document.getElementById('form-error');
+    btn.textContent = 'Envoi en cours...';
+    btn.disabled = true;
+    btn.style.opacity = '0.7';
+    successMsg.style.display = 'none';
+    errorMsg.style.display = 'none';
+    try {
+      const response = await fetch('https://formspree.io/f/mojkngdn', {
+        method: 'POST',
+        body: new FormData(devisForm),
+        headers: { 'Accept': 'application/json' }
+      });
+      if (response.ok) {
+        successMsg.style.display = 'block';
+        devisForm.reset();
+        btn.textContent = '✅ Demande envoyée !';
+        btn.style.background = '#1a6b3a';
+        successMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } else {
+        throw new Error('Erreur serveur');
+      }
+    } catch (err) {
+      errorMsg.style.display = 'block';
+      btn.textContent = 'Envoyer ma demande →';
+      btn.disabled = false;
+      btn.style.opacity = '1';
+    }
+  });
 }
-</script>
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+  });
+});
+
+// Stat counter animation
+const statNums = document.querySelectorAll('.stat-num');
+const statObs = new IntersectionObserver((entries) => {
+  entries.fo
