@@ -1,0 +1,545 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
+
+  .app-shell{display:flex;justify-content:center;align-items:flex-start;padding:2rem 1rem 3rem;min-height:920px}
+  .phone{width:390px;height:860px;background:#0A1628;border-radius:48px;overflow:hidden;position:relative;box-shadow:0 40px 80px rgba(0,0,0,.45),0 0 0 10px #1a2a40,0 0 0 12px #0e1e30;font-family:'DM Sans',sans-serif;display:flex;flex-direction:column}
+
+  .notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:126px;height:34px;background:#0A1628;border-radius:0 0 20px 20px;z-index:50;display:flex;align-items:center;justify-content:center;gap:6px}
+  .notch-cam{width:12px;height:12px;border-radius:50%;background:#111d30;border:2px solid #1d2f4a}
+  .notch-spk{width:40px;height:5px;border-radius:3px;background:#111d30}
+
+  .sbar{height:50px;flex-shrink:0;display:flex;align-items:flex-end;justify-content:space-between;padding:0 28px 6px;color:#FAF5EC;font-family:'Syne',sans-serif;position:relative;z-index:10}
+  .stime{font-size:14px;font-weight:800}
+  .sicons{display:flex;align-items:center;gap:5px}
+  .sig{display:flex;align-items:flex-end;gap:1.5px}
+  .sig span{background:#FAF5EC;border-radius:1px;width:3px}
+  .sig span:nth-child(1){height:4px}.sig span:nth-child(2){height:7px}.sig span:nth-child(3){height:10px}
+  .bat{width:22px;height:11px;border:1.5px solid rgba(250,245,236,.7);border-radius:3px;position:relative;display:flex;align-items:center;padding:1.5px}
+  .bat::after{content:'';position:absolute;right:-5px;top:50%;transform:translateY(-50%);width:3px;height:5px;background:rgba(250,245,236,.6);border-radius:0 1px 1px 0}
+  .bat-f{height:100%;width:75%;background:#FAF5EC;border-radius:1px}
+
+  .screens{flex:1;position:relative;overflow:hidden}
+  .screen{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;display:none;flex-direction:column;scrollbar-width:none}
+  .screen::-webkit-scrollbar{display:none}
+  .screen.active{display:flex}
+
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+  @keyframes pulse{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1.1)}}
+
+  /* HERO */
+  .hero{background:linear-gradient(160deg,#163854 0%,#0A1628 60%);padding:16px 20px 22px;position:relative;overflow:hidden}
+  .hero::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(212,168,67,.12) 1px,transparent 1px);background-size:24px 24px}
+
+  .apphdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;position:relative;z-index:2}
+  .logo{font-family:'Playfair Display',serif;font-size:18px;font-weight:900;color:#FAF5EC}
+  .logo em{color:#D4A843;font-style:italic}
+  .hdrbtn{width:36px;height:36px;border-radius:12px;background:rgba(255,255,255,.08);border:1px solid rgba(212,168,67,.25);display:flex;align-items:center;justify-content:center;cursor:pointer}
+  .hdrbtn svg{width:18px;height:18px;stroke:#D4A843;fill:none;stroke-width:2}
+
+  .livechip{display:inline-flex;align-items:center;gap:5px;background:rgba(212,168,67,.12);border:1px solid rgba(212,168,67,.3);border-radius:100px;padding:4px 10px 4px 7px;font-family:'Syne',sans-serif;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#D4A843;margin-bottom:12px;position:relative;z-index:2}
+  .ldot{width:6px;height:6px;border-radius:50%;background:#22c55e;animation:blink 1.2s infinite}
+
+  /* Route visuelle France → Dakar */
+  .route-vis{position:relative;z-index:2;margin-bottom:14px}
+  .route-title{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;line-height:.95;letter-spacing:-.02em;color:#FAF5EC;margin-bottom:14px}
+  .route-title .hl{color:#D4A843;font-style:italic}
+
+  .route-flow{display:flex;align-items:center;gap:0;background:rgba(255,255,255,.04);border:1px solid rgba(212,168,67,.2);border-radius:14px;padding:12px 14px;gap:8px}
+  .rf-left{display:flex;flex-direction:column;gap:5px;flex:1}
+  .rf-city{display:flex;align-items:center;gap:7px;padding:6px 10px;border-radius:9px;background:rgba(22,56,84,.6);border:1px solid rgba(212,168,67,.18)}
+  .rf-city.active-city{background:rgba(200,90,46,.15);border-color:rgba(200,90,46,.4)}
+  .rf-flag{font-size:13px}
+  .rf-name{font-size:12px;font-weight:700;color:#FAF5EC;font-family:'Syne',sans-serif}
+  .rf-freq{font-size:9px;color:rgba(250,245,236,.4);margin-left:auto;font-family:'Syne',sans-serif}
+
+  .rf-arrow{display:flex;flex-direction:column;align-items:center;gap:5px;padding:0 4px}
+  .rf-adot{width:6px;height:6px;border-radius:50%;background:#C85A2E;animation:pulse 1.6s ease-in-out infinite}
+  .rf-adot:nth-child(2){animation-delay:.3s;background:#D4A843}
+  .rf-adot:nth-child(3){animation-delay:.6s}
+
+  .rf-right{display:flex;flex-direction:column;justify-content:center;align-items:center;flex-shrink:0}
+  .rf-dest{background:rgba(212,168,67,.12);border:1.5px solid rgba(212,168,67,.4);border-radius:12px;padding:14px 16px;text-align:center}
+  .rf-dest-flag{font-size:22px;display:block;margin-bottom:4px}
+  .rf-dest-name{font-family:'Playfair Display',serif;font-size:18px;font-weight:900;font-style:italic;color:#D4A843;line-height:1}
+  .rf-dest-country{font-family:'Syne',sans-serif;font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(212,168,67,.6);margin-top:2px}
+  .rf-dest-km{font-size:10px;color:#C85A2E;font-weight:600;margin-top:6px}
+
+  .hero-sub{font-size:11px;font-weight:300;line-height:1.6;color:rgba(250,245,236,.6);margin-bottom:14px;position:relative;z-index:2}
+  .hero-sub strong{color:#FAF5EC;font-weight:500}
+  .hero-btns{display:flex;gap:8px;position:relative;z-index:2}
+  .btnp{flex:1;padding:11px 14px;border-radius:10px;background:#C85A2E;border:none;cursor:pointer;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:white;transition:all .2s}
+  .btnp:active{transform:scale(.97);background:#a84825}
+  .btng{flex:1;padding:11px 14px;border-radius:10px;background:transparent;border:1px solid rgba(250,245,236,.25);cursor:pointer;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#FAF5EC;transition:all .2s}
+  .btng:active{background:rgba(255,255,255,.1)}
+
+  .srow{display:grid;grid-template-columns:repeat(4,1fr);background:rgba(255,255,255,.04);border-top:1px solid rgba(212,168,67,.15);position:relative;z-index:2}
+  .st{padding:11px 4px;text-align:center;border-right:1px solid rgba(212,168,67,.1)}
+  .st:last-child{border-right:none}
+  .stn{font-family:'Playfair Display',serif;font-size:17px;font-weight:900;color:#D4A843;line-height:1}
+  .stl{font-size:8px;color:rgba(250,245,236,.4);text-transform:uppercase;letter-spacing:.07em;margin-top:2px}
+
+  .sec{padding:16px 20px 0}
+  .sechd{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px}
+  .sect{font-family:'Syne',sans-serif;font-size:13px;font-weight:800;color:#FAF5EC}
+  .secl{font-size:11px;color:#D4A843;cursor:pointer}
+
+  .tlist{display:flex;flex-direction:column;gap:7px}
+  .tcard{background:rgba(255,255,255,.04);border:1px solid rgba(212,168,67,.15);border-radius:13px;padding:10px 13px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:background .2s}
+  .tcard:active{background:rgba(212,168,67,.08)}
+  .tfc{width:34px;height:34px;border-radius:10px;background:rgba(22,56,84,.8);border:1px solid rgba(212,168,67,.2);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+  .ti{flex:1;min-width:0}
+  .tir{font-size:12px;font-weight:600;color:#FAF5EC;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .tid{font-size:10px;color:rgba(250,245,236,.45);margin-top:1px}
+  .tbadge{font-size:9px;font-weight:700;padding:3px 7px;border-radius:100px;font-family:'Syne',sans-serif;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+  .tbt{background:rgba(212,168,67,.15);color:#EBC870}
+  .tba{background:rgba(34,197,94,.15);color:#4ade80}
+  .tbd{background:rgba(200,90,46,.2);color:#f09070}
+
+  .svcg{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+  .svcc{background:rgba(255,255,255,.04);border:1px solid rgba(212,168,67,.12);border-radius:13px;padding:12px 9px;cursor:pointer;transition:all .2s;text-align:center}
+  .svcc:active{background:rgba(200,90,46,.1);transform:scale(.97)}
+  .svci{font-size:20px;margin-bottom:5px;display:block}
+  .svcn{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;color:#FAF5EC;margin-bottom:3px}
+  .svcp{font-size:10px;color:#D4A843;font-weight:600}
+
+  .bp{height:20px}
+
+  /* DEVIS */
+  .scrhdr{padding:14px 20px 13px;border-bottom:1px solid rgba(212,168,67,.15);background:#0A1628}
+  .scrt{font-family:'Playfair Display',serif;font-size:20px;font-weight:900;color:#FAF5EC}
+  .scrs{font-size:11px;color:rgba(250,245,236,.45);margin-top:2px}
+
+  .fscroll{padding:13px 20px;display:flex;flex-direction:column;gap:11px}
+  .fg{display:flex;flex-direction:column;gap:4px}
+  .fl{font-family:'Syne',sans-serif;font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(212,168,67,.7)}
+  .fi,.fs,.ft{background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);border-radius:10px;padding:10px 13px;font-family:'DM Sans',sans-serif;font-size:13px;color:#FAF5EC;outline:none;appearance:none;transition:border-color .25s;width:100%}
+  .fi::placeholder{color:rgba(250,245,236,.2)}
+  .fi:focus,.fs:focus,.ft:focus{border-color:#C85A2E}
+  .fs option{background:#0A1628;color:#FAF5EC}
+  .ft{resize:none;height:72px}
+  .fr2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
+  /* Destination Dakar — bloc fixe et visible */
+  .dest-fixed{background:rgba(212,168,67,.08);border:1.5px solid rgba(212,168,67,.3);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:12px}
+  .dest-fixed-flag{font-size:26px}
+  .dest-fixed-info{}
+  .dest-fixed-label{font-family:'Syne',sans-serif;font-size:8px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(212,168,67,.6);margin-bottom:2px}
+  .dest-fixed-name{font-family:'Playfair Display',serif;font-size:20px;font-weight:900;font-style:italic;color:#D4A843;line-height:1}
+  .dest-fixed-sub{font-size:10px;color:rgba(250,245,236,.4);margin-top:2px}
+
+  .fsub{background:#C85A2E;border:none;border-radius:12px;padding:13px;cursor:pointer;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:white;transition:all .2s;margin-top:3px}
+  .fsub:active{transform:scale(.98);background:#a84825}
+
+  .perks{display:flex;flex-direction:column;gap:7px}
+  .perk{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,.03);border:1px solid rgba(212,168,67,.12);border-left:3px solid #C85A2E;border-radius:0 9px 9px 0;padding:9px 12px}
+  .pico{font-size:14px}
+  .pt{font-size:11px;font-weight:600;color:#FAF5EC}
+  .ps{font-size:10px;color:rgba(250,245,236,.4);margin-top:1px}
+
+  /* DESTINATIONS */
+  .dest-panel-wrap{padding:16px 20px;display:flex;flex-direction:column;gap:12px}
+
+  /* Route cards */
+  .route-card{background:rgba(255,255,255,.04);border:1px solid rgba(212,168,67,.15);border-radius:16px;overflow:hidden}
+  .rc-header{padding:12px 16px;border-bottom:1px solid rgba(212,168,67,.1);display:flex;align-items:center;justify-content:space-between}
+  .rc-from{display:flex;align-items:center;gap:8px}
+  .rc-flag{font-size:16px}
+  .rc-city{font-family:'Playfair Display',serif;font-size:16px;font-weight:900;font-style:italic;color:#FAF5EC}
+  .rc-to{display:flex;align-items:center;gap:6px}
+  .rc-arr{width:30px;height:1.5px;background:#C85A2E;position:relative}
+  .rc-arr::after{content:'';position:absolute;right:-5px;top:-3.5px;border:3.5px solid transparent;border-left:5px solid #C85A2E}
+  .rc-dest-name{font-family:'Playfair Display',serif;font-size:16px;font-weight:900;font-style:italic;color:#D4A843}
+  .rc-body{padding:10px 16px;display:flex;align-items:center;justify-content:space-between}
+  .rc-modes{display:flex;gap:6px}
+  .rc-mode{font-size:9px;font-weight:700;padding:3px 9px;border-radius:100px;font-family:'Syne',sans-serif;letter-spacing:.06em;text-transform:uppercase}
+  .mode-air{background:rgba(200,90,46,.2);color:#f09070}
+  .mode-sea{background:rgba(22,56,84,.8);border:1px solid rgba(212,168,67,.2);color:rgba(212,168,67,.8)}
+  .rc-freq{font-size:10px;color:rgba(250,245,236,.45);text-align:right}
+  .rc-freq strong{color:#D4A843;display:block;font-size:12px;font-weight:700}
+
+  /* highlight Paris card */
+  .route-card.featured{border-color:rgba(200,90,46,.4);background:rgba(200,90,46,.04)}
+  .route-card.featured .rc-header{border-color:rgba(200,90,46,.2);background:rgba(200,90,46,.06)}
+
+  .featured-badge{font-family:'Syne',sans-serif;font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:rgba(200,90,46,.25);color:#f09070;padding:2px 8px;border-radius:100px;margin-bottom:8px;display:inline-block}
+
+  .info-box{background:rgba(212,168,67,.07);border:1px solid rgba(212,168,67,.2);border-radius:14px;padding:14px 16px}
+  .ib-title{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(212,168,67,.7);margin-bottom:10px}
+  .ib-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid rgba(212,168,67,.08)}
+  .ib-row:last-child{border-bottom:none;padding-bottom:0}
+  .ib-left{font-size:12px;color:#FAF5EC;font-weight:500}
+  .ib-right{font-size:11px;color:#D4A843;font-weight:600}
+
+  /* SUIVI */
+  .tiw{padding:14px 20px}
+  .trow2{display:flex;gap:8px;align-items:center}
+  .tfield{flex:1;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.12);border-radius:12px;padding:11px 13px;font-family:'DM Sans',sans-serif;font-size:13px;color:#FAF5EC;outline:none;transition:border-color .25s}
+  .tfield::placeholder{color:rgba(250,245,236,.25)}
+  .tfield:focus{border-color:#C85A2E}
+  .tbtn{padding:11px 14px;border-radius:12px;background:#C85A2E;border:none;cursor:pointer;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:white;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;transition:all .2s}
+  .tbtn:active{transform:scale(.97);background:#a84825}
+  .trescard{margin:0 20px;background:rgba(212,168,67,.07);border:1px solid rgba(212,168,67,.22);border-radius:14px;padding:13px;display:none}
+  .trescard.show{display:block}
+  .trst{font-family:'Syne',sans-serif;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#D4A843;margin-bottom:5px}
+  .trloc{font-size:14px;font-weight:600;color:#FAF5EC;margin-bottom:3px}
+  .trdet{font-size:11px;color:rgba(250,245,236,.55);line-height:1.5}
+  .journey{padding:14px 20px}
+  .jtitle{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:rgba(250,245,236,.45);letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px}
+  .jsteps{position:relative}
+  .jsteps::before{content:'';position:absolute;left:15px;top:8px;bottom:8px;width:2px;background:linear-gradient(180deg,#C85A2E,#D4A843,rgba(212,168,67,.2));border-radius:1px}
+  .jstep{display:flex;align-items:flex-start;gap:13px;padding-bottom:13px;position:relative}
+  .jstep:last-child{padding-bottom:0}
+  .jd{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:3px;position:relative;z-index:1}
+  .jd.done{background:#D4A843;box-shadow:0 0 7px rgba(212,168,67,.5)}
+  .jd.cur{background:#C85A2E;box-shadow:0 0 7px rgba(200,90,46,.5);animation:blink 1s infinite}
+  .jd.pend{background:rgba(250,245,236,.15);border:1.5px solid rgba(250,245,236,.2)}
+  .jlbl{font-size:12px;font-weight:600;color:#FAF5EC}
+  .jlbl.dim{color:rgba(250,245,236,.4);font-weight:400}
+  .jsub{font-size:10px;color:rgba(250,245,236,.4);margin-top:1px}
+
+  /* PROFIL */
+  .phero{background:linear-gradient(160deg,#163854,#0A1628);padding:20px 20px 20px;text-align:center}
+  .pav{width:68px;height:68px;border-radius:22px;background:#C85A2E;margin:0 auto 9px;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:22px;font-weight:900;color:white;border:3px solid rgba(212,168,67,.4)}
+  .pname{font-family:'Playfair Display',serif;font-size:19px;font-weight:900;color:#FAF5EC}
+  .pemail{font-size:11px;color:rgba(250,245,236,.45);margin-top:2px}
+  .pstats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;padding:14px 20px}
+  .psc{background:rgba(255,255,255,.04);border:1px solid rgba(212,168,67,.12);border-radius:13px;padding:11px;text-align:center}
+  .psn{font-family:'Playfair Display',serif;font-size:20px;font-weight:900;color:#D4A843;line-height:1}
+  .psl{font-size:9px;color:rgba(250,245,236,.4);text-transform:uppercase;letter-spacing:.08em;margin-top:2px}
+  .msec{padding:0 20px 13px}
+  .mst{font-family:'Syne',sans-serif;font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(212,168,67,.6);margin-bottom:7px}
+  .mlist{background:rgba(255,255,255,.03);border:1px solid rgba(212,168,67,.1);border-radius:15px;overflow:hidden}
+  .mitem{display:flex;align-items:center;justify-content:space-between;padding:12px 15px;border-bottom:1px solid rgba(255,255,255,.05);cursor:pointer;transition:background .15s}
+  .mitem:last-child{border-bottom:none}
+  .mitem:active{background:rgba(212,168,67,.06)}
+  .mil{display:flex;align-items:center;gap:9px}
+  .mico{width:30px;height:30px;border-radius:9px;background:rgba(212,168,67,.1);display:flex;align-items:center;justify-content:center;font-size:14px}
+  .mn{font-size:13px;font-weight:500;color:#FAF5EC}
+  .mch{color:rgba(250,245,236,.25);font-size:15px}
+
+  /* BOTTOM NAV */
+  .bnav{height:74px;flex-shrink:0;background:rgba(6,14,26,.95);border-top:1px solid rgba(212,168,67,.15);display:flex;align-items:center;padding:0 8px 8px}
+  .nb{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:6px 3px;border-radius:11px;cursor:pointer;transition:all .2s;background:transparent;border:none}
+  .nb:active{background:rgba(255,255,255,.06)}
+  .nb.on .nlbl{color:#D4A843}
+  .nb.on .niw{background:rgba(212,168,67,.12)}
+  .niw{width:36px;height:27px;display:flex;align-items:center;justify-content:center;border-radius:8px;transition:background .2s}
+  .niw svg{width:19px;height:19px;stroke-width:1.8}
+  .nb .niw svg{stroke:rgba(250,245,236,.4);fill:none}
+  .nb.on .niw svg{stroke:#D4A843}
+  .nlbl{font-family:'Syne',sans-serif;font-size:8px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:rgba(250,245,236,.35);transition:color .2s}
+  .nbbadge{position:relative}
+  .nbbadge::after{content:'4';position:absolute;top:-4px;right:-5px;background:#C85A2E;color:white;font-size:8px;font-weight:700;font-family:'Syne',sans-serif;width:13px;height:13px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1.5px solid #0A1628}
+
+  .toast{position:absolute;bottom:88px;left:20px;right:20px;background:#1a6b3a;color:white;padding:11px 15px;border-radius:11px;font-family:'Syne',sans-serif;font-size:11px;font-weight:600;border:1px solid rgba(74,222,128,.3);transform:translateY(16px);opacity:0;transition:all .3s;pointer-events:none;z-index:100}
+  .toast.show{transform:translateY(0);opacity:1}
+</style>
+
+<div class="app-shell">
+<div class="phone">
+  <div class="notch"><div class="notch-cam"></div><div class="notch-spk"></div></div>
+  <div class="sbar">
+    <span class="stime">9:41</span>
+    <div class="sicons">
+      <div class="sig"><span></span><span></span><span></span></div>
+      <svg width="14" height="11" viewBox="0 0 16 12" fill="none"><path d="M1 4C4.3 1 11.7 1 15 4" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity=".4"/><path d="M3.5 6.5C5.5 4.5 10.5 4.5 12.5 6.5" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity=".7"/><path d="M6 9C7 8 9 8 10 9" stroke="white" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="11" r="1.2" fill="white"/></svg>
+      <div class="bat"><div class="bat-f"></div></div>
+    </div>
+  </div>
+
+  <div class="screens">
+
+    <!-- ACCUEIL -->
+    <div class="screen active" id="sc-home">
+      <div class="hero">
+        <div class="apphdr">
+          <div class="logo">Trans<em>Atlantique</em></div>
+          <button class="hdrbtn" onclick="go('track')"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></button>
+        </div>
+        <div class="livechip"><span class="ldot"></span>Départs chaque semaine vers Dakar</div>
+
+        <div class="route-title">
+          <span>France</span><br>
+          <span class="hl">vers Dakar</span>
+        </div>
+
+        <div class="route-flow">
+          <div class="rf-left">
+            <div class="rf-city active-city"><span class="rf-flag">🇫🇷</span><span class="rf-name">Paris</span><span class="rf-freq">3×/sem.</span></div>
+            <div class="rf-city active-city"><span class="rf-flag">🇫🇷</span><span class="rf-name">Rennes</span><span class="rf-freq">2×/sem.</span></div>
+            <div class="rf-city active-city"><span class="rf-flag">🇫🇷</span><span class="rf-name">Nantes</span><span class="rf-freq">2×/sem.</span></div>
+            <div class="rf-city active-city"><span class="rf-flag">🇫🇷</span><span class="rf-name">Le Mans</span><span class="rf-freq">1×/sem.</span></div>
+          </div>
+          <div class="rf-arrow">
+            <div class="rf-adot"></div>
+            <div class="rf-adot"></div>
+            <div class="rf-adot"></div>
+          </div>
+          <div class="rf-right">
+            <div class="rf-dest">
+              <span class="rf-dest-flag">🇸🇳</span>
+              <div class="rf-dest-name">Dakar</div>
+              <div class="rf-dest-country">Sénégal</div>
+              <div class="rf-dest-km">4 600 km</div>
+            </div>
+          </div>
+        </div>
+
+        <p class="hero-sub" style="margin-top:13px">Collecte à domicile depuis <strong>Paris, Rennes, Nantes et Le Mans</strong> directement vers <strong>Dakar</strong>. Dédouanement inclus, suivi SMS.</p>
+        <div class="hero-btns">
+          <button class="btnp" onclick="go('devis')">Devis gratuit</button>
+          <button class="btng" onclick="go('track')">Suivre un colis</button>
+        </div>
+      </div>
+
+      <div class="srow">
+        <div class="st"><div class="stn">8K+</div><div class="stl">Colis</div></div>
+        <div class="st"><div class="stn">15</div><div class="stl">Ans</div></div>
+        <div class="st"><div class="stn">98%</div><div class="stl">Satisfaits</div></div>
+        <div class="st"><div class="stn">3j</div><div class="stl">Express</div></div>
+      </div>
+
+      <div class="sec">
+        <div class="sechd"><div class="sect">Envois en cours</div><div class="secl" onclick="go('track')">Voir tout →</div></div>
+        <div class="tlist">
+          <div class="tcard"><div class="tfc">🇫🇷</div><div class="ti"><div class="tir">Paris → Dakar</div><div class="tid">Las Palmas, Espagne</div></div><span class="tbadge tbt">Transit</span></div>
+          <div class="tcard"><div class="tfc">🇫🇷</div><div class="ti"><div class="tir">Nantes → Dakar</div><div class="tid">Port de Dakar · Arrivé</div></div><span class="tbadge tba">Livré ✓</span></div>
+          <div class="tcard"><div class="tfc">🇫🇷</div><div class="ti"><div class="tir">Rennes → Dakar</div><div class="tid">Départ ce soir</div></div><span class="tbadge tbd">Départ</span></div>
+          <div class="tcard"><div class="tfc">🇫🇷</div><div class="ti"><div class="tir">Le Mans → Dakar</div><div class="tid">En transit maritime</div></div><span class="tbadge tbt">Transit</span></div>
+        </div>
+      </div>
+
+      <div class="sec" style="margin-top:16px">
+        <div class="sechd"><div class="sect">Nos services</div><div class="secl" onclick="go('dest')">Destinations →</div></div>
+        <div class="svcg">
+          <div class="svcc"><span class="svci">✈️</span><div class="svcn">Express</div><div class="svcp">dès 12€/kg</div></div>
+          <div class="svcc"><span class="svci">🚢</span><div class="svcn">Maritime</div><div class="svcp">dès 3€/kg</div></div>
+          <div class="svcc"><span class="svci">📦</span><div class="svcn">Standard</div><div class="svcp">dès 6€/kg</div></div>
+        </div>
+      </div>
+      <div class="bp"></div>
+    </div>
+
+    <!-- DEVIS -->
+    <div class="screen" id="sc-devis">
+      <div class="scrhdr"><div class="scrt">Devis gratuit</div><div class="scrs">Réponse sous 24h — Aucun engagement</div></div>
+      <div class="fscroll">
+
+        <div class="dest-fixed">
+          <span class="dest-fixed-flag">🇸🇳</span>
+          <div class="dest-fixed-info">
+            <div class="dest-fixed-label">Destination unique</div>
+            <div class="dest-fixed-name">Dakar</div>
+            <div class="dest-fixed-sub">Sénégal · Livraison à domicile incluse</div>
+          </div>
+        </div>
+
+        <div class="perks">
+          <div class="perk"><span class="pico">🏠</span><div><div class="pt">Collecte à domicile</div><div class="ps">Paris · Rennes · Nantes · Le Mans</div></div></div>
+          <div class="perk"><span class="pico">🔒</span><div><div class="pt">Expédition assurée</div><div class="ps">Perte & dommages couverts</div></div></div>
+          <div class="perk"><span class="pico">📋</span><div><div class="pt">Dédouanement inclus</div><div class="ps">Formalités gérées pour vous</div></div></div>
+        </div>
+
+        <div class="fr2">
+          <div class="fg"><label class="fl">Prénom</label><input class="fi" placeholder="Mamadou" /></div>
+          <div class="fg"><label class="fl">Nom</label><input class="fi" placeholder="Diallo" /></div>
+        </div>
+        <div class="fg"><label class="fl">Email</label><input class="fi" type="email" placeholder="mamadou@email.com" /></div>
+        <div class="fg"><label class="fl">Téléphone</label><input class="fi" type="tel" placeholder="+33 6 00 00 00 00" /></div>
+
+        <div class="fg">
+          <label class="fl">Ville de départ</label>
+          <select class="fs">
+            <option>Paris / Île-de-France</option>
+            <option>Rennes</option>
+            <option>Nantes</option>
+            <option>Le Mans</option>
+          </select>
+        </div>
+
+        <div class="fr2">
+          <div class="fg"><label class="fl">Poids (kg)</label><input class="fi" type="number" placeholder="10" min="1" /></div>
+          <div class="fg"><label class="fl">Transport</label><select class="fs"><option>Aérien 3–7j</option><option>Maritime 15–21j</option><option>Meilleur prix</option></select></div>
+        </div>
+
+        <div class="fg"><label class="fl">Type d'envoi</label><select class="fs"><option>Colis personnel</option><option>Fret commercial</option><option>Valeurs déclarées</option><option>Documents officiels</option></select></div>
+        <div class="fg"><label class="fl">Description du contenu</label><textarea class="ft" placeholder="Vêtements, cadeaux, électronique..."></textarea></div>
+        <button class="fsub" onclick="submitDevis()">Envoyer ma demande →</button>
+        <div style="height:8px"></div>
+      </div>
+    </div>
+
+    <!-- DESTINATIONS -->
+    <div class="screen" id="sc-dest">
+      <div class="scrhdr"><div class="scrt">Nos routes</div><div class="scrs">Paris · Rennes · Nantes · Le Mans → Dakar</div></div>
+      <div class="dest-panel-wrap">
+
+        <div class="featured-badge">⭐ Route principale</div>
+
+        <div class="route-card featured">
+          <div class="rc-header">
+            <div class="rc-from"><span class="rc-flag">🇫🇷</span><span class="rc-city">Paris</span></div>
+            <div class="rc-to"><div class="rc-arr"></div><span class="rc-dest-name">Dakar</span><span style="font-size:16px">🇸🇳</span></div>
+          </div>
+          <div class="rc-body">
+            <div class="rc-modes"><span class="rc-mode mode-air">✈️ 3–7j</span><span class="rc-mode mode-sea">🚢 15–21j</span></div>
+            <div class="rc-freq"><strong>3× / semaine</strong>départs réguliers</div>
+          </div>
+        </div>
+
+        <div class="route-card">
+          <div class="rc-header">
+            <div class="rc-from"><span class="rc-flag">🇫🇷</span><span class="rc-city">Rennes</span></div>
+            <div class="rc-to"><div class="rc-arr"></div><span class="rc-dest-name">Dakar</span><span style="font-size:16px">🇸🇳</span></div>
+          </div>
+          <div class="rc-body">
+            <div class="rc-modes"><span class="rc-mode mode-air">✈️ 3–7j</span><span class="rc-mode mode-sea">🚢 15–21j</span></div>
+            <div class="rc-freq"><strong>2× / semaine</strong>collecte à domicile</div>
+          </div>
+        </div>
+
+        <div class="route-card">
+          <div class="rc-header">
+            <div class="rc-from"><span class="rc-flag">🇫🇷</span><span class="rc-city">Nantes</span></div>
+            <div class="rc-to"><div class="rc-arr"></div><span class="rc-dest-name">Dakar</span><span style="font-size:16px">🇸🇳</span></div>
+          </div>
+          <div class="rc-body">
+            <div class="rc-modes"><span class="rc-mode mode-air">✈️ 3–7j</span><span class="rc-mode mode-sea">🚢 15–21j</span></div>
+            <div class="rc-freq"><strong>2× / semaine</strong>collecte à domicile</div>
+          </div>
+        </div>
+
+        <div class="route-card">
+          <div class="rc-header">
+            <div class="rc-from"><span class="rc-flag">🇫🇷</span><span class="rc-city">Le Mans</span></div>
+            <div class="rc-to"><div class="rc-arr"></div><span class="rc-dest-name">Dakar</span><span style="font-size:16px">🇸🇳</span></div>
+          </div>
+          <div class="rc-body">
+            <div class="rc-modes"><span class="rc-mode mode-air">✈️ 3–7j</span><span class="rc-mode mode-sea">🚢 15–21j</span></div>
+            <div class="rc-freq"><strong>1× / semaine</strong>collecte à domicile</div>
+          </div>
+        </div>
+
+        <div class="info-box">
+          <div class="ib-title">Infos pratiques</div>
+          <div class="ib-row"><span class="ib-left">📦 Collecte à domicile</span><span class="ib-right">+15€ / colis</span></div>
+          <div class="ib-row"><span class="ib-left">✈️ Aérien express</span><span class="ib-right">dès 12€ / kg</span></div>
+          <div class="ib-row"><span class="ib-left">🚢 Maritime éco</span><span class="ib-right">dès 3€ / kg</span></div>
+          <div class="ib-row"><span class="ib-left">🔒 Dédouanement</span><span class="ib-right">Inclus</span></div>
+          <div class="ib-row"><span class="ib-left">📱 Suivi SMS</span><span class="ib-right">Inclus</span></div>
+        </div>
+
+        <div style="height:8px"></div>
+      </div>
+    </div>
+
+    <!-- SUIVI -->
+    <div class="screen" id="sc-track">
+      <div class="scrhdr"><div class="scrt">Suivi de colis</div><div class="scrs">Localisez votre envoi en temps réel</div></div>
+      <div class="tiw">
+        <div class="trow2">
+          <input class="tfield" id="tfield" placeholder="Ex: TA-2025-78432" />
+          <button class="tbtn" onclick="doTrack()">Chercher</button>
+        </div>
+      </div>
+      <div class="trescard" id="tcard">
+        <div class="trst">📍 En transit — arrivée dans 3 jours</div>
+        <div class="trloc">Las Palmas, Espagne</div>
+        <div class="trdet">Départ pour Dakar demain matin. Livraison estimée dans 3–4 jours.</div>
+      </div>
+      <div class="journey">
+        <div class="jtitle">Itinéraire du colis</div>
+        <div class="jsteps">
+          <div class="jstep"><div class="jd done"></div><div><div class="jlbl">Collecté à Paris</div><div class="jsub">Lun. 10 mars — 09:14</div></div></div>
+          <div class="jstep"><div class="jd done"></div><div><div class="jlbl">Entrepôt Île-de-France</div><div class="jsub">Lun. 10 mars — 18:30</div></div></div>
+          <div class="jstep"><div class="jd done"></div><div><div class="jlbl">Embarquement maritime</div><div class="jsub">Mar. 11 mars — 06:00</div></div></div>
+          <div class="jstep"><div class="jd cur"></div><div><div class="jlbl">Las Palmas, Espagne</div><div class="jsub">En escale · Départ demain</div></div></div>
+          <div class="jstep"><div class="jd pend"></div><div><div class="jlbl dim">Port de Dakar</div><div class="jsub">Estimé : Jeu. 20 mars</div></div></div>
+          <div class="jstep"><div class="jd pend"></div><div><div class="jlbl dim">Livraison à domicile · Dakar</div><div class="jsub">Estimé : Ven. 21 mars</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROFIL -->
+    <div class="screen" id="sc-profil">
+      <div class="phero">
+        <div class="pav">MD</div>
+        <div class="pname">Mamadou Diallo</div>
+        <div class="pemail">mamadou@email.com · Paris</div>
+      </div>
+      <div class="pstats">
+        <div class="psc"><div class="psn">12</div><div class="psl">Envoyés</div></div>
+        <div class="psc"><div class="psn">4</div><div class="psl">En cours</div></div>
+        <div class="psc"><div class="psn">8</div><div class="psl">Livrés</div></div>
+      </div>
+      <div class="msec">
+        <div class="mst">Mon compte</div>
+        <div class="mlist">
+          <div class="mitem"><div class="mil"><div class="mico">📦</div><div class="mn">Mes colis</div></div><div class="mch">›</div></div>
+          <div class="mitem"><div class="mil"><div class="mico">📍</div><div class="mn">Mes adresses</div></div><div class="mch">›</div></div>
+          <div class="mitem"><div class="mil"><div class="mico">💳</div><div class="mn">Paiements</div></div><div class="mch">›</div></div>
+          <div class="mitem"><div class="mil"><div class="mico">🔔</div><div class="mn">Notifications</div></div><div class="mch">›</div></div>
+        </div>
+      </div>
+      <div class="msec">
+        <div class="mst">Support</div>
+        <div class="mlist">
+          <div class="mitem"><div class="mil"><div class="mico">📞</div><div class="mn">Contact & Support</div></div><div class="mch">›</div></div>
+          <div class="mitem"><div class="mil"><div class="mico">❓</div><div class="mn">FAQ</div></div><div class="mch">›</div></div>
+          <div class="mitem"><div class="mil"><div class="mico">📄</div><div class="mn">CGV</div></div><div class="mch">›</div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="bnav">
+    <button class="nb on" id="nb-home" onclick="go('home')">
+      <div class="niw"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+      <span class="nlbl">Accueil</span>
+    </button>
+    <button class="nb" id="nb-devis" onclick="go('devis')">
+      <div class="niw"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></div>
+      <span class="nlbl">Devis</span>
+    </button>
+    <button class="nb" id="nb-dest" onclick="go('dest')">
+      <div class="niw"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div>
+      <span class="nlbl">Routes</span>
+    </button>
+    <button class="nb nbbadge" id="nb-track" onclick="go('track')">
+      <div class="niw"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+      <span class="nlbl">Suivi</span>
+    </button>
+    <button class="nb" id="nb-profil" onclick="go('profil')">
+      <div class="niw"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+      <span class="nlbl">Profil</span>
+    </button>
+  </div>
+
+  <div class="toast" id="toast">✅ Demande envoyée — Réponse sous 24h !</div>
+</div>
+</div>
+
+<script>
+const all=['home','devis','dest','track','profil'];
+function go(id){
+  all.forEach(s=>{
+    document.getElementById('sc-'+s).classList.remove('active');
+    const b=document.getElementById('nb-'+s);
+    if(b)b.classList.remove('on');
+  });
+  document.getElementById('sc-'+id).classList.add('active');
+  const b=document.getElementById('nb-'+id);
+  if(b)b.classList.add('on');
+}
+function doTrack(){
+  if(document.getElementById('tfield').value.trim())
+    document.getElementById('tcard').classList.add('show');
+}
+function submitDevis(){
+  const t=document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+</script>
