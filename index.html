@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TransAtlantique — Toute la France ↔ Tout le Sénégal</title>
+<title>SADA Transport Logistique — Paris · Rennes · Nantes · Le Mans → Dakar</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -285,6 +285,23 @@ footer { background: #050B14; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
   .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
 }
 </style>
+
+  <!-- PWA installable comme app -->
+  <link rel="manifest" href="data:application/json,{
+    &quot;name&quot;: &quot;SADA Transport Logistique&quot;,
+    &quot;short_name&quot;: &quot;SADA Transport&quot;,
+    &quot;start_url&quot;: &quot;.&quot;,
+    &quot;display&quot;: &quot;standalone&quot;,
+    &quot;background_color&quot;: &quot;#0A1628&quot;,
+    &quot;theme_color&quot;: &quot;#0A1628&quot;,
+    &quot;description&quot;: &quot;Transport colis France-Sénégal&quot;,
+    &quot;icons&quot;: [{&quot;src&quot;: &quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230A1628'/%3E%3Ctext y='75' x='10' font-size='70'%3E%F0%9F%9A%A2%3C/text%3E%3C/svg%3E&quot;, &quot;sizes&quot;: &quot;192x192&quot;, &quot;type&quot;: &quot;image/svg+xml&quot;}]
+  }">
+  <meta name="theme-color" content="#0A1628">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="SADA Transport">
+  <meta name="mobile-web-app-capable" content="yes">
 </head>
 <body>
 
@@ -293,7 +310,7 @@ footer { background: #050B14; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
   <div class="modal">
     <button class="modal-close" onclick="closeModal()">✕</button>
     <h3>Suivre mon colis</h3>
-    <p>Entrez votre numéro de suivi TransAtlantique pour localiser votre envoi en temps réel.</p>
+    <p>Entrez votre numéro de suivi SADA Transport pour localiser votre envoi en temps réel.</p>
     <div class="form-group">
       <label class="form-label">Numéro de suivi</label>
       <input class="form-input" id="trackInput" placeholder="Ex: TA-2025-78432" />
@@ -310,7 +327,7 @@ footer { background: #050B14; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
 
 <!-- NAV -->
 <nav id="mainNav">
-  <div class="logo">Trans<span>Atlantique</span></div>
+  <div class="logo">SADA <span>Transport</span></div>
   <ul class="nav-links">
     <li><a href="#destinations">Destinations</a></li>
     <li><a href="#services">Services</a></li>
@@ -537,7 +554,7 @@ footer { background: #050B14; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
       <form id="devisForm" action="https://formspree.io/f/mojkngdn" method="POST">
 
         <!-- Champ caché pour le sujet de l'email -->
-        <input type="hidden" name="_subject" value="🚀 Nouveau devis TransAtlantique !" />
+        <input type="hidden" name="_subject" value="🚀 Nouveau devis SADA Transport Logistique !" />
         <input type="hidden" name="_language" value="fr" />
 
         <div class="form-row">
@@ -633,7 +650,7 @@ footer { background: #050B14; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
     <div class="testi-card"><div class="testi-stars">★★★★★</div><div class="testi-text">"Colis reçu en parfait état en 5 jours par voie aérienne. Le suivi SMS est très pratique, j'ai pu informer ma famille au Sénégal en temps réel."</div><div class="testi-author">Fatou N.</div><div class="testi-loc">Paris 18ème <span class="testi-arrow">→</span> Médina, Dakar</div></div>
     <div class="testi-card"><div class="testi-stars">★★★★★</div><div class="testi-text">"Service irréprochable depuis Lyon. L'équipe a géré toutes les formalités douanières sans aucun problème. Je recommande vivement !"</div><div class="testi-author">Ibrahima S.</div><div class="testi-loc">Lyon <span class="testi-arrow">→</span> Plateau, Dakar</div></div>
     <div class="testi-card"><div class="testi-stars">★★★★☆</div><div class="testi-text">"Très bon rapport qualité-prix pour la voie maritime. Ma famille a reçu tous les colis intacts depuis Bordeaux jusqu'à Saint-Louis."</div><div class="testi-author">Aminata D.</div><div class="testi-loc">Bordeaux <span class="testi-arrow">→</span> Saint-Louis</div></div>
-    <div class="testi-card"><div class="testi-stars">★★★★★</div><div class="testi-text">"J'envoie des colis de Nantes vers Ziguinchor depuis 3 ans. TransAtlantique est la seule société qui livre vraiment en Casamance."</div><div class="testi-author">Ousmane B.</div><div class="testi-loc">Nantes <span class="testi-arrow">→</span> Ziguinchor</div></div>
+    <div class="testi-card"><div class="testi-stars">★★★★★</div><div class="testi-text">"J'envoie des colis de Nantes vers Ziguinchor depuis 3 ans. SADA Transport est la seule société qui livre vraiment en Casamance."</div><div class="testi-author">Ousmane B.</div><div class="testi-loc">Nantes <span class="testi-arrow">→</span> Ziguinchor</div></div>
     <div class="testi-card"><div class="testi-stars">★★★★★</div><div class="testi-text">"La collecte à domicile à Marseille est un vrai plus. Je n'ai pas à me déplacer. Mon colis arrive à Kaolack en 18 jours."</div><div class="testi-author">Mariama K.</div><div class="testi-loc">Marseille <span class="testi-arrow">→</span> Kaolack</div></div>
     <div class="testi-card"><div class="testi-stars">★★★★★</div><div class="testi-text">"Téléphone et documents importants envoyés depuis Toulouse, assurés et livrés en main propre à Thiès. Sérieux et transparent."</div><div class="testi-author">Seydou F.</div><div class="testi-loc">Toulouse <span class="testi-arrow">→</span> Thiès</div></div>
   </div>
@@ -650,8 +667,8 @@ footer { background: #050B14; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
 <footer id="contact">
   <div class="footer-grid">
     <div class="footer-brand">
-      <div class="logo" style="margin-bottom:1rem">Trans<span>Atlantique</span></div>
-      <p>Spécialiste du transport de colis entre toute la France et tout le Sénégal depuis 2009. Fiabilité, sécurité, proximité.</p>
+      <div class="logo" style="margin-bottom:1rem">SADA <span>Transport</span></div>
+      <p>Spécialiste du transport de colis entre Paris, Rennes, Nantes, Le Mans et Dakar depuis 2009. Fiabilité, sécurité, proximité.</p>
       <div class="footer-socials">
         <a class="social-btn" href="#">📘</a>
         <a class="social-btn" href="#">📸</a>
@@ -692,7 +709,7 @@ footer { background: #050B14; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
       <h4>Contact</h4>
       <ul>
         <li><a href="tel:+33100000000">📞 +33 1 00 00 00 00</a></li>
-        <li><a href="/cdn-cgi/l/email-protection#4a2925243e2b293e0a3e382b24392b3e262b243e233b3f2f642c38">✉️ <span class="__cf_email__" data-cfemail="beddd1d0cadfddcafecaccdfd0cddfcad2dfd0cad7cfcbdb90d8cc">[email&#160;protected]</span></a></li>
+        <li><a href="mailto:contact@sada-transport.fr">✉️ contact@sada-transport.fr</a></li>
         <li><a href="#">📍 Paris, France</a></li>
         <li><a href="#">📍 Dakar, Sénégal</a></li>
         <li><a href="#">⏰ Lun–Sam 8h–20h</a></li>
@@ -700,7 +717,7 @@ footer { background: #050B14; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
     </div>
   </div>
   <div class="footer-bottom">
-    <p>© 2025 TransAtlantique — Tous droits réservés</p>
+    <p>© 2025 SADA Transport Logistique — Tous droits réservés</p>
     <div style="display:flex;gap:1.5rem">
       <a href="#">Mentions légales</a>
       <a href="#">Confidentialité</a>
@@ -709,7 +726,7 @@ footer { background: #050B14; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 // Sticky nav
 const nav = document.getElementById('mainNav');
 window.addEventListener('scroll', () => nav.classList.toggle('stuck', window.scrollY > 60));
@@ -785,4 +802,14 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 // Stat counter animation
 const statNums = document.querySelectorAll('.stat-num');
 const statObs = new IntersectionObserver((entries) => {
-  entries.fo
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.animation = 'countUp .6s ease both';
+      statObs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.5 });
+statNums.forEach(el => statObs.observe(el));
+</script>
+</body>
+</html>
