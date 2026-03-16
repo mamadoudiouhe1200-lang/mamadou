@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SADA Transport Logistique — Paris · Rennes · Nantes · Le Mans → Dakar</title>
+<title>SADA TRANSPORT LOGISTIQUE — Nantes · Rennes · Le Mans · Paris → Dakar</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -45,8 +45,8 @@ nav {
   border-bottom: 1px solid transparent;
 }
 nav.stuck { background: rgba(10,22,40,.95); backdrop-filter: blur(18px); padding: 1rem 4rem; border-color: rgba(212,168,67,.18); }
-.logo { font-family: 'Playfair Display', serif; font-size: 1.55rem; font-weight: 900; letter-spacing: -.02em; color: var(--cream); }
-.logo span { color: var(--gold); font-style: italic; }
+.logo { font-family: 'Syne', sans-serif; font-size: 1.45rem; font-weight: 800; letter-spacing: .05em; color: #22c55e; text-transform: uppercase; }
+.logo span { color: #4ade80; }
 .nav-links { display: flex; gap: 2.2rem; list-style: none; }
 .nav-links a { font-family: 'Syne', sans-serif; font-size: .78rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: rgba(250,245,236,.65); text-decoration: none; transition: color .3s; position: relative; }
 .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; right: 0; height: 1px; background: var(--gold); transform: scaleX(0); transform-origin: left; transition: transform .3s; }
@@ -300,7 +300,7 @@ footer { background: #050B14; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
   <meta name="theme-color" content="#0A1628">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="SADA Transport">
+  <meta name="apple-mobile-web-app-title" content="SADA TRANSPORT">
   <meta name="mobile-web-app-capable" content="yes">
 </head>
 <body>
@@ -327,7 +327,7 @@ footer { background: #050B14; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
 
 <!-- NAV -->
 <nav id="mainNav">
-  <div class="logo">SADA <span>Transport</span></div>
+  <div class="logo">SADA <span>TRANSPORT</span> LOGISTIQUE</div>
   <ul class="nav-links">
     <li><a href="#destinations">Destinations</a></li>
     <li><a href="#services">Services</a></li>
@@ -354,14 +354,13 @@ footer { background: #050B14; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
     <div class="hero-left">
       <div class="hero-badge"><span class="badge-dot"></span> Service actif — Départs chaque semaine</div>
       <h1 class="hero-title">
-        <span class="line1">Toute la France</span>
-        <span class="line2">vers tout le</span>
-        <div class="route-line">Sénégal <div class="arrow-line"></div></div>
+        <span class="line1">Nantes · Rennes</span>
+        <span class="line2">Le Mans · Paris</span>
+        <div class="route-line">vers Dakar 🇸🇳 <div class="arrow-line"></div></div>
       </h1>
       <p class="hero-sub">
-        De <strong>Paris, Lyon, Marseille, Bordeaux, Nantes, Rennes</strong> et partout en France —
-        vers <strong>Dakar, Thiès, Saint-Louis, Ziguinchor, Kaolack</strong> et toutes les régions du Sénégal.
-        Collecte à domicile, dédouanement inclus, suivi SMS.
+        De <strong>Nantes, Rennes, Le Mans et Paris</strong> directement vers <strong>Dakar</strong>.
+        Collecte à domicile, dédouanement inclus, suivi SMS en temps réel.
       </p>
       <div class="hero-actions">
         <a href="#devis" class="btn-primary">Demander un devis gratuit</a>
@@ -374,11 +373,11 @@ footer { background: #050B14; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
         <div class="live-head"><div class="live-dot"></div><div class="live-title">Envois en cours</div></div>
         <div class="live-items">
           <div class="live-item"><div class="live-flag">🇫🇷</div><div class="live-info"><div class="live-route">Paris → Dakar</div><div class="live-loc">Las Palmas, Espagne</div></div><span class="live-badge badge-transit">Transit</span></div>
-          <div class="live-item"><div class="live-flag">🇸🇳</div><div class="live-info"><div class="live-route">Lyon → Saint-Louis</div><div class="live-loc">Port de Dakar</div></div><span class="live-badge badge-arrived">Arrivé ✓</span></div>
-          <div class="live-item"><div class="live-flag">🇫🇷</div><div class="live-info"><div class="live-route">Marseille → Thiès</div><div class="live-loc">Départ ce soir</div></div><span class="live-badge badge-depart">Départ</span></div>
-          <div class="live-item"><div class="live-flag">🇸🇳</div><div class="live-info"><div class="live-route">Dakar → Bordeaux</div><div class="live-loc">En préparation</div></div><span class="live-badge badge-depart">Départ</span></div>
-          <div class="live-item"><div class="live-flag">🇫🇷</div><div class="live-info"><div class="live-route">Nantes → Ziguinchor</div><div class="live-loc">Livré aujourd'hui</div></div><span class="live-badge badge-arrived">Livré ✓</span></div>
-          <div class="live-item"><div class="live-flag">🇫🇷</div><div class="live-info"><div class="live-route">Rennes → Kaolack</div><div class="live-loc">En transit maritime</div></div><span class="live-badge badge-transit">Transit</span></div>
+          <div class="live-item"><div class="live-flag">🇫🇷</div><div class="live-info"><div class="live-route">Nantes → Dakar</div><div class="live-loc">Port de Dakar · Arrivé</div></div><span class="live-badge badge-arrived">Livré ✓</span></div>
+          <div class="live-item"><div class="live-flag">🇫🇷</div><div class="live-info"><div class="live-route">Rennes → Dakar</div><div class="live-loc">Départ ce soir</div></div><span class="live-badge badge-depart">Départ</span></div>
+          <div class="live-item"><div class="live-flag">🇫🇷</div><div class="live-info"><div class="live-route">Le Mans → Dakar</div><div class="live-loc">En transit maritime</div></div><span class="live-badge badge-transit">Transit</span></div>
+          <div class="live-item"><div class="live-flag">🇸🇳</div><div class="live-info"><div class="live-route">Dakar → Paris</div><div class="live-loc">En préparation</div></div><span class="live-badge badge-depart">Départ</span></div>
+          <div class="live-item"><div class="live-flag">🇫🇷</div><div class="live-info"><div class="live-route">Paris → Dakar</div><div class="live-loc">Livré aujourd'hui ✓</div></div><span class="live-badge badge-arrived">Livré ✓</span></div>
         </div>
       </div>
     </div>
@@ -402,20 +401,22 @@ footer { background: #050B14; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
 <!-- MARQUEE -->
 <div class="marquee-band">
   <div class="marquee-track">
-    <span class="m-item">🌟 Paris ↔ Dakar — 3×/semaine <span class="m-sep">·</span></span>
+    <span class="m-item">🌟 Paris → Dakar — 3×/semaine <span class="m-sep">·</span></span>
+    <span class="m-item">🏠 Nantes → Dakar — collecte domicile <span class="m-sep">·</span></span>
+    <span class="m-item">🏠 Rennes → Dakar — collecte domicile <span class="m-sep">·</span></span>
+    <span class="m-item">🏠 Le Mans → Dakar — collecte domicile <span class="m-sep">·</span></span>
     <span class="m-item">✈️ Express aérien 3–7 jours <span class="m-sep">·</span></span>
     <span class="m-item">🚢 Maritime économique 15–21 jours <span class="m-sep">·</span></span>
-    <span class="m-item">🏠 Collecte à domicile partout en France <span class="m-sep">·</span></span>
     <span class="m-item">🔒 Dédouanement inclus <span class="m-sep">·</span></span>
     <span class="m-item">📱 Suivi SMS en temps réel <span class="m-sep">·</span></span>
-    <span class="m-item">🇫🇷 Toute la France → 🇸🇳 Tout le Sénégal <span class="m-sep">·</span></span>
-    <span class="m-item">🌟 Paris ↔ Dakar — 3×/semaine <span class="m-sep">·</span></span>
+    <span class="m-item">🌟 Paris → Dakar — 3×/semaine <span class="m-sep">·</span></span>
+    <span class="m-item">🏠 Nantes → Dakar — collecte domicile <span class="m-sep">·</span></span>
+    <span class="m-item">🏠 Rennes → Dakar — collecte domicile <span class="m-sep">·</span></span>
+    <span class="m-item">🏠 Le Mans → Dakar — collecte domicile <span class="m-sep">·</span></span>
     <span class="m-item">✈️ Express aérien 3–7 jours <span class="m-sep">·</span></span>
     <span class="m-item">🚢 Maritime économique 15–21 jours <span class="m-sep">·</span></span>
-    <span class="m-item">🏠 Collecte à domicile partout en France <span class="m-sep">·</span></span>
     <span class="m-item">🔒 Dédouanement inclus <span class="m-sep">·</span></span>
     <span class="m-item">📱 Suivi SMS en temps réel <span class="m-sep">·</span></span>
-    <span class="m-item">🇫🇷 Toute la France → 🇸🇳 Tout le Sénégal <span class="m-sep">·</span></span>
   </div>
 </div>
 
@@ -423,8 +424,8 @@ footer { background: #050B14; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
 <section class="dest-section" id="destinations">
   <div class="reveal">
     <div class="section-label">Nos corridors</div>
-    <h2 class="section-title">Toute la France vers tout le Sénégal</h2>
-    <p class="section-sub">Nous collectons dans n'importe quelle ville française et livrons dans toutes les régions du Sénégal. <strong>Paris–Dakar</strong> est notre route phare avec <strong>3 départs par semaine</strong>.</p>
+    <h2 class="section-title">Nantes · Rennes · Le Mans · Paris vers Dakar</h2>
+    <p class="section-sub">Collecte à domicile depuis <strong>Nantes, Rennes, Le Mans et Paris</strong> directement vers <strong>Dakar</strong> et ses environs. Route principale avec <strong>3 départs par semaine</strong>.</p>
   </div>
 
   <div class="dest-panels reveal">
@@ -432,30 +433,12 @@ footer { background: #050B14; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
     <div class="dest-panel">
       <div class="panel-head"><div class="panel-flag">🇫🇷</div><div><div class="panel-name">France</div><div class="panel-country">Toutes les villes desservies</div></div></div>
       <div class="panel-body">
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet main"></div><div class="city-nm">Paris & Île-de-France</div></div><span class="city-tag tag-hub">Hub principal</span><span class="city-freq-label">3×/sem.</span></div>
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet main"></div><div class="city-nm">Lyon</div></div><span class="city-tag tag-freq">Fréquent</span><span class="city-freq-label">2×/sem.</span></div>
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet main"></div><div class="city-nm">Marseille</div></div><span class="city-tag tag-freq">Fréquent</span><span class="city-freq-label">2×/sem.</span></div>
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet main"></div><div class="city-nm">Bordeaux</div></div><span class="city-tag tag-freq">Fréquent</span><span class="city-freq-label">1×/sem.</span></div>
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet main"></div><div class="city-nm">Nantes</div></div><span class="city-tag tag-freq">Fréquent</span><span class="city-freq-label">1×/sem.</span></div>
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Toulouse</div></div><span class="city-freq-label">1×/sem.</span></div>
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Rennes</div></div><span class="city-freq-label">1×/sem.</span></div>
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Strasbourg</div></div><span class="city-freq-label">1×/sem.</span></div>
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Lille</div></div><span class="city-freq-label">1×/sem.</span></div>
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Nice</div></div><span class="city-freq-label">1×/sem.</span></div>
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Montpellier</div></div><span class="city-freq-label">1×/sem.</span></div>
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Grenoble</div></div><span class="city-freq-label">1×/sem.</span></div>
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Rouen</div></div><span class="city-freq-label">1×/sem.</span></div>
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Dijon</div></div><span class="city-freq-label">1×/sem.</span></div>
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Metz / Nancy</div></div><span class="city-freq-label">1×/sem.</span></div>
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Tours / Orléans</div></div><span class="city-freq-label">1×/sem.</span></div>
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Caen / Le Havre</div></div><span class="city-freq-label">1×/sem.</span></div>
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Clermont-Ferrand</div></div><span class="city-freq-label">1×/sem.</span></div>
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Brest / Rennes / Quimper</div></div><span class="city-freq-label">1×/sem.</span></div>
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Pau / Bayonne</div></div><span class="city-freq-label">1×/sem.</span></div>
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Angers / Le Mans</div></div><span class="city-freq-label">1×/sem.</span></div>
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Perpignan / Toulon</div></div><span class="city-freq-label">1×/sem.</span></div>
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Amiens / Reims</div></div><span class="city-freq-label">1×/sem.</span></div>
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Toutes autres villes</div></div><span class="city-tag tag-freq">Collecte</span><span class="city-freq-label">sur demande</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet main"></div><div class="city-nm">Paris & Île-de-France</div></div><span class="city-tag tag-hub">Hub</span><span class="city-freq-label">3×/sem.</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet main"></div><div class="city-nm">Nantes</div></div><span class="city-tag tag-freq">Fréquent</span><span class="city-freq-label">2×/sem.</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet main"></div><div class="city-nm">Rennes</div></div><span class="city-tag tag-freq">Fréquent</span><span class="city-freq-label">2×/sem.</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet main"></div><div class="city-nm">Le Mans</div></div><span class="city-tag tag-freq">Fréquent</span><span class="city-freq-label">1×/sem.</span></div>
+        <div class="city-row" style="background:rgba(34,197,94,.04);border-top:1px solid rgba(34,197,94,.1);margin-top:4px;padding-top:10px"><div class="city-row-left"><div class="city-bullet" style="background:rgba(250,245,236,.2)"></div><div class="city-nm" style="color:rgba(250,245,236,.5);font-size:.8rem">Collecte à domicile dans toutes ces villes</div></div></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet" style="background:rgba(250,245,236,.2)"></div><div class="city-nm" style="color:rgba(250,245,236,.5);font-size:.8rem">Dépôt possible dans nos agences partenaires</div></div></div>
       </div>
     </div>
 
@@ -496,7 +479,7 @@ footer { background: #050B14; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
   </div>
 
   <div class="freq-pills reveal">
-    <div class="freq-pill"><div class="freq-pill-icon">🌟</div><div><div class="freq-pill-text">Paris ↔ Dakar</div><div class="freq-pill-sub">3 départs par semaine</div></div></div>
+    <div class="freq-pill"><div class="freq-pill-icon">🌟</div><div><div class="freq-pill-text">Paris / Nantes / Rennes / Le Mans → Dakar</div><div class="freq-pill-sub">3 départs par semaine</div></div></div>
     <div class="freq-pill"><div class="freq-pill-icon">✈️</div><div><div class="freq-pill-text">Express aérien</div><div class="freq-pill-sub">3 à 7 jours ouvrés</div></div></div>
     <div class="freq-pill"><div class="freq-pill-icon">🚢</div><div><div class="freq-pill-text">Maritime économique</div><div class="freq-pill-sub">15 à 21 jours</div></div></div>
     <div class="freq-pill"><div class="freq-pill-icon">🏠</div><div><div class="freq-pill-text">Collecte à domicile</div><div class="freq-pill-sub">Partout en France</div></div></div>
@@ -581,10 +564,9 @@ footer { background: #050B14; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
             <select name="ville_depart" class="form-select" required>
               <option value="">Choisir une ville</option>
               <option>Paris / Île-de-France</option>
-              <option>Rennes</option>
               <option>Nantes</option>
+              <option>Rennes</option>
               <option>Le Mans</option>
-              <option>Autre ville française</option>
             </select>
           </div>
           <div class="form-group">
@@ -667,8 +649,8 @@ footer { background: #050B14; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
 <footer id="contact">
   <div class="footer-grid">
     <div class="footer-brand">
-      <div class="logo" style="margin-bottom:1rem">SADA <span>Transport</span></div>
-      <p>Spécialiste du transport de colis entre Paris, Rennes, Nantes, Le Mans et Dakar depuis 2009. Fiabilité, sécurité, proximité.</p>
+      <div class="logo" style="margin-bottom:1rem;font-size:1.2rem;">SADA <span>TRANSPORT</span> LOGISTIQUE</div>
+      <p>Spécialiste du transport de colis depuis Nantes, Rennes, Le Mans et Paris vers Dakar depuis 2009.</p>
       <div class="footer-socials">
         <a class="social-btn" href="#">📘</a>
         <a class="social-btn" href="#">📸</a>
@@ -689,10 +671,9 @@ footer { background: #050B14; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
       <h4>Destinations</h4>
       <ul>
         <li><a href="#">Paris → Dakar</a></li>
-        <li><a href="#">Lyon → Thiès</a></li>
-        <li><a href="#">Marseille → Saint-Louis</a></li>
-        <li><a href="#">Bordeaux → Ziguinchor</a></li>
-        <li><a href="#">Toutes les routes →</a></li>
+        <li><a href="#">Nantes → Dakar</a></li>
+        <li><a href="#">Rennes → Dakar</a></li>
+        <li><a href="#">Le Mans → Dakar</a></li>
       </ul>
     </div>
     <div class="footer-col">
@@ -709,7 +690,7 @@ footer { background: #050B14; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
       <h4>Contact</h4>
       <ul>
         <li><a href="tel:+33100000000">📞 +33 1 00 00 00 00</a></li>
-        <li><a href="mailto:contact@sada-transport.fr">✉️ contact@sada-transport.fr</a></li>
+        <li><a href="/cdn-cgi/l/email-protection#6a0905041e0b091e2a190b0e0b471e180b04191a05181e440c18">✉️ <span class="__cf_email__" data-cfemail="593a36372d383a2d192a383d38742d2b38372a29362b2d773f2b">[email&#160;protected]</span></a></li>
         <li><a href="#">📍 Paris, France</a></li>
         <li><a href="#">📍 Dakar, Sénégal</a></li>
         <li><a href="#">⏰ Lun–Sam 8h–20h</a></li>
@@ -717,7 +698,7 @@ footer { background: #050B14; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
     </div>
   </div>
   <div class="footer-bottom">
-    <p>© 2025 SADA Transport Logistique — Tous droits réservés</p>
+    <p>© 2025 SADA TRANSPORT LOGISTIQUE — Tous droits réservés</p>
     <div style="display:flex;gap:1.5rem">
       <a href="#">Mentions légales</a>
       <a href="#">Confidentialité</a>
@@ -726,7 +707,7 @@ footer { background: #050B14; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
   </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // Sticky nav
 const nav = document.getElementById('mainNav');
 window.addEventListener('scroll', () => nav.classList.toggle('stuck', window.scrollY > 60));
@@ -802,14 +783,4 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 // Stat counter animation
 const statNums = document.querySelectorAll('.stat-num');
 const statObs = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.style.animation = 'countUp .6s ease both';
-      statObs.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.5 });
-statNums.forEach(el => statObs.observe(el));
-</script>
-</body>
-</html>
+  entries.for
