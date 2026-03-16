@@ -336,23 +336,13 @@ footer { background: #050B14; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
 }
 </style>
 
-  <!-- PWA installable comme app -->
-  <link rel="manifest" href="data:application/json,{
-    &quot;name&quot;: &quot;SADA Transport Logistique&quot;,
-    &quot;short_name&quot;: &quot;SADA Transport&quot;,
-    &quot;start_url&quot;: &quot;.&quot;,
-    &quot;display&quot;: &quot;standalone&quot;,
-    &quot;background_color&quot;: &quot;#0A1628&quot;,
-    &quot;theme_color&quot;: &quot;#0A1628&quot;,
-    &quot;description&quot;: &quot;Transport colis France-Sénégal&quot;,
-    &quot;icons&quot;: [{&quot;src&quot;: &quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230A1628'/%3E%3Ctext y='75' x='10' font-size='70'%3E%F0%9F%9A%A2%3C/text%3E%3C/svg%3E&quot;, &quot;sizes&quot;: &quot;192x192&quot;, &quot;type&quot;: &quot;image/svg+xml&quot;}]
-  }">
+    <!-- PWA -->
   <meta name="theme-color" content="#0A1628">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="SADA TRANSPORT">
+  <meta name="apple-mobile-web-app-title" content="SADA TRANSPORT LOGISTIQUE">
   <meta name="mobile-web-app-capable" content="yes">
-</head>
+  </head>
 <body>
 
 <!-- MODAL SUIVI -->
@@ -479,8 +469,8 @@ footer { background: #050B14; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
 <section class="dest-section" id="destinations">
   <div class="reveal">
     <div class="section-label">Nos corridors</div>
-    <h2 class="section-title">Nantes · Rennes · Le Mans · Paris vers Dakar</h2>
-    <p class="section-sub">Collecte à domicile depuis <strong>Nantes, Rennes, Le Mans et Paris</strong> directement vers <strong>Dakar</strong> et ses environs. Route principale avec <strong>3 départs par semaine</strong>.</p>
+    <h2 class="section-title">Nantes · Rennes · Le Mans · Paris → Dakar</h2>
+    <p class="section-sub">Collecte à domicile depuis <strong>Nantes, Rennes, Le Mans et Paris</strong> directement vers <strong>Dakar</strong>. Livraison à domicile incluse, 3 départs par semaine.</p>
   </div>
 
   <div class="dest-panels reveal">
@@ -507,38 +497,24 @@ footer { background: #050B14; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
 
     <!-- SÉNÉGAL -->
     <div class="dest-panel">
-      <div class="panel-head"><div class="panel-flag">🇸🇳</div><div><div class="panel-name">Sénégal</div><div class="panel-country">Toutes les régions desservies</div></div></div>
+      <div class="panel-head"><div class="panel-flag">🇸🇳</div><div><div class="panel-name">Dakar</div><div class="panel-country">Destination unique</div></div></div>
       <div class="panel-body">
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet main"></div><div class="city-nm">Dakar</div></div><span class="city-tag tag-hub">Hub principal</span><span class="city-freq-label">3×/sem.</span></div>
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Pikine / Guédiawaye</div></div><span class="city-tag tag-freq">Fréquent</span><span class="city-freq-label">avec Dakar</span></div>
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Rufisque / Bargny</div></div><span class="city-freq-label">avec Dakar</span></div>
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet main"></div><div class="city-nm">Thiès</div></div><span class="city-tag tag-freq">Fréquent</span><span class="city-freq-label">2×/sem.</span></div>
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Mbour / Saly</div></div><span class="city-freq-label">2×/sem.</span></div>
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet main"></div><div class="city-nm">Saint-Louis</div></div><span class="city-tag tag-freq">Fréquent</span><span class="city-freq-label">2×/sem.</span></div>
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Richard-Toll / Podor</div></div><span class="city-freq-label">1×/sem.</span></div>
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet main"></div><div class="city-nm">Kaolack</div></div><span class="city-tag tag-freq">Fréquent</span><span class="city-freq-label">2×/sem.</span></div>
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Fatick / Gossas</div></div><span class="city-freq-label">1×/sem.</span></div>
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet main"></div><div class="city-nm">Ziguinchor</div></div><span class="city-tag tag-freq">Fréquent</span><span class="city-freq-label">2×/sem.</span></div>
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Bignona / Oussouye</div></div><span class="city-freq-label">1×/sem.</span></div>
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Diourbel / Mbacké</div></div><span class="city-freq-label">1×/sem.</span></div>
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Touba</div></div><span class="city-freq-label">1×/sem.</span></div>
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Tambacounda</div></div><span class="city-freq-label">1×/sem.</span></div>
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Kédougou</div></div><span class="city-freq-label">1×/sem.</span></div>
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Kolda / Vélingara</div></div><span class="city-freq-label">1×/sem.</span></div>
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Sédhiou</div></div><span class="city-freq-label">1×/sem.</span></div>
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Matam / Kanel</div></div><span class="city-freq-label">1×/sem.</span></div>
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Louga / Linguère</div></div><span class="city-freq-label">1×/sem.</span></div>
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet"></div><div class="city-nm">Toutes autres localités</div></div><span class="city-tag tag-freq">Livraison</span><span class="city-freq-label">sur demande</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet main"></div><div class="city-nm">Dakar — Centre ville</div></div><span class="city-tag tag-hub">Hub</span><span class="city-freq-label">3×/sem.</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet main"></div><div class="city-nm">Pikine / Guédiawaye</div></div><span class="city-tag tag-freq">Inclus</span><span class="city-freq-label">avec Dakar</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet main"></div><div class="city-nm">Rufisque / Bargny</div></div><span class="city-tag tag-freq">Inclus</span><span class="city-freq-label">avec Dakar</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet main"></div><div class="city-nm">Livraison à domicile</div></div><span class="city-tag tag-freq">Inclus</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet main"></div><div class="city-nm">Retrait en agence</div></div><span class="city-tag tag-freq">Disponible</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet main"></div><div class="city-nm">Notification SMS à l'arrivée</div></div><span class="city-tag tag-freq">Inclus</span></div>
       </div>
     </div>
   </div>
 
   <div class="freq-pills reveal">
-    <div class="freq-pill"><div class="freq-pill-icon">🌟</div><div><div class="freq-pill-text">Paris / Nantes / Rennes / Le Mans → Dakar</div><div class="freq-pill-sub">3 départs par semaine</div></div></div>
+    <div class="freq-pill"><div class="freq-pill-icon">🌟</div><div><div class="freq-pill-text">Paris · Nantes · Rennes · Le Mans → Dakar</div><div class="freq-pill-sub">3 départs par semaine</div></div></div>
     <div class="freq-pill"><div class="freq-pill-icon">✈️</div><div><div class="freq-pill-text">Express aérien</div><div class="freq-pill-sub">3 à 7 jours ouvrés</div></div></div>
     <div class="freq-pill"><div class="freq-pill-icon">🚢</div><div><div class="freq-pill-text">Maritime économique</div><div class="freq-pill-sub">15 à 21 jours</div></div></div>
     <div class="freq-pill"><div class="freq-pill-icon">🏠</div><div><div class="freq-pill-text">Collecte à domicile</div><div class="freq-pill-sub">Partout en France</div></div></div>
-    <div class="freq-pill"><div class="freq-pill-icon">📦</div><div><div class="freq-pill-text">Livraison domicile</div><div class="freq-pill-sub">Partout au Sénégal</div></div></div>
+    <div class="freq-pill"><div class="freq-pill-icon">📦</div><div><div class="freq-pill-text">Livraison domicile</div><div class="freq-pill-sub">Dakar & environs</div></div></div>
   </div>
 </section>
 
@@ -627,11 +603,7 @@ footer { background: #050B14; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
           <div class="form-group">
             <label class="form-label">Destination (Sénégal)</label>
             <select name="destination" class="form-select" required>
-              <option value="">Choisir une destination</option>
-              <option>Dakar</option><option>Pikine / Guédiawaye</option><option>Thiès / Mbour</option>
-              <option>Saint-Louis</option><option>Kaolack</option><option>Ziguinchor</option>
-              <option>Diourbel / Touba</option><option>Tambacounda</option><option>Kolda</option>
-              <option>Matam</option><option>Louga</option><option>Autre localité</option>
+              <option value="Dakar" selected>Dakar 🇸🇳</option>
             </select>
           </div>
         </div>
@@ -685,11 +657,11 @@ footer { background: #050B14; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
   </div>
   <div class="testimonials-grid reveal">
     <div class="testi-card"><div class="testi-stars">★★★★★</div><div class="testi-text">"Colis reçu en parfait état en 5 jours par voie aérienne. Le suivi SMS est très pratique, j'ai pu informer ma famille au Sénégal en temps réel."</div><div class="testi-author">Fatou N.</div><div class="testi-loc">Paris 18ème <span class="testi-arrow">→</span> Médina, Dakar</div></div>
-    <div class="testi-card"><div class="testi-stars">★★★★★</div><div class="testi-text">"Service irréprochable depuis Lyon. L'équipe a géré toutes les formalités douanières sans aucun problème. Je recommande vivement !"</div><div class="testi-author">Ibrahima S.</div><div class="testi-loc">Lyon <span class="testi-arrow">→</span> Plateau, Dakar</div></div>
-    <div class="testi-card"><div class="testi-stars">★★★★☆</div><div class="testi-text">"Très bon rapport qualité-prix pour la voie maritime. Ma famille a reçu tous les colis intacts depuis Bordeaux jusqu'à Saint-Louis."</div><div class="testi-author">Aminata D.</div><div class="testi-loc">Bordeaux <span class="testi-arrow">→</span> Saint-Louis</div></div>
-    <div class="testi-card"><div class="testi-stars">★★★★★</div><div class="testi-text">"J'envoie des colis de Nantes vers Ziguinchor depuis 3 ans. SADA Transport est la seule société qui livre vraiment en Casamance."</div><div class="testi-author">Ousmane B.</div><div class="testi-loc">Nantes <span class="testi-arrow">→</span> Ziguinchor</div></div>
-    <div class="testi-card"><div class="testi-stars">★★★★★</div><div class="testi-text">"La collecte à domicile à Marseille est un vrai plus. Je n'ai pas à me déplacer. Mon colis arrive à Kaolack en 18 jours."</div><div class="testi-author">Mariama K.</div><div class="testi-loc">Marseille <span class="testi-arrow">→</span> Kaolack</div></div>
-    <div class="testi-card"><div class="testi-stars">★★★★★</div><div class="testi-text">"Téléphone et documents importants envoyés depuis Toulouse, assurés et livrés en main propre à Thiès. Sérieux et transparent."</div><div class="testi-author">Seydou F.</div><div class="testi-loc">Toulouse <span class="testi-arrow">→</span> Thiès</div></div>
+    <div class="testi-card"><div class="testi-stars">★★★★★</div><div class="testi-text">"Service irréprochable depuis Nantes. L'équipe a géré toutes les formalités douanières sans aucun problème. Je recommande vivement !"</div><div class="testi-author">Ibrahima S.</div><div class="testi-loc">Nantes <span class="testi-arrow">→</span> Dakar</div></div>
+    <div class="testi-card"><div class="testi-stars">★★★★☆</div><div class="testi-text">"Très bon rapport qualité-prix pour la voie maritime. Ma famille a reçu tous les colis intacts depuis Rennes jusqu'à Dakar."</div><div class="testi-author">Aminata D.</div><div class="testi-loc">Rennes <span class="testi-arrow">→</span> Dakar</div></div>
+    <div class="testi-card"><div class="testi-stars">★★★★★</div><div class="testi-text">"J'envoie des colis du Mans vers Dakar depuis 3 ans. SADA Transport est fiable, ponctuel et professionnel. Je recommande !"</div><div class="testi-author">Ousmane B.</div><div class="testi-loc">Le Mans <span class="testi-arrow">→</span> Dakar</div></div>
+    <div class="testi-card"><div class="testi-stars">★★★★★</div><div class="testi-text">"La collecte à domicile à Paris est un vrai plus. Je n'ai pas à me déplacer. Mon colis arrive à Dakar en 5 jours par avion."</div><div class="testi-author">Mariama K.</div><div class="testi-loc">Paris <span class="testi-arrow">→</span> Dakar</div></div>
+    <div class="testi-card"><div class="testi-stars">★★★★★</div><div class="testi-text">"Téléphone et documents importants envoyés depuis Rennes, assurés et livrés en main propre à Dakar. Sérieux et transparent."</div><div class="testi-author">Seydou F.</div><div class="testi-loc">Nantes <span class="testi-arrow">→</span> Dakar</div></div>
   </div>
 </section>
 
@@ -765,7 +737,7 @@ footer { background: #050B14; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 // Sticky nav
 const nav = document.getElementById('mainNav');
 window.addEventListener('scroll', () => nav.classList.toggle('stuck', window.scrollY > 60));
@@ -840,5 +812,14 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 
 // Stat counter animation
 const statNums = document.querySelectorAll('.stat-num');
-const statObs = new IntersectionObserver((entries) => {
-  entries.for
+const statObs = new IntersectionObserver((entries) => {  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.animation = 'countUp .6s ease both';
+      statObs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.5 });
+statNums.forEach(el => statObs.observe(el));
+</script>
+</body>
+</html>
