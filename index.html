@@ -35,68 +35,23 @@ body { font-family: 'DM Sans', sans-serif; background: var(--deep-blue); color: 
 @keyframes floatDot { 0%,100%{ opacity:0; transform:translateY(0) scale(.5); } 50%{ opacity:.7; transform:translateY(-8px) scale(1); } }
 @keyframes popIn    { from{ opacity:0; transform:scale(.94); } to{ opacity:1; transform:none; } }
 @keyframes countUp  { from{ opacity:0; transform:translateY(12px); } to{ opacity:1; transform:none; } }
+@keyframes logoGlow { 0%,100%{ filter:drop-shadow(0 0 10px rgba(30,160,90,.35)); } 50%{ filter:drop-shadow(0 0 28px rgba(37,196,110,.6)); } }
+@keyframes logoIn   { from{ opacity:0; transform:translateY(-16px) scale(.97); } to{ opacity:1; transform:none; } }
 
 /* ══ NAV ══ */
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 300;
   display: flex; align-items: center; justify-content: space-between;
-  padding: 1.6rem 4rem;
+  padding: 1rem 4rem;
   transition: background .4s, padding .4s, border-color .4s;
   border-bottom: 1px solid transparent;
 }
-nav.stuck { background: rgba(4,15,9,.95); backdrop-filter: blur(18px); padding: 1rem 4rem; border-color: rgba(30,160,90,.25); }
-.logo { font-family: 'Syne', sans-serif; font-size: 1.45rem; font-weight: 800; letter-spacing: .05em; color: #1ea05a; text-transform: uppercase; }
-.logo-nav { display:flex; align-items:center; gap:.5rem; }
-.logo-ship { font-size:1.4rem; }
-.logo-short { font-family:'Syne',sans-serif; font-size:1.2rem; font-weight:800; color:#1ea05a; letter-spacing:.12em; }
-.brand-hero {
-  position:relative; z-index:2;
-  margin-bottom: 2.2rem;
-}
-.brand-hero-line1 {
-  font-family:'Syne',sans-serif;
-  font-size: clamp(2.2rem, 5vw, 3.8rem);
-  font-weight:800;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-  line-height:1;
-  background: linear-gradient(90deg, #1ea05a 0%, #25c46e 40%, #6ee9a0 70%, #1ea05a 100%);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: shimmer-green 3s linear infinite;
-}
-.brand-hero-line2 {
-  font-family:'Syne',sans-serif;
-  font-size: clamp(1.1rem, 2.2vw, 1.6rem);
-  font-weight:600;
-  letter-spacing:.22em;
-  text-transform:uppercase;
-  color: rgba(134,239,172,.65);
-  margin-top:.3rem;
-  display:flex; align-items:center; gap:.8rem;
-}
-.brand-divider {
-  height:2px;
-  width:50px;
-  background: linear-gradient(90deg, #1ea05a, transparent);
-  border-radius:2px;
-}
-.brand-hero-sub {
-  font-family:'DM Sans',sans-serif;
-  font-size:.72rem;
-  font-weight:500;
-  letter-spacing:.18em;
-  text-transform:uppercase;
-  color: rgba(34,197,94,.5);
-  margin-top:.5rem;
-}
-@keyframes shimmer-green {
-  0% { background-position: 0% center; }
-  100% { background-position: 200% center; }
-}
-.logo span { color: #25c46e; }
+nav.stuck { background: rgba(4,15,9,.96); backdrop-filter: blur(18px); padding: .85rem 4rem; border-color: rgba(30,160,90,.25); }
+
+.nav-logo { display:flex; align-items:center; }
+.nav-logo svg { transition: transform .3s, filter .3s; }
+.nav-logo:hover svg { transform: scale(1.05); filter: drop-shadow(0 0 12px rgba(37,196,110,.5)); }
+
 .nav-links { display: flex; gap: 2.2rem; list-style: none; }
 .nav-links a { font-family: 'Syne', sans-serif; font-size: .78rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: rgba(240,250,244,.75); text-decoration: none; transition: color .3s; position: relative; }
 .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; right: 0; height: 1px; background: #1ea05a; transform: scaleX(0); transform-origin: left; transition: transform .3s; }
@@ -105,11 +60,11 @@ nav.stuck { background: rgba(4,15,9,.95); backdrop-filter: blur(18px); padding: 
 .nav-right { display: flex; gap: .8rem; align-items: center; }
 .btn-ghost-nav { font-family: 'Syne', sans-serif; font-size: .78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; background: transparent; color: var(--cream); border: 1px solid rgba(250,245,236,.3); cursor: pointer; padding: .6rem 1.4rem; border-radius: 2px; transition: all .3s; }
 .btn-ghost-nav:hover { border-color: var(--gold); color: #25c46e; }
-.nav-cta { font-family: 'Syne', sans-serif; font-size: .78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; background: #1ea05a; color: white; border: none; cursor: pointer; padding: .7rem 1.6rem; border-radius: 2px; transition: background .3s, transform .2s, box-shadow .3s; }
+.nav-cta { font-family: 'Syne', sans-serif; font-size: .78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; background: #1ea05a; color: white; border: none; cursor: pointer; padding: .7rem 1.6rem; border-radius: 2px; transition: background .3s, transform .2s, box-shadow .3s; text-decoration: none; display: inline-block; }
 .nav-cta:hover { background: #157a42; transform: translateY(-1px); box-shadow: 0 8px 28px rgba(30,160,90,.4); }
 
 /* ══ HERO ══ */
-.hero { min-height: 100vh; position: relative; display: flex; flex-direction: column; overflow: hidden; padding-top: 5.5rem; }
+.hero { min-height: 100vh; position: relative; display: flex; flex-direction: column; overflow: hidden; padding-top: 5rem; }
 .hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 90% 70% at 75% 35%, rgba(13,92,48,.65) 0%, transparent 65%), radial-gradient(ellipse 55% 50% at 15% 80%, rgba(30,160,90,.2) 0%, transparent 55%), radial-gradient(ellipse 70% 40% at 50% -5%, rgba(74,222,128,.08) 0%, transparent 55%), var(--deep-blue); }
 .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(74,222,128,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(74,222,128,.06) 1px, transparent 1px); background-size: 64px 64px; }
 .map-dots { position: absolute; inset: 0; background-image: radial-gradient(circle, rgba(74,222,128,.15) 1px, transparent 1px); background-size: 32px 32px; animation: dotsshift 22s linear infinite; }
@@ -123,8 +78,53 @@ nav.stuck { background: rgba(4,15,9,.95); backdrop-filter: blur(18px); padding: 
 .waves { position: absolute; bottom: 0; left: 0; right: 0; height: 180px; overflow: hidden; }
 .waves svg { width: 200%; animation: wavemove 9s linear infinite; }
 
-.hero-body { flex: 1; display: flex; gap: 4rem; align-items: center; padding: 3rem 4rem 7rem; position: relative; z-index: 5; }
-.hero-left { flex: 1; max-width: 680px; animation: fadeUp 1s .2s ease both; }
+/* Hero body: colonne flex */
+.hero-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 4rem 7rem;
+  position: relative;
+  z-index: 5;
+}
+
+/* ── Logo hero : centré, grand, signature de page ── */
+.hero-logo-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.8rem 0 3rem;
+  animation: logoIn .9s .05s cubic-bezier(.22,1,.36,1) both;
+}
+.hero-logo-stage svg {
+  animation: logoGlow 5s ease-in-out infinite;
+}
+/* Ligne décorative sous le logo */
+.hero-logo-rule {
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+  margin-top: 1.2rem;
+}
+.hero-logo-rule-line {
+  width: 80px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(74,222,128,.45));
+}
+.hero-logo-rule-line.r { background: linear-gradient(270deg, transparent, rgba(74,222,128,.45)); }
+.hero-logo-rule-text {
+  font-family: 'Syne', sans-serif;
+  font-size: .65rem;
+  font-weight: 700;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: rgba(134,239,172,.5);
+  white-space: nowrap;
+}
+
+/* Colonnes texte + widget */
+.hero-cols { display: flex; gap: 4rem; align-items: center; }
+.hero-left { flex: 1; max-width: 680px; animation: fadeUp 1s .35s ease both; }
 .hero-badge { font-family: 'Syne', sans-serif; font-size: .7rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); border: 1px solid rgba(74,222,128,.35); border-radius: 100px; padding: .4rem 1rem .4rem .7rem; margin-bottom: 2rem; display: inline-flex; align-items: center; gap: .6rem; }
 .badge-dot { width: 7px; height: 7px; border-radius: 50%; background: #1ea05a; animation: blink 1.4s infinite; }
 .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3.4rem); font-weight: 900; line-height: 1.05; letter-spacing: -.02em; margin-bottom: 1.4rem; }
@@ -141,8 +141,7 @@ nav.stuck { background: rgba(4,15,9,.95); backdrop-filter: blur(18px); padding: 
 .btn-outline { font-family: 'Syne', sans-serif; font-size: .88rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; background: transparent; color: var(--cream); border: 1px solid rgba(250,245,236,.3); cursor: pointer; padding: 1.05rem 2.6rem; border-radius: 2px; transition: border-color .3s, color .3s; text-decoration: none; display: inline-block; }
 .btn-outline:hover { border-color: var(--gold); color: #25c46e; }
 
-/* live widget */
-.hero-right { width: 290px; flex-shrink: 0; animation: fadeUp 1s .45s ease both; }
+.hero-right { width: 290px; flex-shrink: 0; animation: fadeUp 1s .5s ease both; }
 .live-box { background: rgba(255,255,255,.04); border: 1px solid rgba(30,160,90,.3); border-radius: 8px; overflow: hidden; backdrop-filter: blur(12px); }
 .live-head { padding: 1rem 1.3rem; border-bottom: 1px solid rgba(30,160,90,.15); display: flex; align-items: center; gap: .6rem; }
 .live-dot { width: 8px; height: 8px; border-radius: 50%; background: #1ea05a; animation: blink .9s infinite; }
@@ -160,8 +159,7 @@ nav.stuck { background: rgba(4,15,9,.95); backdrop-filter: blur(18px); padding: 
 .badge-arrived { background: rgba(30,160,90,.25); color: #25c46e; }
 .badge-depart  { background: rgba(30,160,90,.15);  color: #86efac; }
 
-/* stats strip */
-.stats-strip { position: relative; z-index: 5; display: grid; grid-template-columns: repeat(4,1fr); border-top: 1px solid rgba(30,160,90,.25); animation: fadeUp 1s .6s ease both; }
+.stats-strip { position: relative; z-index: 5; display: grid; grid-template-columns: repeat(4,1fr); border-top: 1px solid rgba(30,160,90,.25); animation: fadeUp 1s .65s ease both; }
 .stat-item { padding: 1.8rem 4rem; border-right: 1px solid rgba(74,222,128,.08); }
 .stat-item:last-child { border-right: none; }
 .stat-num { font-family: 'Playfair Display', serif; font-size: 2.6rem; font-weight: 900; color: #1ea05a; line-height: 1; }
@@ -180,7 +178,6 @@ nav.stuck { background: rgba(4,15,9,.95); backdrop-filter: blur(18px); padding: 
 .section-label { font-family: 'Syne', sans-serif; font-size: .72rem; font-weight: 700; letter-spacing: .17em; text-transform: uppercase; color: #1ea05a; margin-bottom: .8rem; }
 .section-title { font-family: 'Playfair Display', serif; font-size: clamp(2.4rem,5vw,3.8rem); font-weight: 900; line-height: 1.08; margin-bottom: .8rem; }
 .section-sub { font-size: .95rem; color: var(--warm-gray); line-height: 1.7; max-width: 580px; margin-bottom: 3.5rem; }
-
 .dest-panels { display: grid; grid-template-columns: 1fr 80px 1fr; gap: 2rem; align-items: start; }
 .dest-panel { background: var(--deep-blue); color: var(--cream); border-radius: 6px; overflow: hidden; }
 .panel-head { padding: 2rem 2.2rem; border-bottom: 1px solid rgba(30,160,90,.2); display: flex; align-items: center; gap: 1rem; background: linear-gradient(135deg, rgba(13,92,48,.8) 0%, transparent 100%); }
@@ -193,7 +190,7 @@ nav.stuck { background: rgba(4,15,9,.95); backdrop-filter: blur(18px); padding: 
 .city-row { display: flex; align-items: center; justify-content: space-between; padding: .6rem 2.2rem; transition: background .2s; cursor: default; }
 .city-row:hover { background: rgba(74,222,128,.07); }
 .city-row-left { display: flex; align-items: center; gap: .8rem; }
-.city-bullet { width: 6px; height: 6px; border-radius: 50%; background: var(--sada-green); flex-shrink: 0; }
+.city-bullet { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
 .city-bullet.main { background: #25c46e; box-shadow: 0 0 8px rgba(74,222,128,.6); }
 .city-nm { font-size: .85rem; font-weight: 500; }
 .city-tag { font-family: 'Syne', sans-serif; font-size: .58rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: .18rem .55rem; border-radius: 100px; }
@@ -233,7 +230,7 @@ nav.stuck { background: rgba(4,15,9,.95); backdrop-filter: blur(18px); padding: 
 /* ══ PROCESS ══ */
 .process-section { background: #0d5c30; padding: 8rem 4rem; }
 .process-steps { display: grid; grid-template-columns: repeat(4,1fr); gap: 0; margin-top: 5rem; position: relative; }
-.process-steps::before { content: ''; position: absolute; top: 2.2rem; left: 10%; right: 10%; height: 1px; background: linear-gradient(90deg, var(--sada-green), var(--gold), rgba(74,222,128,.4), var(--sada-green)); z-index: 0; }
+.process-steps::before { content: ''; position: absolute; top: 2.2rem; left: 10%; right: 10%; height: 1px; background: linear-gradient(90deg, #1ea05a, #25c46e, rgba(74,222,128,.4), #1ea05a); z-index: 0; }
 .step { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 0 1.5rem; }
 .step-num { width: 4.4rem; height: 4.4rem; border-radius: 50%; background: var(--ocean); border: 2px solid #25c46e; display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 900; color: var(--gold); margin-bottom: 1.8rem; box-shadow: 0 0 0 6px rgba(30,160,90,.1); }
 .step-title { font-family: 'Syne', sans-serif; font-size: .95rem; font-weight: 700; margin-bottom: .6rem; }
@@ -245,7 +242,7 @@ nav.stuck { background: rgba(4,15,9,.95); backdrop-filter: blur(18px); padding: 
 .form-group { margin-bottom: 1.4rem; }
 .form-label { font-family: 'Syne', sans-serif; font-size: .7rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; color: #2d6a4a; display: block; margin-bottom: .5rem; }
 .form-input, .form-select, .form-textarea { width: 100%; background: white; border: 1.5px solid rgba(13,92,48,.2); border-radius: 3px; padding: .9rem 1.15rem; font-family: 'DM Sans', sans-serif; font-size: .93rem; color: #0d5c30; transition: border-color .3s, box-shadow .3s; outline: none; appearance: none; }
-.form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--sada-green); box-shadow: 0 0 0 3px rgba(30,160,90,.15); }
+.form-input:focus, .form-select:focus, .form-textarea:focus { border-color: #1ea05a; box-shadow: 0 0 0 3px rgba(30,160,90,.15); }
 .form-textarea { resize: vertical; min-height: 110px; }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 .form-submit { width: 100%; font-family: 'Syne', sans-serif; font-size: .9rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; background: #1ea05a; color: white; border: none; cursor: pointer; padding: 1.1rem; border-radius: 3px; margin-top: .5rem; transition: background .3s, transform .2s, box-shadow .3s; }
@@ -283,8 +280,7 @@ nav.stuck { background: rgba(4,15,9,.95); backdrop-filter: blur(18px); padding: 
 /* ══ FOOTER ══ */
 footer { background: #040f09; padding: 5rem 4rem 2.5rem; border-top: 1px solid rgba(30,160,90,.15); }
 .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 4rem; }
-.footer-brand .logo { margin-bottom: 1.2rem; }
-.footer-brand p { font-size: .85rem; line-height: 1.75; color: rgba(240,250,244,.5); max-width: 270px; margin-bottom: 1.5rem; }
+.footer-brand p { font-size: .85rem; line-height: 1.75; color: rgba(240,250,244,.5); max-width: 270px; margin-bottom: 1.5rem; margin-top: 1rem; }
 .footer-socials { display: flex; gap: .55rem; }
 .social-btn { width: 34px; height: 34px; border-radius: 4px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); display: flex; align-items: center; justify-content: center; font-size: .9rem; transition: all .3s; cursor: pointer; text-decoration: none; }
 .social-btn:hover { background: #1ea05a; border-color: #1ea05a; }
@@ -321,7 +317,7 @@ footer { background: #040f09; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
   nav, .hero-body, .dest-section, .services-section, .process-section, .devis-section, .testimonials-section, .cta-band, footer { padding-left: 2rem; padding-right: 2rem; }
   nav.stuck { padding-left: 2rem; padding-right: 2rem; }
   .nav-links { display: none; }
-  .hero-body { flex-direction: column; padding-top: 2rem; padding-bottom: 5rem; }
+  .hero-cols { flex-direction: column; }
   .hero-right { width: 100%; }
   .stats-strip { grid-template-columns: repeat(2,1fr); }
   .stat-item { padding: 1.4rem 2rem; }
@@ -333,26 +329,30 @@ footer { background: #040f09; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
   .devis-wrap { grid-template-columns: 1fr; gap: 3rem; }
   .testimonials-grid { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .hero-logo-stage svg { width: 240px; height: auto; }
 }
 </style>
-
-    <!-- PWA -->
-  <meta name="theme-color" content="#081f11">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="SADA TRANSPORT LOGISTIQUE">
-  <meta name="mobile-web-app-capable" content="yes">
-  </head>
+</head>
 <body>
+
+<!-- Gradient defs partagé -->
+<svg width="0" height="0" style="position:absolute;pointer-events:none">
+  <defs>
+    <linearGradient id="logoGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1ea05a"/>
+      <stop offset="100%" stop-color="#0d7a42"/>
+    </linearGradient>
+  </defs>
+</svg>
 
 <!-- MODAL SUIVI -->
 <div class="modal-overlay" id="trackModal">
   <div class="modal">
     <button class="modal-close" onclick="closeModal()">✕</button>
     <h3>Suivre mon colis</h3>
-    <p>Entrez votre numéro de suivi SADA Transport pour localiser votre envoi en temps réel.
-    <p style="margin-top:.8rem;font-size:.82rem;color:rgba(250,245,236,.5)">📞 +33 7 75 78 75 61 &nbsp;|&nbsp; ✉️ sadasy501@gmail.com</p></p>
-    <div class="form-group">
+    <p>Entrez votre numéro de suivi SADA Transport pour localiser votre envoi en temps réel.</p>
+    <p style="margin-top:.8rem;font-size:.82rem;color:rgba(250,245,236,.5)">📞 +33 7 75 78 75 61 &nbsp;|&nbsp; ✉️ sadasy501@gmail.com</p>
+    <div class="form-group" style="margin-top:1.2rem">
       <label class="form-label">Numéro de suivi</label>
       <input class="form-input" id="trackInput" placeholder="Ex: TA-2025-78432" />
     </div>
@@ -366,24 +366,20 @@ footer { background: #040f09; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
 
 <div class="toast" id="toast">✅ Demande envoyée — Réponse sous 24h !</div>
 
-<!-- NAV -->
+<!-- ══ NAV — logo compact, sobre ══ -->
 <nav id="mainNav">
-  <div class="logo-nav">
-  <svg width="140" height="54" viewBox="0 0 140 54" xmlns="http://www.w3.org/2000/svg">
-    <!-- Fond vert -->
-    <rect width="140" height="54" rx="8" fill="#1ea05a"/>
-    <!-- Texte GROUPE -->
-    <text x="70" y="11" text-anchor="middle" font-family="Arial,sans-serif" font-size="8" font-weight="700" fill="white" letter-spacing="2">GROUPE</text>
-    <!-- Ellipse blanche extérieure -->
-    <ellipse cx="70" cy="31" rx="52" ry="17" fill="white"/>
-    <!-- Ellipse contour vert intérieur -->
-    <ellipse cx="70" cy="31" rx="48" ry="13.5" fill="none" stroke="#1ea05a" stroke-width="1.5"/>
-    <!-- Texte SADA -->
-    <text x="70" y="36" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-size="20" font-weight="900" fill="#1ea05a" letter-spacing="1">SADA</text>
-    <!-- Texte TRANSPORT LOGISTIQUE -->
-    <text x="70" y="50" text-anchor="middle" font-family="Arial,sans-serif" font-size="7" font-weight="700" fill="white" letter-spacing="1.5">TRANSPORT LOGISTIQUE</text>
-  </svg>
-</div>
+  <div class="nav-logo">
+    <svg width="118" height="50" viewBox="0 0 260 110" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="130" cy="55" rx="126" ry="52" fill="url(#logoGrad)"/>
+      <ellipse cx="130" cy="55" rx="118" ry="44" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
+      <text x="130" y="23" text-anchor="middle" font-family="'Arial Narrow',Arial,sans-serif" font-size="9" font-weight="700" fill="rgba(255,255,255,0.75)" letter-spacing="5">GROUPE</text>
+      <line x1="20" y1="27" x2="82" y2="27" stroke="rgba(255,255,255,0.25)" stroke-width="0.7"/>
+      <line x1="178" y1="27" x2="240" y2="27" stroke="rgba(255,255,255,0.25)" stroke-width="0.7"/>
+      <text x="130" y="68" text-anchor="middle" font-family="'Arial Black',Arial,sans-serif" font-size="42" font-weight="900" fill="white" letter-spacing="3">SADA</text>
+      <line x1="42" y1="76" x2="218" y2="76" stroke="rgba(255,255,255,0.22)" stroke-width="0.7"/>
+      <text x="130" y="93" text-anchor="middle" font-family="'Arial Narrow',Arial,sans-serif" font-size="9.5" font-weight="700" fill="rgba(255,255,255,0.88)" letter-spacing="3.5">TRANSPORT LOGISTIQUE</text>
+    </svg>
+  </div>
   <ul class="nav-links">
     <li><a href="#destinations">Destinations</a></li>
     <li><a href="#services">Services</a></li>
@@ -397,7 +393,7 @@ footer { background: #040f09; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
   </div>
 </nav>
 
-<!-- HERO -->
+<!-- ══ HERO ══ -->
 <section class="hero">
   <div class="hero-bg"></div>
   <div class="hero-grid"></div>
@@ -407,49 +403,57 @@ footer { background: #040f09; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
   </div>
 
   <div class="hero-body">
-    <div class="hero-left">
-      <div class="brand-hero">
-        <svg width="240" height="92" viewBox="0 0 240 92" xmlns="http://www.w3.org/2000/svg">
-          <!-- Fond vert arrondi -->
-          <rect width="240" height="92" rx="14" fill="#1ea05a"/>
-          <!-- Texte GROUPE -->
-          <text x="120" y="18" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" font-weight="700" fill="white" letter-spacing="3.5">GROUPE</text>
-          <!-- Ellipse blanche extérieure -->
-          <ellipse cx="120" cy="52" rx="90" ry="28" fill="white"/>
-          <!-- Ellipse contour vert intérieur -->
-          <ellipse cx="120" cy="52" rx="84" ry="22" fill="none" stroke="#1ea05a" stroke-width="2.5"/>
-          <!-- Texte SADA -->
-          <text x="120" y="60" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-size="34" font-weight="900" fill="#1ea05a" letter-spacing="2">SADA</text>
-          <!-- Texte TRANSPORT LOGISTIQUE -->
-          <text x="120" y="83" text-anchor="middle" font-family="Arial,sans-serif" font-size="11.5" font-weight="700" fill="white" letter-spacing="2.5">TRANSPORT LOGISTIQUE</text>
-        </svg>
-      </div>
-      <div class="hero-badge"><span class="badge-dot"></span> Service actif — Départs chaque semaine</div>
-      <h1 class="hero-title">
-        <span class="line1">Nantes · Rennes</span>
-        <span class="line2">Le Mans · Paris</span>
-        <div class="route-line">vers Dakar 🇸🇳 <div class="arrow-line"></div></div>
-      </h1>
-      <p class="hero-sub">
-        De <strong>Nantes, Rennes, Le Mans et Paris</strong> directement vers <strong>Dakar</strong>.
-        Collecte à domicile, dédouanement inclus, suivi SMS en temps réel.
-      </p>
-      <div class="hero-actions">
-        <a href="#devis" class="btn-primary">Demander un devis gratuit</a>
-        <a href="#destinations" class="btn-outline">Voir les destinations</a>
+
+    <!-- ★ LOGO CENTRÉ — signature visuelle forte, première chose vue ★ -->
+    <div class="hero-logo-stage">
+      <svg width="300" height="126" viewBox="0 0 260 110" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="130" cy="55" rx="126" ry="52" fill="url(#logoGrad)"/>
+        <ellipse cx="130" cy="55" rx="118" ry="44" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
+        <text x="130" y="23" text-anchor="middle" font-family="'Arial Narrow',Arial,sans-serif" font-size="9" font-weight="700" fill="rgba(255,255,255,0.75)" letter-spacing="5">GROUPE</text>
+        <line x1="20" y1="27" x2="82" y2="27" stroke="rgba(255,255,255,0.25)" stroke-width="0.7"/>
+        <line x1="178" y1="27" x2="240" y2="27" stroke="rgba(255,255,255,0.25)" stroke-width="0.7"/>
+        <text x="130" y="68" text-anchor="middle" font-family="'Arial Black',Arial,sans-serif" font-size="42" font-weight="900" fill="white" letter-spacing="3">SADA</text>
+        <line x1="42" y1="76" x2="218" y2="76" stroke="rgba(255,255,255,0.22)" stroke-width="0.7"/>
+        <text x="130" y="93" text-anchor="middle" font-family="'Arial Narrow',Arial,sans-serif" font-size="9.5" font-weight="700" fill="rgba(255,255,255,0.88)" letter-spacing="3.5">TRANSPORT LOGISTIQUE</text>
+      </svg>
+      <!-- Règle décorative -->
+      <div class="hero-logo-rule">
+        <div class="hero-logo-rule-line"></div>
+        <span class="hero-logo-rule-text">Spécialiste France → Dakar depuis 2009</span>
+        <div class="hero-logo-rule-line r"></div>
       </div>
     </div>
 
-    <div class="hero-right">
-      <div class="live-box">
-        <div class="live-head"><div class="live-dot"></div><div class="live-title">Envois en cours</div></div>
-        <div class="live-items">
-          <div class="live-item"><div class="live-flag">🇫🇷</div><div class="live-info"><div class="live-route">Paris → Dakar</div><div class="live-loc">Las Palmas, Espagne</div></div><span class="live-badge badge-transit">Transit</span></div>
-          <div class="live-item"><div class="live-flag">🇫🇷</div><div class="live-info"><div class="live-route">Nantes → Dakar</div><div class="live-loc">Port de Dakar · Arrivé</div></div><span class="live-badge badge-arrived">Livré ✓</span></div>
-          <div class="live-item"><div class="live-flag">🇫🇷</div><div class="live-info"><div class="live-route">Rennes → Dakar</div><div class="live-loc">Départ ce soir</div></div><span class="live-badge badge-depart">Départ</span></div>
-          <div class="live-item"><div class="live-flag">🇫🇷</div><div class="live-info"><div class="live-route">Le Mans → Dakar</div><div class="live-loc">En transit maritime</div></div><span class="live-badge badge-transit">Transit</span></div>
-          <div class="live-item"><div class="live-flag">🇸🇳</div><div class="live-info"><div class="live-route">Dakar → Paris</div><div class="live-loc">En préparation</div></div><span class="live-badge badge-depart">Départ</span></div>
-          <div class="live-item"><div class="live-flag">🇫🇷</div><div class="live-info"><div class="live-route">Paris → Dakar</div><div class="live-loc">Livré aujourd'hui ✓</div></div><span class="live-badge badge-arrived">Livré ✓</span></div>
+    <!-- Colonnes : texte gauche + live widget droite -->
+    <div class="hero-cols">
+      <div class="hero-left">
+        <div class="hero-badge"><span class="badge-dot"></span> Service actif — Départs chaque semaine</div>
+        <h1 class="hero-title">
+          <span class="line1">Nantes · Rennes</span>
+          <span class="line2">Le Mans · Paris</span>
+          <div class="route-line">vers Dakar 🇸🇳 <div class="arrow-line"></div></div>
+        </h1>
+        <p class="hero-sub">
+          De <strong>Nantes, Rennes, Le Mans et Paris</strong> directement vers <strong>Dakar</strong>.
+          Collecte à domicile, dédouanement inclus, suivi SMS en temps réel.
+        </p>
+        <div class="hero-actions">
+          <a href="#devis" class="btn-primary">Demander un devis gratuit</a>
+          <a href="#destinations" class="btn-outline">Voir les destinations</a>
+        </div>
+      </div>
+
+      <div class="hero-right">
+        <div class="live-box">
+          <div class="live-head"><div class="live-dot"></div><div class="live-title">Envois en cours</div></div>
+          <div class="live-items">
+            <div class="live-item"><div class="live-flag">🇫🇷</div><div class="live-info"><div class="live-route">Paris → Dakar</div><div class="live-loc">Las Palmas, Espagne</div></div><span class="live-badge badge-transit">Transit</span></div>
+            <div class="live-item"><div class="live-flag">🇫🇷</div><div class="live-info"><div class="live-route">Nantes → Dakar</div><div class="live-loc">Port de Dakar · Arrivé</div></div><span class="live-badge badge-arrived">Livré ✓</span></div>
+            <div class="live-item"><div class="live-flag">🇫🇷</div><div class="live-info"><div class="live-route">Rennes → Dakar</div><div class="live-loc">Départ ce soir</div></div><span class="live-badge badge-depart">Départ</span></div>
+            <div class="live-item"><div class="live-flag">🇫🇷</div><div class="live-info"><div class="live-route">Le Mans → Dakar</div><div class="live-loc">En transit maritime</div></div><span class="live-badge badge-transit">Transit</span></div>
+            <div class="live-item"><div class="live-flag">🇸🇳</div><div class="live-info"><div class="live-route">Dakar → Paris</div><div class="live-loc">En préparation</div></div><span class="live-badge badge-depart">Départ</span></div>
+            <div class="live-item"><div class="live-flag">🇫🇷</div><div class="live-info"><div class="live-route">Paris → Dakar</div><div class="live-loc">Livré aujourd'hui ✓</div></div><span class="live-badge badge-arrived">Livré ✓</span></div>
+          </div>
         </div>
       </div>
     </div>
@@ -499,9 +503,7 @@ footer { background: #040f09; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
     <h2 class="section-title">Nantes · Rennes · Le Mans · Paris → Dakar</h2>
     <p class="section-sub">Collecte à domicile depuis <strong>Nantes, Rennes, Le Mans et Paris</strong> directement vers <strong>Dakar</strong>. Livraison à domicile incluse, 3 départs par semaine.</p>
   </div>
-
   <div class="dest-panels reveal">
-    <!-- FRANCE -->
     <div class="dest-panel">
       <div class="panel-head"><div class="panel-flag">🇫🇷</div><div><div class="panel-name">France</div><div class="panel-country">Toutes les villes desservies</div></div></div>
       <div class="panel-body">
@@ -513,16 +515,12 @@ footer { background: #040f09; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
         <div class="city-row"><div class="city-row-left"><div class="city-bullet" style="background:rgba(250,245,236,.2)"></div><div class="city-nm" style="color:rgba(250,245,236,.5);font-size:.8rem">Dépôt possible dans nos agences partenaires</div></div></div>
       </div>
     </div>
-
-    <!-- CONNECTOR -->
     <div class="dest-connector">
       <div class="conn-dist">4 600<br>km</div>
       <div class="conn-sub">maritime<br>ou aérien</div>
       <div class="conn-dots"><div class="conn-dot"></div><div class="conn-dot"></div><div class="conn-dot"></div></div>
       <div style="font-size:1.6rem;color:#1ea05a">⇅</div>
     </div>
-
-    <!-- SÉNÉGAL -->
     <div class="dest-panel">
       <div class="panel-head"><div class="panel-flag">🇸🇳</div><div><div class="panel-name">Dakar</div><div class="panel-country">Destination unique</div></div></div>
       <div class="panel-body">
@@ -535,7 +533,6 @@ footer { background: #040f09; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
       </div>
     </div>
   </div>
-
   <div class="freq-pills reveal">
     <div class="freq-pill"><div class="freq-pill-icon">🌟</div><div><div class="freq-pill-text">Paris · Nantes · Rennes · Le Mans → Dakar</div><div class="freq-pill-sub">3 départs par semaine</div></div></div>
     <div class="freq-pill"><div class="freq-pill-icon">✈️</div><div><div class="freq-pill-text">Express aérien</div><div class="freq-pill-sub">3 à 7 jours ouvrés</div></div></div>
@@ -589,87 +586,28 @@ footer { background: #040f09; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
         <div class="info-point"><div class="info-point-icon">🏠</div><div class="info-point-text"><strong>Collecte partout en France</strong>Nous venons récupérer vos colis à votre adresse.</div></div>
       </div>
     </div>
-
     <div class="reveal">
-      <!-- Formulaire connecté à Formspree -->
       <form id="devisForm" action="https://formspree.io/f/mojkngdn" method="POST">
-
-        <!-- Champ caché pour le sujet de l'email -->
         <input type="hidden" name="_subject" value="🚀 Nouveau devis SADA TRANSPORT LOGISTIQUE" />
         <input type="hidden" name="_language" value="fr" />
-
         <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Prénom</label>
-            <input type="text" name="prenom" class="form-input" placeholder="Mamadou" required />
-          </div>
-          <div class="form-group">
-            <label class="form-label">Nom</label>
-            <input type="text" name="nom" class="form-input" placeholder="Diallo" required />
-          </div>
+          <div class="form-group"><label class="form-label">Prénom</label><input type="text" name="prenom" class="form-input" placeholder="Mamadou" required /></div>
+          <div class="form-group"><label class="form-label">Nom</label><input type="text" name="nom" class="form-input" placeholder="Diallo" required /></div>
         </div>
-        <div class="form-group">
-          <label class="form-label">Email</label>
-          <input type="email" name="email" class="form-input" placeholder="mamadou@email.com" required />
-        </div>
-        <div class="form-group">
-          <label class="form-label">Téléphone</label>
-          <input type="tel" name="telephone" class="form-input" placeholder="+33 6 00 00 00 00" required />
+        <div class="form-group"><label class="form-label">Email</label><input type="email" name="email" class="form-input" placeholder="mamadou@email.com" required /></div>
+        <div class="form-group"><label class="form-label">Téléphone</label><input type="tel" name="telephone" class="form-input" placeholder="+33 6 00 00 00 00" required /></div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Ville de départ (France)</label><select name="ville_depart" class="form-select" required><option value="">Choisir une ville</option><option>Paris / Île-de-France</option><option>Nantes</option><option>Rennes</option><option>Le Mans</option></select></div>
+          <div class="form-group"><label class="form-label">Destination (Sénégal)</label><select name="destination" class="form-select" required><option value="Dakar" selected>Dakar 🇸🇳</option></select></div>
         </div>
         <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Ville de départ (France)</label>
-            <select name="ville_depart" class="form-select" required>
-              <option value="">Choisir une ville</option>
-              <option>Paris / Île-de-France</option>
-              <option>Nantes</option>
-              <option>Rennes</option>
-              <option>Le Mans</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Destination (Sénégal)</label>
-            <select name="destination" class="form-select" required>
-              <option value="Dakar" selected>Dakar 🇸🇳</option>
-            </select>
-          </div>
+          <div class="form-group"><label class="form-label">Poids estimé (kg)</label><input type="number" name="poids_kg" class="form-input" placeholder="10" min="1" required /></div>
+          <div class="form-group"><label class="form-label">Type d'envoi</label><select name="type_envoi" class="form-select"><option>Colis personnel</option><option>Fret commercial</option><option>Valeurs déclarées</option><option>Documents officiels</option></select></div>
         </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Poids estimé (kg)</label>
-            <input type="number" name="poids_kg" class="form-input" placeholder="10" min="1" required />
-          </div>
-          <div class="form-group">
-            <label class="form-label">Type d'envoi</label>
-            <select name="type_envoi" class="form-select">
-              <option>Colis personnel</option>
-              <option>Fret commercial</option>
-              <option>Valeurs déclarées</option>
-              <option>Documents officiels</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Mode de transport</label>
-          <select name="transport" class="form-select">
-            <option>Express Aérien (3–7 jours)</option>
-            <option>Maritime Économique (15–21 jours)</option>
-            <option>Indifférent – meilleur prix</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Description du contenu</label>
-          <textarea name="description" class="form-textarea" placeholder="Décrivez brièvement le contenu de votre colis..."></textarea>
-        </div>
-
-        <!-- Message succès / erreur -->
-        <div id="form-success" style="display:none; background:rgba(30,160,90,.15); border:1px solid rgba(30,160,90,.4); border-radius:6px; padding:1rem 1.2rem; margin-bottom:1rem; color:#25c46e; font-size:.9rem; font-weight:600;">
-          ✅ Demande envoyée ! Nous vous répondrons sous 24h.
-        </div>
-        <div id="form-error" style="display:none; background:rgba(13,92,48,.1); border:1px solid rgba(13,92,48,.3); border-radius:6px; padding:1rem 1.2rem; margin-bottom:1rem; color:#25c46e; font-size:.9rem; font-weight:600;">
-          ❌ Une erreur est survenue. Veuillez réessayer ou nous contacter par téléphone.
-        </div>
-
+        <div class="form-group"><label class="form-label">Mode de transport</label><select name="transport" class="form-select"><option>Express Aérien (3–7 jours)</option><option>Maritime Économique (15–21 jours)</option><option>Indifférent – meilleur prix</option></select></div>
+        <div class="form-group"><label class="form-label">Description du contenu</label><textarea name="description" class="form-textarea" placeholder="Décrivez brièvement le contenu de votre colis..."></textarea></div>
+        <div id="form-success" style="display:none; background:rgba(30,160,90,.15); border:1px solid rgba(30,160,90,.4); border-radius:6px; padding:1rem 1.2rem; margin-bottom:1rem; color:#25c46e; font-size:.9rem; font-weight:600;">✅ Demande envoyée ! Nous vous répondrons sous 24h.</div>
+        <div id="form-error" style="display:none; background:rgba(13,92,48,.1); border:1px solid rgba(13,92,48,.3); border-radius:6px; padding:1rem 1.2rem; margin-bottom:1rem; color:#25c46e; font-size:.9rem; font-weight:600;">❌ Une erreur est survenue. Veuillez réessayer ou nous contacter par téléphone.</div>
         <button type="submit" class="form-submit" id="submitBtn">Envoyer ma demande →</button>
       </form>
     </div>
@@ -704,16 +642,16 @@ footer { background: #040f09; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
 <footer id="contact">
   <div class="footer-grid">
     <div class="footer-brand">
-      <div style="margin-bottom:1rem">
-        <svg width="120" height="46" viewBox="0 0 120 46" xmlns="http://www.w3.org/2000/svg">
-          <rect width="120" height="46" rx="7" fill="#1ea05a"/>
-          <text x="60" y="9" text-anchor="middle" font-family="Arial,sans-serif" font-size="6.5" font-weight="700" fill="white" letter-spacing="1.8">GROUPE</text>
-          <ellipse cx="60" cy="26" rx="44" ry="14" fill="white"/>
-          <ellipse cx="60" cy="26" rx="40" ry="10.5" fill="none" stroke="#1ea05a" stroke-width="1.2"/>
-          <text x="60" y="30" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-size="17" font-weight="900" fill="#1ea05a" letter-spacing="1">SADA</text>
-          <text x="60" y="42" text-anchor="middle" font-family="Arial,sans-serif" font-size="5.5" font-weight="700" fill="white" letter-spacing="1.2">TRANSPORT LOGISTIQUE</text>
-        </svg>
-      </div>
+      <svg width="110" height="46" viewBox="0 0 260 110" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="130" cy="55" rx="126" ry="52" fill="url(#logoGrad)"/>
+        <ellipse cx="130" cy="55" rx="118" ry="44" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
+        <text x="130" y="23" text-anchor="middle" font-family="'Arial Narrow',Arial,sans-serif" font-size="9" font-weight="700" fill="rgba(255,255,255,0.75)" letter-spacing="5">GROUPE</text>
+        <line x1="20" y1="27" x2="82" y2="27" stroke="rgba(255,255,255,0.25)" stroke-width="0.7"/>
+        <line x1="178" y1="27" x2="240" y2="27" stroke="rgba(255,255,255,0.25)" stroke-width="0.7"/>
+        <text x="130" y="68" text-anchor="middle" font-family="'Arial Black',Arial,sans-serif" font-size="42" font-weight="900" fill="white" letter-spacing="3">SADA</text>
+        <line x1="42" y1="76" x2="218" y2="76" stroke="rgba(255,255,255,0.22)" stroke-width="0.7"/>
+        <text x="130" y="93" text-anchor="middle" font-family="'Arial Narrow',Arial,sans-serif" font-size="9.5" font-weight="700" fill="rgba(255,255,255,0.88)" letter-spacing="3.5">TRANSPORT LOGISTIQUE</text>
+      </svg>
       <p>Spécialiste du transport de colis depuis Nantes, Rennes, Le Mans et Paris vers Dakar depuis 2009.</p>
       <div class="footer-socials">
         <a class="social-btn" href="#">📘</a>
@@ -721,62 +659,21 @@ footer { background: #040f09; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
         <a class="social-btn" href="#">💬</a>
       </div>
     </div>
-    <div class="footer-col">
-      <h4>Services</h4>
-      <ul>
-        <li><a href="#">Express Aérien</a></li>
-        <li><a href="#">Maritime Économique</a></li>
-        <li><a href="#">Fret Commercial</a></li>
-        <li><a href="#">Collecte à domicile</a></li>
-        <li><a href="#">Valeurs déclarées</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Destinations</h4>
-      <ul>
-        <li><a href="#">Paris → Dakar</a></li>
-        <li><a href="#">Nantes → Dakar</a></li>
-        <li><a href="#">Rennes → Dakar</a></li>
-        <li><a href="#">Le Mans → Dakar</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Informations</h4>
-      <ul>
-        <li><a href="#">Tarifs & Délais</a></li>
-        <li><a href="#">Produits acceptés</a></li>
-        <li><a href="#">Dédouanement</a></li>
-        <li><a href="#">Assurance colis</a></li>
-        <li><a href="#">FAQ</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Contact</h4>
-      <ul>
-        <li><a href="tel:+33775787561">📞 +33 7 75 78 75 61</a></li>
-        <li><a href="/cdn-cgi/l/email-protection#6a0905041e0b091e2a190b0e0b471e180b04191a05181e440c18">✉️ <span class="__cf_email__" data-cfemail="593a36372d383a2d192a383d38742d2b38372a29362b2d773f2b">[email&#160;protected]</span></a></li>
-        <li><a href="#">📍 Paris, France</a></li>
-        <li><a href="#">📍 Dakar, Sénégal</a></li>
-        <li><a href="#">⏰ Lun–Sam 8h–20h</a></li>
-      </ul>
-    </div>
+    <div class="footer-col"><h4>Services</h4><ul><li><a href="#">Express Aérien</a></li><li><a href="#">Maritime Économique</a></li><li><a href="#">Fret Commercial</a></li><li><a href="#">Collecte à domicile</a></li><li><a href="#">Valeurs déclarées</a></li></ul></div>
+    <div class="footer-col"><h4>Destinations</h4><ul><li><a href="#">Paris → Dakar</a></li><li><a href="#">Nantes → Dakar</a></li><li><a href="#">Rennes → Dakar</a></li><li><a href="#">Le Mans → Dakar</a></li></ul></div>
+    <div class="footer-col"><h4>Informations</h4><ul><li><a href="#">Tarifs & Délais</a></li><li><a href="#">Produits acceptés</a></li><li><a href="#">Dédouanement</a></li><li><a href="#">Assurance colis</a></li><li><a href="#">FAQ</a></li></ul></div>
+    <div class="footer-col"><h4>Contact</h4><ul><li><a href="tel:+33775787561">📞 +33 7 75 78 75 61</a></li><li><a href="mailto:sadasy501@gmail.com">✉️ sadasy501@gmail.com</a></li><li><a href="#">📍 Paris, France</a></li><li><a href="#">📍 Dakar, Sénégal</a></li><li><a href="#">⏰ Lun–Sam 8h–20h</a></li></ul></div>
   </div>
   <div class="footer-bottom">
     <p>© 2025 SADA TRANSPORT LOGISTIQUE — Tous droits réservés</p>
-    <div style="display:flex;gap:1.5rem">
-      <a href="#">Mentions légales</a>
-      <a href="#">Confidentialité</a>
-      <a href="#">CGV</a>
-    </div>
+    <div style="display:flex;gap:1.5rem"><a href="#">Mentions légales</a><a href="#">Confidentialité</a><a href="#">CGV</a></div>
   </div>
 </footer>
 
 <script>
-// Sticky nav
 const nav = document.getElementById('mainNav');
 window.addEventListener('scroll', () => nav.classList.toggle('stuck', window.scrollY > 60));
 
-// Scroll reveal
 const observer = new IntersectionObserver((entries) => {
   entries.forEach((entry, i) => {
     if (entry.isIntersecting) setTimeout(() => entry.target.classList.add('visible'), i * 80);
@@ -784,7 +681,6 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.1 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-// Modal
 function openModal() { document.getElementById('trackModal').classList.add('open'); }
 function closeModal() {
   document.getElementById('trackModal').classList.remove('open');
@@ -799,7 +695,6 @@ function trackPackage() {
     document.getElementById('trackResult').classList.add('show');
 }
 
-// Formspree — envoi du formulaire de devis
 const devisForm = document.getElementById('devisForm');
 if (devisForm) {
   devisForm.addEventListener('submit', async function(e) {
@@ -824,10 +719,8 @@ if (devisForm) {
         btn.textContent = '✅ Demande envoyée !';
         btn.style.background = '#157a42';
         successMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      } else {
-        throw new Error('Erreur serveur');
-      }
-    } catch (err) {
+      } else { throw new Error(); }
+    } catch {
       errorMsg.style.display = 'block';
       btn.textContent = 'Envoyer ma demande →';
       btn.disabled = false;
@@ -836,7 +729,6 @@ if (devisForm) {
   });
 }
 
-// Smooth scroll
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
     const target = document.querySelector(a.getAttribute('href'));
@@ -844,9 +736,9 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   });
 });
 
-// Stat counter animation
 const statNums = document.querySelectorAll('.stat-num');
-const statObs = new IntersectionObserver((entries) => {  entries.forEach(entry => {
+const statObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
     if (entry.isIntersecting) {
       entry.target.style.animation = 'countUp .6s ease both';
       statObs.unobserve(entry.target);
