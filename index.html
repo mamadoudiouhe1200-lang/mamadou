@@ -137,8 +137,10 @@ nav.stuck { background: rgba(4,15,9,.97); backdrop-filter: blur(18px); border-co
   min-height:100svh; position:relative;
   display:flex; flex-direction:column;
   overflow:hidden; padding-top:5rem;
+  isolation: isolate;
+  background: var(--bg);
 }
-.hero-bg { position:absolute; inset:0; background:radial-gradient(ellipse 90% 70% at 75% 35%,rgba(13,92,48,.65) 0%,transparent 65%),radial-gradient(ellipse 55% 50% at 15% 80%,rgba(30,160,90,.2) 0%,transparent 55%),var(--bg); }
+.hero-bg { position:absolute; inset:0; z-index:0; background:radial-gradient(ellipse 90% 70% at 75% 35%,rgba(13,92,48,.65) 0%,transparent 65%),radial-gradient(ellipse 55% 50% at 15% 80%,rgba(30,160,90,.2) 0%,transparent 55%),var(--bg); }
 .hero-grid { position:absolute; inset:0; background-image:linear-gradient(rgba(74,222,128,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(74,222,128,.06) 1px,transparent 1px); background-size:64px 64px; }
 .map-dots { position:absolute; inset:0; background-image:radial-gradient(circle,rgba(74,222,128,.12) 1px,transparent 1px); background-size:32px 32px; animation:dotsshift 22s linear infinite; }
 .hero-path-dots { position:absolute; inset:0; pointer-events:none; }
@@ -149,7 +151,7 @@ nav.stuck { background: rgba(4,15,9,.97); backdrop-filter: blur(18px); border-co
 .hpd:nth-child(4){top:50%;left:70%;animation-delay:2.1s}
 .hpd:nth-child(5){top:44%;left:84%;animation-delay:2.8s}
 
-.waves { position:absolute; bottom:0; left:0; right:0; height:150px; overflow:hidden; }
+.waves { position:absolute; bottom:0; left:0; right:0; height:150px; overflow:hidden; pointer-events:none; }
 .waves svg { width:200%; animation:wavemove 9s linear infinite; }
 
 .hero-body {
@@ -253,11 +255,12 @@ nav.stuck { background: rgba(4,15,9,.97); backdrop-filter: blur(18px); border-co
 .badge-depart  { background:rgba(30,160,90,.15); color:#86efac; }
 
 .stats-strip {
-  position:relative; z-index:5;
   display:grid; grid-template-columns:repeat(4,1fr);
+  background: var(--bg);
   border-top:1px solid var(--border);
+  border-bottom:1px solid rgba(74,222,128,.08);
 }
-.stat-item { padding:1.6rem 2rem; border-right:1px solid rgba(74,222,128,.08); }
+.stat-item { padding:1.6rem 2rem; border-right:1px solid rgba(74,222,128,.08); background: var(--bg); }
 .stat-item:last-child { border-right:none; }
 .stat-num { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:900; color:var(--green); line-height:1; }
 .stat-label { font-size:.7rem; font-weight:400; color:var(--muted); text-transform:uppercase; letter-spacing:.1em; margin-top:.2rem; }
@@ -386,11 +389,12 @@ nav.stuck { background: rgba(4,15,9,.97); backdrop-filter: blur(18px); border-co
   background:var(--green);
   overflow:hidden;
   padding:.65rem 0;
-  border-top:1px solid rgba(255,255,255,.1);
-  /* FIX : isolation pour éviter tout débordement */
+  /* FIX : suppression border-top qui créait un trait vert visible sur mobile */
   position: relative;
   z-index: 1;
   width: 100%;
+  max-width: 100%;
+  display: block;
 }
 .marquee-track { display:flex; width:max-content; animation:marquee 30s linear infinite; }
 .marquee-track:hover { animation-play-state:paused; }
@@ -594,8 +598,8 @@ footer {
   .hero-cols { flex-direction:column; gap:2rem; }
   .hero-right { width:100%; }
 
-  .stats-strip { grid-template-columns:repeat(2,1fr); }
-  .stat-item { padding:1.3rem 1.8rem; }
+  .stats-strip { grid-template-columns:repeat(2,1fr); background:var(--bg); }
+  .stat-item { padding:1.3rem 1.8rem; background:var(--bg); }
 
   .calc-fields { grid-template-columns:1fr 1fr; }
   .calc-cards { grid-template-columns:1fr 1fr; }
@@ -635,8 +639,8 @@ footer {
   .hero-actions .btn-primary,
   .hero-actions .btn-outline { width:100%; text-align:center; padding:1rem; }
 
-  .stats-strip { grid-template-columns:repeat(2,1fr); }
-  .stat-item { padding:1.1rem 1.2rem; }
+  .stats-strip { grid-template-columns:repeat(2,1fr); background:var(--bg); }
+  .stat-item { padding:1.1rem 1.2rem; background:var(--bg); }
   .stat-num { font-size:1.9rem; }
   .stat-label { font-size:.65rem; }
 
@@ -885,12 +889,6 @@ footer {
       </div>
     </div>
   </div>
-  <div class="stats-strip">
-    <div class="stat-item"><div class="stat-num">8 000+</div><div class="stat-label">Colis livrés</div></div>
-    <div class="stat-item"><div class="stat-num">15 ans</div><div class="stat-label">D'expérience</div></div>
-    <div class="stat-item"><div class="stat-num">98%</div><div class="stat-label">Clients satisfaits</div></div>
-    <div class="stat-item"><div class="stat-num">3–21j</div><div class="stat-label">Délai livraison</div></div>
-  </div>
   <div class="waves">
     <svg viewBox="0 0 1440 120" preserveAspectRatio="none" fill="none">
       <path d="M0,60 C180,20 360,100 540,60 C720,20 900,100 1080,60 C1260,20 1350,80 1440,60 L1440,120 L0,120Z" fill="rgba(13,92,48,.2)"/>
@@ -898,6 +896,13 @@ footer {
     </svg>
   </div>
 </section>
+
+<div class="stats-strip">
+    <div class="stat-item"><div class="stat-num">8 000+</div><div class="stat-label">Colis livrés</div></div>
+    <div class="stat-item"><div class="stat-num">15 ans</div><div class="stat-label">D'expérience</div></div>
+    <div class="stat-item"><div class="stat-num">98%</div><div class="stat-label">Clients satisfaits</div></div>
+    <div class="stat-item"><div class="stat-num">3–21j</div><div class="stat-label">Délai livraison</div></div>
+</div>
 
 <!-- MARQUEE -->
 <div class="marquee-band">
