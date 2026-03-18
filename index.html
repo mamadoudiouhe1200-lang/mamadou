@@ -3,339 +3,553 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SADA TRANSPORT LOGISTIQUE — Nantes · Rennes · Le Mans · Paris → Dakar</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<meta name="description" content="SADA Transport Logistique — Envoi de colis depuis Nantes, Rennes, Le Mans et Paris vers Dakar. Collecte à domicile, dédouanement inclus, suivi SMS.">
+<title>SADA Transport — Paris · Nantes · Rennes · Le Mans → Dakar</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --sand: #e8f7ef;
-  --terracotta: #1ea05a;
-  --terra-dark: #157a42;
-  --deep-blue: #081f11;
+  --green: #1ea05a;
+  --green-dark: #157a42;
+  --green-bright: #25c46e;
+  --green-pale: #86efac;
+  --bg: #081f11;
+  --bg-dark: #040f09;
   --ocean: #0d5c30;
-  --gold: #25c46e;
-  --gold-pale: #86efac;
   --cream: #f0faf4;
-  --warm-gray: #2d6b47;
-  --ink: #040f09;
+  --muted: rgba(240,250,244,.55);
+  --border: rgba(30,160,90,.25);
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body { font-family: 'DM Sans', sans-serif; background: var(--deep-blue); color: var(--cream); overflow-x: hidden; }
-::-webkit-scrollbar { width: 3px; }
-::-webkit-scrollbar-track { background: var(--ink); }
-::-webkit-scrollbar-thumb { background: #1ea05a; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--cream); overflow-x: hidden; }
 
-@keyframes fadeDown { from { opacity:0; transform:translateY(-20px); } to { opacity:1; transform:none; } }
-@keyframes fadeUp   { from { opacity:0; transform:translateY(40px);  } to { opacity:1; transform:none; } }
-@keyframes wavemove { to { transform: translateX(-50%); } }
-@keyframes dotsshift { to { background-position: 32px 32px; } }
-@keyframes pulse    { 0%,100%{ opacity:.3; transform:scale(.8); } 50%{ opacity:1; transform:scale(1.1); } }
-@keyframes blink    { 0%,100%{ opacity:1; } 50%{ opacity:.2; } }
-@keyframes marquee  { from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
-@keyframes floatDot { 0%,100%{ opacity:0; transform:translateY(0) scale(.5); } 50%{ opacity:.7; transform:translateY(-8px) scale(1); } }
-@keyframes popIn    { from{ opacity:0; transform:scale(.94); } to{ opacity:1; transform:none; } }
-@keyframes countUp  { from{ opacity:0; transform:translateY(12px); } to{ opacity:1; transform:none; } }
-@keyframes logoGlow { 0%,100%{ filter:drop-shadow(0 0 10px rgba(30,160,90,.35)); } 50%{ filter:drop-shadow(0 0 28px rgba(37,196,110,.6)); } }
-@keyframes logoIn   { from{ opacity:0; transform:translateY(-16px) scale(.97); } to{ opacity:1; transform:none; } }
+/* ── ANIMATIONS ── */
+@keyframes fadeUp   { from{opacity:0;transform:translateY(32px)} to{opacity:1;transform:none} }
+@keyframes blink    { 0%,100%{opacity:1} 50%{opacity:.2} }
+@keyframes marquee  { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+@keyframes pulse    { 0%,100%{opacity:.3;transform:scale(.8)} 50%{opacity:1;transform:scale(1.1)} }
+@keyframes wavemove { to{transform:translateX(-50%)} }
+@keyframes dotsshift{ to{background-position:32px 32px} }
+@keyframes floatDot { 0%,100%{opacity:0;transform:translateY(0) scale(.5)} 50%{opacity:.7;transform:translateY(-8px) scale(1)} }
+@keyframes logoGlow { 0%,100%{filter:drop-shadow(0 0 8px rgba(30,160,90,.3))} 50%{filter:drop-shadow(0 0 22px rgba(37,196,110,.55))} }
+@keyframes logoIn   { from{opacity:0;transform:translateY(-14px) scale(.97)} to{opacity:1;transform:none} }
+@keyframes popIn    { from{opacity:0;transform:scale(.94)} to{opacity:1;transform:none} }
+@keyframes slideDown{ from{opacity:0;transform:translateY(-10px)} to{opacity:1;transform:none} }
+@keyframes countUp  { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:none} }
 
-/* ══ NAV ══ */
+/* ════════════════════════════════
+   NAV
+════════════════════════════════ */
 nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 300;
+  position: fixed; top:0; left:0; right:0; z-index:300;
   display: flex; align-items: center; justify-content: space-between;
-  padding: 1rem 4rem;
-  transition: background .4s, padding .4s, border-color .4s;
+  padding: 1rem 2.5rem;
+  transition: background .4s, border-color .4s;
   border-bottom: 1px solid transparent;
 }
-nav.stuck { background: rgba(4,15,9,.96); backdrop-filter: blur(18px); padding: .85rem 4rem; border-color: rgba(30,160,90,.25); }
+nav.stuck { background: rgba(4,15,9,.97); backdrop-filter: blur(18px); border-color: var(--border); }
 
-.nav-logo { display:flex; align-items:center; }
-.nav-logo svg { transition: transform .3s, filter .3s; }
-.nav-logo:hover svg { transform: scale(1.05); filter: drop-shadow(0 0 12px rgba(37,196,110,.5)); }
+.nav-logo svg { transition: filter .3s; }
+.nav-logo:hover svg { filter: drop-shadow(0 0 12px rgba(37,196,110,.5)); }
 
-.nav-links { display: flex; gap: 2.2rem; list-style: none; }
-.nav-links a { font-family: 'Syne', sans-serif; font-size: .78rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: rgba(240,250,244,.75); text-decoration: none; transition: color .3s; position: relative; }
-.nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; right: 0; height: 1px; background: #1ea05a; transform: scaleX(0); transform-origin: left; transition: transform .3s; }
-.nav-links a:hover { color: #25c46e; }
-.nav-links a:hover::after { transform: scaleX(1); }
-.nav-right { display: flex; gap: .8rem; align-items: center; }
-.btn-ghost-nav { font-family: 'Syne', sans-serif; font-size: .78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; background: transparent; color: var(--cream); border: 1px solid rgba(250,245,236,.3); cursor: pointer; padding: .6rem 1.4rem; border-radius: 2px; transition: all .3s; }
-.btn-ghost-nav:hover { border-color: var(--gold); color: #25c46e; }
-.nav-cta { font-family: 'Syne', sans-serif; font-size: .78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; background: #1ea05a; color: white; border: none; cursor: pointer; padding: .7rem 1.6rem; border-radius: 2px; transition: background .3s, transform .2s, box-shadow .3s; text-decoration: none; display: inline-block; }
-.nav-cta:hover { background: #157a42; transform: translateY(-1px); box-shadow: 0 8px 28px rgba(30,160,90,.4); }
+/* Liens desktop */
+.nav-links { display:flex; gap:2rem; list-style:none; }
+.nav-links a {
+  font-family:'Syne',sans-serif; font-size:.78rem; font-weight:600;
+  letter-spacing:.1em; text-transform:uppercase;
+  color:var(--muted); text-decoration:none; transition:color .3s; position:relative;
+}
+.nav-links a::after { content:''; position:absolute; bottom:-4px; left:0; right:0; height:1px; background:var(--green); transform:scaleX(0); transform-origin:left; transition:transform .3s; }
+.nav-links a:hover { color:var(--green-bright); }
+.nav-links a:hover::after { transform:scaleX(1); }
 
-/* ══ HERO ══ */
-.hero { min-height: 100vh; position: relative; display: flex; flex-direction: column; overflow: hidden; padding-top: 5rem; }
-.hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 90% 70% at 75% 35%, rgba(13,92,48,.65) 0%, transparent 65%), radial-gradient(ellipse 55% 50% at 15% 80%, rgba(30,160,90,.2) 0%, transparent 55%), radial-gradient(ellipse 70% 40% at 50% -5%, rgba(74,222,128,.08) 0%, transparent 55%), var(--deep-blue); }
-.hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(74,222,128,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(74,222,128,.06) 1px, transparent 1px); background-size: 64px 64px; }
-.map-dots { position: absolute; inset: 0; background-image: radial-gradient(circle, rgba(74,222,128,.15) 1px, transparent 1px); background-size: 32px 32px; animation: dotsshift 22s linear infinite; }
-.hero-path-dots { position: absolute; inset: 0; pointer-events: none; }
-.hpd { position: absolute; width: 6px; height: 6px; border-radius: 50%; background: #25c46e; animation: floatDot 4s ease-in-out infinite; }
+.nav-right { display:flex; gap:.7rem; align-items:center; }
+.btn-ghost-nav {
+  font-family:'Syne',sans-serif; font-size:.75rem; font-weight:700;
+  letter-spacing:.07em; text-transform:uppercase;
+  background:transparent; color:var(--cream);
+  border:1px solid rgba(250,245,236,.3); cursor:pointer;
+  padding:.6rem 1.2rem; border-radius:2px; transition:all .3s;
+  white-space:nowrap;
+}
+.btn-ghost-nav:hover { border-color:var(--green-bright); color:var(--green-bright); }
+.nav-cta {
+  font-family:'Syne',sans-serif; font-size:.75rem; font-weight:700;
+  letter-spacing:.07em; text-transform:uppercase;
+  background:var(--green); color:white; border:none; cursor:pointer;
+  padding:.7rem 1.4rem; border-radius:2px;
+  transition:background .3s,transform .2s,box-shadow .3s;
+  text-decoration:none; display:inline-block; white-space:nowrap;
+}
+.nav-cta:hover { background:var(--green-dark); transform:translateY(-1px); box-shadow:0 8px 28px rgba(30,160,90,.4); }
+
+/* ── HAMBURGER ── */
+.hamburger {
+  display:none; flex-direction:column; gap:5px; cursor:pointer;
+  padding:8px; border:none; background:none;
+  -webkit-tap-highlight-color: transparent;
+}
+.hamburger span {
+  display:block; width:24px; height:2px;
+  background:var(--cream); border-radius:2px;
+  transition:transform .3s, opacity .3s;
+}
+.hamburger.open span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity:0; }
+.hamburger.open span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
+
+/* ── MENU MOBILE ── */
+.mobile-menu {
+  display:none; position:fixed; top:0; left:0; right:0; bottom:0;
+  background:rgba(4,15,9,.98); backdrop-filter:blur(20px);
+  z-index:200; flex-direction:column; align-items:center; justify-content:center;
+  gap:2rem;
+}
+.mobile-menu.open { display:flex; animation:slideDown .3s ease; }
+.mobile-menu a {
+  font-family:'Syne',sans-serif; font-size:1.6rem; font-weight:700;
+  letter-spacing:.06em; text-transform:uppercase;
+  color:var(--cream); text-decoration:none; transition:color .3s;
+  padding:.5rem 2rem;
+}
+.mobile-menu a:hover { color:var(--green-bright); }
+.mobile-menu-cta {
+  margin-top:1rem; display:flex; flex-direction:column; gap:.8rem; width:280px;
+}
+.mobile-menu-cta .btn-primary, .mobile-menu-cta .btn-ghost-nav {
+  width:100%; text-align:center; padding:1rem; font-size:.9rem;
+}
+.mobile-menu-close {
+  position:absolute; top:1.5rem; right:1.5rem;
+  background:none; border:none; color:var(--muted);
+  font-size:1.8rem; cursor:pointer; line-height:1;
+  padding:.5rem;
+}
+
+/* ════════════════════════════════
+   HERO
+════════════════════════════════ */
+.hero {
+  min-height:100svh; position:relative;
+  display:flex; flex-direction:column;
+  overflow:hidden; padding-top:5rem;
+}
+.hero-bg { position:absolute; inset:0; background:radial-gradient(ellipse 90% 70% at 75% 35%,rgba(13,92,48,.65) 0%,transparent 65%),radial-gradient(ellipse 55% 50% at 15% 80%,rgba(30,160,90,.2) 0%,transparent 55%),var(--bg); }
+.hero-grid { position:absolute; inset:0; background-image:linear-gradient(rgba(74,222,128,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(74,222,128,.06) 1px,transparent 1px); background-size:64px 64px; }
+.map-dots { position:absolute; inset:0; background-image:radial-gradient(circle,rgba(74,222,128,.12) 1px,transparent 1px); background-size:32px 32px; animation:dotsshift 22s linear infinite; }
+.hero-path-dots { position:absolute; inset:0; pointer-events:none; }
+.hpd { position:absolute; width:6px; height:6px; border-radius:50%; background:var(--green-bright); animation:floatDot 4s ease-in-out infinite; }
 .hpd:nth-child(1){top:42%;left:22%;animation-delay:0s}
 .hpd:nth-child(2){top:48%;left:38%;animation-delay:.7s}
 .hpd:nth-child(3){top:52%;left:55%;animation-delay:1.4s}
 .hpd:nth-child(4){top:50%;left:70%;animation-delay:2.1s}
 .hpd:nth-child(5){top:44%;left:84%;animation-delay:2.8s}
-.waves { position: absolute; bottom: 0; left: 0; right: 0; height: 180px; overflow: hidden; }
-.waves svg { width: 200%; animation: wavemove 9s linear infinite; }
 
-/* Hero body: colonne flex */
+.waves { position:absolute; bottom:0; left:0; right:0; height:150px; overflow:hidden; }
+.waves svg { width:200%; animation:wavemove 9s linear infinite; }
+
 .hero-body {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  padding: 2rem 4rem 7rem;
-  position: relative;
-  z-index: 5;
+  flex:1; display:flex; flex-direction:column;
+  padding:2rem 2.5rem 6rem;
+  position:relative; z-index:5;
 }
 
-/* ── Logo hero : centré, grand, signature de page ── */
+/* Logo centré hero */
 .hero-logo-stage {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 1.8rem 0 3rem;
-  animation: logoIn .9s .05s cubic-bezier(.22,1,.36,1) both;
+  display:flex; flex-direction:column; align-items:center;
+  padding:1.5rem 0 2.8rem;
+  animation:logoIn .9s .05s cubic-bezier(.22,1,.36,1) both;
 }
-.hero-logo-stage svg {
-  animation: logoGlow 5s ease-in-out infinite;
+.hero-logo-stage svg { animation:logoGlow 5s ease-in-out infinite; }
+.hero-logo-rule { display:flex; align-items:center; gap:1.2rem; margin-top:1rem; }
+.hero-logo-rule-line { width:60px; height:1px; background:linear-gradient(90deg,transparent,rgba(74,222,128,.4)); }
+.hero-logo-rule-line.r { background:linear-gradient(270deg,transparent,rgba(74,222,128,.4)); }
+.hero-logo-rule-text { font-family:'Syne',sans-serif; font-size:.63rem; font-weight:700; letter-spacing:.22em; text-transform:uppercase; color:rgba(134,239,172,.5); white-space:nowrap; }
+
+/* Colonnes hero */
+.hero-cols { display:flex; gap:3rem; align-items:center; }
+.hero-left { flex:1; animation:fadeUp 1s .3s ease both; }
+
+.hero-badge {
+  font-family:'Syne',sans-serif; font-size:.68rem; font-weight:700;
+  letter-spacing:.16em; text-transform:uppercase; color:var(--green-bright);
+  border:1px solid rgba(74,222,128,.35); border-radius:100px;
+  padding:.4rem 1rem .4rem .7rem; margin-bottom:1.8rem;
+  display:inline-flex; align-items:center; gap:.6rem;
 }
-/* Ligne décorative sous le logo */
-.hero-logo-rule {
-  display: flex;
-  align-items: center;
-  gap: 1.4rem;
-  margin-top: 1.2rem;
+.badge-dot { width:7px; height:7px; border-radius:50%; background:var(--green); animation:blink 1.4s infinite; }
+
+.hero-title {
+  font-family:'Playfair Display',serif; font-size:clamp(1.9rem,5vw,3.4rem);
+  font-weight:900; line-height:1.06; letter-spacing:-.02em; margin-bottom:1.3rem;
 }
-.hero-logo-rule-line {
-  width: 80px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(74,222,128,.45));
+.hero-title .line2 { display:block; color:var(--green); font-style:italic; }
+.hero-title .route-line { display:flex; align-items:center; gap:.8rem; color:var(--green); margin-top:.1em; flex-wrap:wrap; }
+.arrow-line { flex:1; min-width:40px; max-width:110px; height:2px; background:var(--green); position:relative; }
+.arrow-line::after { content:''; position:absolute; right:-6px; top:-4px; border:5px solid transparent; border-left:8px solid var(--green); }
+
+.hero-sub { font-size:.98rem; font-weight:300; line-height:1.75; color:rgba(240,250,244,.7); max-width:540px; margin-bottom:2.5rem; }
+.hero-sub strong { color:var(--cream); font-weight:500; }
+
+.hero-actions { display:flex; gap:.8rem; flex-wrap:wrap; }
+.btn-primary {
+  font-family:'Syne',sans-serif; font-size:.86rem; font-weight:700;
+  letter-spacing:.06em; text-transform:uppercase;
+  background:var(--green); color:white; border:none; cursor:pointer;
+  padding:1rem 2.2rem; border-radius:2px;
+  transition:background .3s,transform .2s,box-shadow .3s;
+  text-decoration:none; display:inline-block;
 }
-.hero-logo-rule-line.r { background: linear-gradient(270deg, transparent, rgba(74,222,128,.45)); }
-.hero-logo-rule-text {
-  font-family: 'Syne', sans-serif;
-  font-size: .65rem;
-  font-weight: 700;
-  letter-spacing: .24em;
-  text-transform: uppercase;
-  color: rgba(134,239,172,.5);
-  white-space: nowrap;
+.btn-primary:hover { background:var(--green-dark); transform:translateY(-2px); box-shadow:0 14px 44px rgba(30,160,90,.4); }
+.btn-outline {
+  font-family:'Syne',sans-serif; font-size:.86rem; font-weight:700;
+  letter-spacing:.06em; text-transform:uppercase;
+  background:transparent; color:var(--cream);
+  border:1px solid rgba(250,245,236,.3); cursor:pointer;
+  padding:1rem 2.2rem; border-radius:2px;
+  transition:border-color .3s,color .3s;
+  text-decoration:none; display:inline-block;
+}
+.btn-outline:hover { border-color:var(--green-bright); color:var(--green-bright); }
+
+/* Widget live */
+.hero-right { width:290px; flex-shrink:0; animation:fadeUp 1s .5s ease both; }
+.live-box { background:rgba(255,255,255,.04); border:1px solid rgba(30,160,90,.3); border-radius:8px; overflow:hidden; backdrop-filter:blur(12px); }
+.live-head { padding:1rem 1.3rem; border-bottom:1px solid rgba(30,160,90,.15); display:flex; align-items:center; gap:.6rem; }
+.live-dot { width:8px; height:8px; border-radius:50%; background:var(--green); animation:blink .9s infinite; }
+.live-title { font-family:'Syne',sans-serif; font-size:.68rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--green-bright); }
+.live-items { padding:.3rem 0; }
+.live-item { padding:.65rem 1.3rem; display:flex; align-items:center; gap:.75rem; border-bottom:1px solid rgba(255,255,255,.04); transition:background .2s; }
+.live-item:last-child { border-bottom:none; }
+.live-flag { font-size:1rem; width:22px; text-align:center; }
+.live-info { flex:1; min-width:0; }
+.live-route { font-size:.78rem; font-weight:600; color:var(--cream); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.live-loc { font-size:.67rem; color:rgba(250,245,236,.45); margin-top:.1rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.live-badge { font-size:.6rem; font-weight:700; padding:.2rem .55rem; border-radius:100px; letter-spacing:.05em; text-transform:uppercase; white-space:nowrap; flex-shrink:0; }
+.badge-transit { background:rgba(30,160,90,.2); color:var(--green-pale); }
+.badge-arrived { background:rgba(30,160,90,.25); color:var(--green-bright); }
+.badge-depart  { background:rgba(30,160,90,.15); color:#86efac; }
+
+/* Stats strip */
+.stats-strip {
+  position:relative; z-index:5;
+  display:grid; grid-template-columns:repeat(4,1fr);
+  border-top:1px solid var(--border);
+}
+.stat-item { padding:1.6rem 2rem; border-right:1px solid rgba(74,222,128,.08); }
+.stat-item:last-child { border-right:none; }
+.stat-num { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:900; color:var(--green); line-height:1; }
+.stat-label { font-size:.7rem; font-weight:400; color:var(--muted); text-transform:uppercase; letter-spacing:.1em; margin-top:.2rem; }
+
+/* ════════════════════════════════
+   BOUTON WHATSAPP FLOTTANT
+════════════════════════════════ */
+.whatsapp-float {
+  position:fixed; bottom:1.5rem; right:1.5rem; z-index:500;
+  width:56px; height:56px; border-radius:50%;
+  background:#25D366; color:white;
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.6rem; text-decoration:none;
+  box-shadow:0 4px 20px rgba(37,211,102,.45);
+  transition:transform .3s, box-shadow .3s;
+}
+.whatsapp-float:hover { transform:scale(1.1); box-shadow:0 8px 30px rgba(37,211,102,.6); }
+
+/* ════════════════════════════════
+   MARQUEE
+════════════════════════════════ */
+.marquee-band { background:var(--green); overflow:hidden; padding:.65rem 0; border-top:1px solid rgba(255,255,255,.1); }
+.marquee-track { display:flex; width:max-content; animation:marquee 30s linear infinite; }
+.marquee-track:hover { animation-play-state:paused; }
+.m-item { display:flex; align-items:center; gap:.5rem; padding:0 1.8rem; font-family:'Syne',sans-serif; font-size:.7rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; white-space:nowrap; color:rgba(255,255,255,.88); }
+.m-sep { color:rgba(255,255,255,.35); }
+
+/* ════════════════════════════════
+   SECTIONS COMMUNES
+════════════════════════════════ */
+.section-label { font-family:'Syne',sans-serif; font-size:.7rem; font-weight:700; letter-spacing:.17em; text-transform:uppercase; color:var(--green); margin-bottom:.7rem; }
+.section-title { font-family:'Playfair Display',serif; font-size:clamp(2rem,5vw,3.6rem); font-weight:900; line-height:1.08; margin-bottom:.8rem; }
+.section-sub { font-size:.93rem; line-height:1.7; max-width:580px; margin-bottom:3rem; }
+
+.reveal { opacity:0; transform:translateY(26px); transition:opacity .7s ease,transform .7s ease; }
+.reveal.visible { opacity:1; transform:none; }
+
+/* ════════════════════════════════
+   DESTINATIONS
+════════════════════════════════ */
+.dest-section { background:#f0faf4; color:#0d5c30; padding:6rem 2.5rem; position:relative; overflow:hidden; }
+.dest-section .section-sub { color:#2d6b47; }
+.dest-panels { display:grid; grid-template-columns:1fr 70px 1fr; gap:1.5rem; align-items:start; }
+.dest-panel { background:var(--bg); color:var(--cream); border-radius:6px; overflow:hidden; }
+.panel-head { padding:1.8rem 2rem; border-bottom:1px solid rgba(30,160,90,.2); display:flex; align-items:center; gap:.9rem; background:linear-gradient(135deg,rgba(13,92,48,.8) 0%,transparent 100%); }
+.panel-flag { font-size:2rem; }
+.panel-name { font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:900; font-style:italic; }
+.panel-country { font-family:'Syne',sans-serif; font-size:.68rem; letter-spacing:.12em; text-transform:uppercase; color:var(--green-bright); margin-top:.2rem; }
+.panel-body { padding:.8rem 0; }
+.city-row { display:flex; align-items:center; justify-content:space-between; padding:.55rem 2rem; transition:background .2s; }
+.city-row:hover { background:rgba(74,222,128,.07); }
+.city-row-left { display:flex; align-items:center; gap:.7rem; }
+.city-bullet { width:6px; height:6px; border-radius:50%; flex-shrink:0; }
+.city-bullet.main { background:var(--green-bright); box-shadow:0 0 8px rgba(74,222,128,.6); }
+.city-nm { font-size:.83rem; font-weight:500; }
+.city-tag { font-family:'Syne',sans-serif; font-size:.56rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; padding:.15rem .5rem; border-radius:100px; }
+.tag-hub  { background:rgba(30,160,90,.25); color:var(--green-bright); }
+.tag-freq { background:rgba(30,160,90,.15); color:var(--green-bright); }
+.city-freq-label { font-size:.66rem; color:rgba(240,250,244,.5); }
+.dest-connector { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.7rem; padding-top:5rem; }
+.conn-dist { font-family:'Playfair Display',serif; font-size:1.4rem; font-weight:900; color:var(--green); text-align:center; line-height:1.1; }
+.conn-sub { font-family:'Syne',sans-serif; font-size:.58rem; letter-spacing:.1em; text-transform:uppercase; color:#2d6b47; text-align:center; }
+.conn-dots { display:flex; flex-direction:column; gap:5px; align-items:center; margin:.6rem 0; }
+.conn-dot { width:8px; height:8px; border-radius:50%; background:var(--green); animation:pulse 1.6s ease-in-out infinite; }
+.conn-dot:nth-child(2) { animation-delay:.3s; background:var(--green-bright); }
+.conn-dot:nth-child(3) { animation-delay:.6s; }
+.freq-pills { display:flex; gap:.8rem; flex-wrap:wrap; margin-top:2.5rem; }
+.freq-pill { display:flex; align-items:center; gap:.65rem; padding:.8rem 1.2rem; border-radius:4px; border:1px solid rgba(13,92,48,.2); background:white; box-shadow:0 2px 12px rgba(0,0,0,.07); transition:transform .25s,box-shadow .25s; }
+.freq-pill:hover { transform:translateY(-2px); box-shadow:0 6px 24px rgba(30,160,90,.2); }
+.freq-pill-icon { font-size:1.1rem; }
+.freq-pill-text { font-size:.8rem; font-weight:600; color:#0d5c30; }
+.freq-pill-sub { font-size:.66rem; color:#2d6b47; margin-top:.1rem; }
+
+/* ════════════════════════════════
+   SERVICES
+════════════════════════════════ */
+.services-section { background:var(--bg); padding:6rem 2.5rem; }
+.services-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5px; margin-top:3.5rem; border:1.5px solid rgba(30,160,90,.2); }
+.service-card { background:rgba(255,255,255,.02); padding:2.5rem 2rem; border:1.5px solid rgba(30,160,90,.08); transition:background .4s,border-color .4s; position:relative; overflow:hidden; }
+.service-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:var(--green); transform:scaleX(0); transform-origin:left; transition:transform .4s; }
+.service-card:hover { background:rgba(30,160,90,.05); border-color:rgba(30,160,90,.3); }
+.service-card:hover::before { transform:scaleX(1); }
+.service-icon { font-size:2.2rem; margin-bottom:1.4rem; display:block; }
+.service-name { font-family:'Syne',sans-serif; font-size:1rem; font-weight:700; margin-bottom:.7rem; color:var(--cream); }
+.service-desc { font-size:.85rem; line-height:1.7; color:rgba(250,245,236,.5); }
+.service-price { margin-top:1.4rem; font-family:'Playfair Display',serif; font-size:1.35rem; font-weight:700; color:var(--green-bright); }
+.service-price span { font-family:'DM Sans',sans-serif; font-size:.76rem; color:rgba(240,250,244,.5); }
+.service-badge { display:inline-block; margin-top:.5rem; font-family:'Syne',sans-serif; font-size:.58rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; padding:.2rem .6rem; border-radius:100px; }
+.sbadge-pop { background:rgba(30,160,90,.2); color:var(--green-bright); }
+.sbadge-eco { background:rgba(30,160,90,.15); color:var(--green-bright); }
+
+/* ════════════════════════════════
+   PROCESS
+════════════════════════════════ */
+.process-section { background:var(--ocean); padding:6rem 2.5rem; }
+.process-steps { display:grid; grid-template-columns:repeat(4,1fr); gap:0; margin-top:4.5rem; position:relative; }
+.process-steps::before { content:''; position:absolute; top:2.2rem; left:10%; right:10%; height:1px; background:linear-gradient(90deg,var(--green),var(--green-bright),rgba(74,222,128,.4),var(--green)); z-index:0; }
+.step { position:relative; z-index:1; display:flex; flex-direction:column; align-items:center; text-align:center; padding:0 1.2rem; }
+.step-num { width:4.2rem; height:4.2rem; border-radius:50%; background:var(--ocean); border:2px solid var(--green-bright); display:flex; align-items:center; justify-content:center; font-family:'Playfair Display',serif; font-size:1.35rem; font-weight:900; color:var(--green-bright); margin-bottom:1.6rem; box-shadow:0 0 0 6px rgba(30,160,90,.1); }
+.step-title { font-family:'Syne',sans-serif; font-size:.92rem; font-weight:700; margin-bottom:.5rem; }
+.step-desc { font-size:.8rem; line-height:1.65; color:rgba(250,245,236,.5); }
+
+/* ════════════════════════════════
+   DEVIS
+════════════════════════════════ */
+.devis-section { background:#e8f7ef; color:#0d5c30; padding:6rem 2.5rem; }
+.devis-wrap { display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:start; }
+.form-group { margin-bottom:1.3rem; }
+.form-label { font-family:'Syne',sans-serif; font-size:.68rem; font-weight:700; letter-spacing:.13em; text-transform:uppercase; color:#2d6a4a; display:block; margin-bottom:.45rem; }
+.form-input,.form-select,.form-textarea { width:100%; background:white; border:1.5px solid rgba(13,92,48,.2); border-radius:3px; padding:.9rem 1.1rem; font-family:'DM Sans',sans-serif; font-size:.93rem; color:#0d5c30; transition:border-color .3s,box-shadow .3s; outline:none; appearance:none; -webkit-appearance:none; }
+.form-input:focus,.form-select:focus,.form-textarea:focus { border-color:var(--green); box-shadow:0 0 0 3px rgba(30,160,90,.15); }
+.form-textarea { resize:vertical; min-height:100px; }
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+.form-submit { width:100%; font-family:'Syne',sans-serif; font-size:.88rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; background:var(--green); color:white; border:none; cursor:pointer; padding:1.1rem; border-radius:3px; margin-top:.4rem; transition:background .3s,transform .2s,box-shadow .3s; }
+.form-submit:hover { background:var(--green-dark); transform:translateY(-2px); box-shadow:0 12px 36px rgba(13,92,48,.3); }
+.devis-info h2 { font-family:'Playfair Display',serif; font-size:2.6rem; font-weight:900; line-height:1.08; margin-bottom:1rem; }
+.devis-info p { font-size:.95rem; line-height:1.75; color:#2d6b47; margin-bottom:1.8rem; }
+.info-points { display:flex; flex-direction:column; gap:.9rem; }
+.info-point { display:flex; align-items:flex-start; gap:.9rem; padding:1.1rem 1.3rem; background:white; border-radius:5px; border-left:3px solid var(--green); box-shadow:0 2px 12px rgba(0,0,0,.07); transition:transform .25s; }
+.info-point:hover { transform:translateX(4px); }
+.info-point-icon { font-size:1.3rem; flex-shrink:0; margin-top:.1rem; }
+.info-point-text { font-size:.86rem; line-height:1.55; color:#2d6b47; }
+.info-point-text strong { color:#0d5c30; font-weight:600; display:block; margin-bottom:.15rem; }
+
+/* ════════════════════════════════
+   TESTIMONIALS
+════════════════════════════════ */
+.testimonials-section { background:#060f0a; padding:6rem 2.5rem; position:relative; overflow:hidden; }
+.testimonials-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.3rem; margin-top:3.5rem; }
+.testi-card { background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.08); border-radius:6px; padding:2rem; transition:border-color .3s,transform .3s,box-shadow .3s; }
+.testi-card:hover { border-color:rgba(30,160,90,.4); transform:translateY(-4px); box-shadow:0 16px 50px rgba(0,0,0,.25); }
+.testi-stars { color:var(--green-bright); font-size:.9rem; letter-spacing:2px; margin-bottom:1rem; }
+.testi-text { font-family:'Playfair Display',serif; font-size:.97rem; font-style:italic; line-height:1.7; color:rgba(250,245,236,.8); margin-bottom:1.4rem; }
+.testi-author { font-family:'Syne',sans-serif; font-size:.78rem; font-weight:700; color:var(--green-bright); }
+.testi-loc { font-size:.7rem; color:rgba(250,245,236,.4); margin-top:.2rem; display:flex; align-items:center; gap:.4rem; }
+
+/* ════════════════════════════════
+   CTA BAND
+════════════════════════════════ */
+.cta-band { padding:5rem 2.5rem; text-align:center; background:linear-gradient(135deg,var(--green) 0%,var(--ocean) 100%); position:relative; overflow:hidden; }
+.cta-band::before { content:''; position:absolute; inset:0; background-image:radial-gradient(circle,rgba(255,255,255,.06) 1px,transparent 1px); background-size:26px 26px; }
+.cta-band h2 { font-family:'Playfair Display',serif; font-size:clamp(2rem,5vw,3.8rem); font-weight:900; margin-bottom:1rem; position:relative; z-index:1; }
+.cta-band p { font-size:.95rem; color:rgba(255,255,255,.75); margin-bottom:2rem; position:relative; z-index:1; }
+.btn-cta-white { font-family:'Syne',sans-serif; font-size:.86rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; background:white; color:var(--green); border:none; cursor:pointer; padding:1.1rem 3rem; border-radius:2px; transition:transform .3s,box-shadow .3s; position:relative; z-index:1; text-decoration:none; display:inline-block; }
+.btn-cta-white:hover { transform:translateY(-3px); box-shadow:0 16px 50px rgba(15,60,30,.5); }
+
+/* ════════════════════════════════
+   FOOTER
+════════════════════════════════ */
+footer { background:var(--bg-dark); padding:4.5rem 2.5rem 2rem; border-top:1px solid rgba(30,160,90,.15); }
+.footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr 1fr; gap:2.5rem; margin-bottom:3.5rem; }
+.footer-brand p { font-size:.83rem; line-height:1.75; color:var(--muted); max-width:260px; margin:.9rem 0 1.3rem; }
+.footer-socials { display:flex; gap:.5rem; }
+.social-btn { width:36px; height:36px; border-radius:4px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1); display:flex; align-items:center; justify-content:center; font-size:.9rem; transition:all .3s; cursor:pointer; text-decoration:none; }
+.social-btn:hover { background:var(--green); border-color:var(--green); }
+.footer-col h4 { font-family:'Syne',sans-serif; font-size:.68rem; font-weight:700; letter-spacing:.15em; text-transform:uppercase; color:var(--green); margin-bottom:1.2rem; }
+.footer-col ul { list-style:none; display:flex; flex-direction:column; gap:.6rem; }
+.footer-col a { font-size:.81rem; color:var(--muted); text-decoration:none; transition:color .3s; }
+.footer-col a:hover { color:var(--cream); }
+.footer-bottom { border-top:1px solid rgba(30,160,90,.1); padding-top:1.8rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:.8rem; }
+.footer-bottom p { font-size:.74rem; color:rgba(240,250,244,.3); }
+.footer-bottom a { color:rgba(240,250,244,.45); text-decoration:none; font-size:.74rem; }
+.footer-bottom a:hover { color:var(--cream); }
+
+/* ════════════════════════════════
+   MODAL
+════════════════════════════════ */
+.modal-overlay { position:fixed; inset:0; z-index:1000; background:rgba(5,12,8,.92); backdrop-filter:blur(8px); display:none; align-items:center; justify-content:center; padding:1rem; }
+.modal-overlay.open { display:flex; }
+.modal { background:var(--bg); border:1px solid rgba(30,160,90,.4); border-radius:10px; padding:2.5rem; width:100%; max-width:490px; animation:popIn .3s ease; position:relative; }
+.modal-close { position:absolute; top:1rem; right:1rem; background:none; border:none; cursor:pointer; font-size:1.4rem; color:var(--muted); line-height:1; transition:color .2s; padding:.3rem; }
+.modal-close:hover { color:var(--cream); }
+.modal h3 { font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:900; margin-bottom:.4rem; }
+.modal p { font-size:.86rem; color:rgba(250,245,236,.45); margin-bottom:1.5rem; }
+.track-result { background:rgba(74,222,128,.07); border:1px solid rgba(30,160,90,.3); border-radius:4px; padding:1.4rem; margin-top:1rem; display:none; }
+.track-result.show { display:block; }
+.track-status { font-family:'Syne',sans-serif; font-size:.68rem; letter-spacing:.12em; text-transform:uppercase; color:var(--green); margin-bottom:.5rem; }
+.track-info { font-size:.88rem; color:rgba(250,245,236,.78); line-height:1.6; }
+
+.toast { position:fixed; bottom:5.5rem; right:1.5rem; z-index:2000; background:var(--green-dark); color:white; padding:.9rem 1.4rem; border-radius:4px; font-family:'Syne',sans-serif; font-size:.83rem; font-weight:600; border:1px solid rgba(74,222,128,.4); transform:translateX(130%); transition:transform .4s ease; }
+.toast.show { transform:translateX(0); }
+
+/* ════════════════════════════════
+   RESPONSIVE — TABLETTE (≤900px)
+════════════════════════════════ */
+@media (max-width: 900px) {
+  .nav-links { display:none; }
+  .btn-ghost-nav { display:none; }
+  .hamburger { display:flex; }
+
+  .hero-cols { flex-direction:column; gap:2rem; }
+  .hero-right { width:100%; }
+
+  .stats-strip { grid-template-columns:repeat(2,1fr); }
+  .stat-item { padding:1.3rem 1.8rem; }
+
+  .dest-panels { grid-template-columns:1fr; }
+  .dest-connector { flex-direction:row; padding-top:0; justify-content:center; }
+
+  .services-grid { grid-template-columns:repeat(2,1fr); }
+
+  .process-steps { grid-template-columns:repeat(2,1fr); gap:2.5rem; }
+  .process-steps::before { display:none; }
+
+  .devis-wrap { grid-template-columns:1fr; gap:2.5rem; }
+
+  .testimonials-grid { grid-template-columns:repeat(2,1fr); }
+
+  .footer-grid { grid-template-columns:1fr 1fr; gap:2rem; }
 }
 
-/* Colonnes texte + widget */
-.hero-cols { display: flex; gap: 4rem; align-items: center; }
-.hero-left { flex: 1; max-width: 680px; animation: fadeUp 1s .35s ease both; }
-.hero-badge { font-family: 'Syne', sans-serif; font-size: .7rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); border: 1px solid rgba(74,222,128,.35); border-radius: 100px; padding: .4rem 1rem .4rem .7rem; margin-bottom: 2rem; display: inline-flex; align-items: center; gap: .6rem; }
-.badge-dot { width: 7px; height: 7px; border-radius: 50%; background: #1ea05a; animation: blink 1.4s infinite; }
-.hero-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3.4rem); font-weight: 900; line-height: 1.05; letter-spacing: -.02em; margin-bottom: 1.4rem; }
-.hero-title .line1 { display: block; }
-.hero-title .line2 { display: block; color: #1ea05a; font-style: italic; }
-.hero-title .route-line { display: flex; align-items: center; gap: 1rem; color: #1ea05a; margin-top: .1em; }
-.arrow-line { flex: 1; max-width: 110px; height: 2px; background: #1ea05a; position: relative; }
-.arrow-line::after { content: ''; position: absolute; right: -6px; top: -4px; border: 5px solid transparent; border-left: 8px solid #1ea05a; }
-.hero-sub { font-size: 1.05rem; font-weight: 300; line-height: 1.78; color: rgba(240,250,244,.72); max-width: 540px; margin-bottom: 2.8rem; }
-.hero-sub strong { color: var(--cream); font-weight: 500; }
-.hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
-.btn-primary { font-family: 'Syne', sans-serif; font-size: .88rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; background: #1ea05a; color: white; border: none; cursor: pointer; padding: 1.05rem 2.6rem; border-radius: 2px; transition: background .3s, transform .2s, box-shadow .3s; text-decoration: none; display: inline-block; }
-.btn-primary:hover { background: #157a42; transform: translateY(-2px); box-shadow: 0 14px 44px rgba(30,160,90,.4); }
-.btn-outline { font-family: 'Syne', sans-serif; font-size: .88rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; background: transparent; color: var(--cream); border: 1px solid rgba(250,245,236,.3); cursor: pointer; padding: 1.05rem 2.6rem; border-radius: 2px; transition: border-color .3s, color .3s; text-decoration: none; display: inline-block; }
-.btn-outline:hover { border-color: var(--gold); color: #25c46e; }
+/* ════════════════════════════════
+   RESPONSIVE — MOBILE (≤600px)
+════════════════════════════════ */
+@media (max-width: 600px) {
+  /* Nav */
+  nav { padding:.9rem 1.2rem; }
+  nav.stuck { padding:.8rem 1.2rem; }
+  .nav-cta { padding:.6rem 1rem; font-size:.7rem; }
 
-.hero-right { width: 290px; flex-shrink: 0; animation: fadeUp 1s .5s ease both; }
-.live-box { background: rgba(255,255,255,.04); border: 1px solid rgba(30,160,90,.3); border-radius: 8px; overflow: hidden; backdrop-filter: blur(12px); }
-.live-head { padding: 1rem 1.3rem; border-bottom: 1px solid rgba(30,160,90,.15); display: flex; align-items: center; gap: .6rem; }
-.live-dot { width: 8px; height: 8px; border-radius: 50%; background: #1ea05a; animation: blink .9s infinite; }
-.live-title { font-family: 'Syne', sans-serif; font-size: .68rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #25c46e; }
-.live-items { padding: .3rem 0; }
-.live-item { padding: .65rem 1.3rem; display: flex; align-items: center; gap: .75rem; border-bottom: 1px solid rgba(255,255,255,.04); transition: background .2s; }
-.live-item:last-child { border-bottom: none; }
-.live-item:hover { background: rgba(74,222,128,.05); }
-.live-flag { font-size: 1rem; width: 22px; text-align: center; }
-.live-info { flex: 1; }
-.live-route { font-size: .78rem; font-weight: 600; color: var(--cream); }
-.live-loc { font-size: .67rem; color: rgba(250,245,236,.45); margin-top: .1rem; }
-.live-badge { font-size: .6rem; font-weight: 700; padding: .2rem .55rem; border-radius: 100px; letter-spacing: .05em; text-transform: uppercase; white-space: nowrap; }
-.badge-transit { background: rgba(30,160,90,.2); color: var(--gold-pale); }
-.badge-arrived { background: rgba(30,160,90,.25); color: #25c46e; }
-.badge-depart  { background: rgba(30,160,90,.15);  color: #86efac; }
+  /* Hero */
+  .hero { padding-top:4.5rem; }
+  .hero-body { padding:1.2rem 1.2rem 5rem; }
+  .hero-logo-stage { padding:1rem 0 2rem; }
+  .hero-logo-stage svg { width:200px; height:auto; }
+  .hero-logo-rule-text { font-size:.58rem; letter-spacing:.16em; }
+  .hero-logo-rule-line { width:40px; }
 
-.stats-strip { position: relative; z-index: 5; display: grid; grid-template-columns: repeat(4,1fr); border-top: 1px solid rgba(30,160,90,.25); animation: fadeUp 1s .65s ease both; }
-.stat-item { padding: 1.8rem 4rem; border-right: 1px solid rgba(74,222,128,.08); }
-.stat-item:last-child { border-right: none; }
-.stat-num { font-family: 'Playfair Display', serif; font-size: 2.6rem; font-weight: 900; color: #1ea05a; line-height: 1; }
-.stat-label { font-size: .72rem; font-weight: 400; color: rgba(250,245,236,.45); text-transform: uppercase; letter-spacing: .1em; margin-top: .25rem; }
+  .hero-badge { font-size:.62rem; padding:.35rem .8rem .35rem .6rem; margin-bottom:1.4rem; }
+  .hero-title { font-size:clamp(1.7rem,8vw,2.2rem); margin-bottom:1.1rem; }
+  .hero-sub { font-size:.92rem; margin-bottom:2rem; }
+  .hero-actions { flex-direction:column; gap:.7rem; }
+  .hero-actions .btn-primary,
+  .hero-actions .btn-outline { width:100%; text-align:center; padding:1rem; }
 
-/* ══ MARQUEE ══ */
-.marquee-band { background: #1ea05a; overflow: hidden; padding: .7rem 0; border-top: 1px solid rgba(255,255,255,.1); }
-.marquee-track { display: flex; width: max-content; animation: marquee 28s linear infinite; }
-.marquee-track:hover { animation-play-state: paused; }
-.m-item { display: flex; align-items: center; gap: .55rem; padding: 0 2rem; font-family: 'Syne', sans-serif; font-size: .72rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; white-space: nowrap; color: rgba(255,255,255,.88); }
-.m-sep { color: rgba(255,255,255,.35); }
+  /* Stats */
+  .stats-strip { grid-template-columns:repeat(2,1fr); }
+  .stat-item { padding:1.1rem 1.2rem; }
+  .stat-num { font-size:1.9rem; }
+  .stat-label { font-size:.65rem; }
 
-/* ══ DESTINATIONS ══ */
-.dest-section { background: #f0faf4; color: #0d5c30; padding: 8rem 4rem; position: relative; overflow: hidden; }
-.dest-section::before { content: 'ROUTES'; position: absolute; right: -4rem; top: 50%; transform: translateY(-50%); font-family: 'Playfair Display', serif; font-size: 20rem; font-weight: 900; color: rgba(255,255,255,.04); pointer-events: none; white-space: nowrap; }
-.section-label { font-family: 'Syne', sans-serif; font-size: .72rem; font-weight: 700; letter-spacing: .17em; text-transform: uppercase; color: #1ea05a; margin-bottom: .8rem; }
-.section-title { font-family: 'Playfair Display', serif; font-size: clamp(2.4rem,5vw,3.8rem); font-weight: 900; line-height: 1.08; margin-bottom: .8rem; }
-.section-sub { font-size: .95rem; color: var(--warm-gray); line-height: 1.7; max-width: 580px; margin-bottom: 3.5rem; }
-.dest-panels { display: grid; grid-template-columns: 1fr 80px 1fr; gap: 2rem; align-items: start; }
-.dest-panel { background: var(--deep-blue); color: var(--cream); border-radius: 6px; overflow: hidden; }
-.panel-head { padding: 2rem 2.2rem; border-bottom: 1px solid rgba(30,160,90,.2); display: flex; align-items: center; gap: 1rem; background: linear-gradient(135deg, rgba(13,92,48,.8) 0%, transparent 100%); }
-.panel-flag { font-size: 2.2rem; }
-.panel-name { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; font-style: italic; }
-.panel-country { font-family: 'Syne', sans-serif; font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--gold); margin-top: .2rem; }
-.panel-body { padding: 1rem 0; max-height: 440px; overflow-y: auto; }
-.panel-body::-webkit-scrollbar { width: 2px; }
-.panel-body::-webkit-scrollbar-thumb { background: #1ea05a; }
-.city-row { display: flex; align-items: center; justify-content: space-between; padding: .6rem 2.2rem; transition: background .2s; cursor: default; }
-.city-row:hover { background: rgba(74,222,128,.07); }
-.city-row-left { display: flex; align-items: center; gap: .8rem; }
-.city-bullet { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
-.city-bullet.main { background: #25c46e; box-shadow: 0 0 8px rgba(74,222,128,.6); }
-.city-nm { font-size: .85rem; font-weight: 500; }
-.city-tag { font-family: 'Syne', sans-serif; font-size: .58rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: .18rem .55rem; border-radius: 100px; }
-.tag-hub  { background: rgba(30,160,90,.25); color: #25c46e; }
-.tag-freq { background: rgba(30,160,90,.15); color: #25c46e; }
-.city-freq-label { font-size: .68rem; color: rgba(240,250,244,.5); }
-.dest-connector { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .8rem; padding-top: 6rem; }
-.conn-dist { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 900; color: #1ea05a; text-align: center; line-height: 1.1; }
-.conn-sub { font-family: 'Syne', sans-serif; font-size: .62rem; letter-spacing: .1em; text-transform: uppercase; color: var(--warm-gray); text-align: center; }
-.conn-dots { display: flex; flex-direction: column; gap: 5px; align-items: center; margin: .8rem 0; }
-.conn-dot { width: 8px; height: 8px; border-radius: 50%; background: #1ea05a; animation: pulse 1.6s ease-in-out infinite; }
-.conn-dot:nth-child(2) { animation-delay: .3s; background: #25c46e; }
-.conn-dot:nth-child(3) { animation-delay: .6s; }
-.freq-pills { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 3rem; }
-.freq-pill { display: flex; align-items: center; gap: .7rem; padding: .85rem 1.4rem; border-radius: 4px; border: 1px solid rgba(13,92,48,.2); background: white; box-shadow: 0 2px 12px rgba(0,0,0,.08); transition: transform .25s, box-shadow .25s; }
-.freq-pill:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(30,160,90,.2); }
-.freq-pill-icon { font-size: 1.2rem; }
-.freq-pill-text { font-size: .82rem; font-weight: 600; color: #0d5c30; }
-.freq-pill-sub { font-size: .68rem; color: var(--warm-gray); margin-top: .1rem; }
+  /* Marquee */
+  .m-item { font-size:.65rem; padding:0 1.2rem; }
 
-/* ══ SERVICES ══ */
-.services-section { background: var(--deep-blue); padding: 8rem 4rem; }
-.services-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5px; margin-top: 4rem; border: 1.5px solid rgba(30,160,90,.25); }
-.service-card { background: rgba(255,255,255,.02); padding: 3rem 2.5rem; border: 1.5px solid rgba(30,160,90,.1); transition: background .4s, border-color .4s; cursor: default; position: relative; overflow: hidden; }
-.service-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: #1ea05a; transform: scaleX(0); transform-origin: left; transition: transform .4s; }
-.service-card:hover { background: rgba(30,160,90,.05); border-color: rgba(30,160,90,.3); }
-.service-card:hover::before { transform: scaleX(1); }
-.service-icon { font-size: 2.4rem; margin-bottom: 1.6rem; display: block; }
-.service-name { font-family: 'Syne', sans-serif; font-size: 1.05rem; font-weight: 700; letter-spacing: .02em; margin-bottom: .8rem; color: var(--cream); }
-.service-desc { font-size: .87rem; line-height: 1.75; color: rgba(250,245,236,.5); }
-.service-price { margin-top: 1.6rem; font-family: 'Playfair Display', serif; font-size: 1.45rem; font-weight: 700; color: #25c46e; }
-.service-price span { font-family: 'DM Sans', sans-serif; font-size: .78rem; color: rgba(240,250,244,.5); }
-.service-badge { display: inline-block; margin-top: .6rem; font-family: 'Syne', sans-serif; font-size: .6rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: .2rem .65rem; border-radius: 100px; }
-.sbadge-pop { background: rgba(30,160,90,.2); color: #25c46e; }
-.sbadge-eco { background: rgba(30,160,90,.15); color: #25c46e; }
+  /* Sections */
+  .dest-section,
+  .services-section,
+  .process-section,
+  .devis-section,
+  .testimonials-section,
+  .cta-band,
+  footer { padding-left:1.2rem; padding-right:1.2rem; }
+  .dest-section { padding-top:4rem; padding-bottom:4rem; }
+  .services-section { padding-top:4rem; padding-bottom:4rem; }
+  .process-section { padding-top:4rem; padding-bottom:4rem; }
+  .devis-section { padding-top:4rem; padding-bottom:4rem; }
+  .testimonials-section { padding-top:4rem; padding-bottom:4rem; }
+  .cta-band { padding-top:3.5rem; padding-bottom:3.5rem; }
+  footer { padding-top:3rem; }
 
-/* ══ PROCESS ══ */
-.process-section { background: #0d5c30; padding: 8rem 4rem; }
-.process-steps { display: grid; grid-template-columns: repeat(4,1fr); gap: 0; margin-top: 5rem; position: relative; }
-.process-steps::before { content: ''; position: absolute; top: 2.2rem; left: 10%; right: 10%; height: 1px; background: linear-gradient(90deg, #1ea05a, #25c46e, rgba(74,222,128,.4), #1ea05a); z-index: 0; }
-.step { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 0 1.5rem; }
-.step-num { width: 4.4rem; height: 4.4rem; border-radius: 50%; background: var(--ocean); border: 2px solid #25c46e; display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 900; color: var(--gold); margin-bottom: 1.8rem; box-shadow: 0 0 0 6px rgba(30,160,90,.1); }
-.step-title { font-family: 'Syne', sans-serif; font-size: .95rem; font-weight: 700; margin-bottom: .6rem; }
-.step-desc { font-size: .82rem; line-height: 1.65; color: rgba(250,245,236,.5); }
+  .section-title { font-size:clamp(1.7rem,7vw,2.4rem); }
+  .section-sub { font-size:.88rem; }
 
-/* ══ DEVIS ══ */
-.devis-section { background: #e8f7ef; color: #0d5c30; padding: 8rem 4rem; }
-.devis-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start; }
-.form-group { margin-bottom: 1.4rem; }
-.form-label { font-family: 'Syne', sans-serif; font-size: .7rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; color: #2d6a4a; display: block; margin-bottom: .5rem; }
-.form-input, .form-select, .form-textarea { width: 100%; background: white; border: 1.5px solid rgba(13,92,48,.2); border-radius: 3px; padding: .9rem 1.15rem; font-family: 'DM Sans', sans-serif; font-size: .93rem; color: #0d5c30; transition: border-color .3s, box-shadow .3s; outline: none; appearance: none; }
-.form-input:focus, .form-select:focus, .form-textarea:focus { border-color: #1ea05a; box-shadow: 0 0 0 3px rgba(30,160,90,.15); }
-.form-textarea { resize: vertical; min-height: 110px; }
-.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-.form-submit { width: 100%; font-family: 'Syne', sans-serif; font-size: .9rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; background: #1ea05a; color: white; border: none; cursor: pointer; padding: 1.1rem; border-radius: 3px; margin-top: .5rem; transition: background .3s, transform .2s, box-shadow .3s; }
-.form-submit:hover { background: #157a42; transform: translateY(-2px); box-shadow: 0 12px 36px rgba(13,92,48,.3); }
-.devis-info { padding-top: 1rem; }
-.devis-info h2 { font-family: 'Playfair Display', serif; font-size: 2.8rem; font-weight: 900; line-height: 1.08; margin-bottom: 1.2rem; }
-.devis-info p { font-size: .98rem; line-height: 1.75; color: var(--warm-gray); margin-bottom: 2rem; }
-.info-points { display: flex; flex-direction: column; gap: 1rem; }
-.info-point { display: flex; align-items: flex-start; gap: 1rem; padding: 1.2rem 1.5rem; background: white; border-radius: 5px; border-left: 3px solid #1ea05a; box-shadow: 0 2px 12px rgba(0,0,0,.08); transition: transform .25s; }
-.info-point:hover { transform: translateX(4px); }
-.info-point-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: .1rem; }
-.info-point-text { font-size: .88rem; line-height: 1.55; color: #2d6b47; }
-.info-point-text strong { color: #0d5c30; font-weight: 600; display: block; margin-bottom: .2rem; }
+  /* Destinations */
+  .dest-panels { gap:1rem; }
+  .panel-head { padding:1.4rem 1.5rem; }
+  .panel-name { font-size:1.5rem; }
+  .city-row { padding:.5rem 1.5rem; }
+  .dest-connector { gap:.5rem; }
+  .conn-dist { font-size:1.1rem; }
+  .freq-pills { gap:.6rem; }
+  .freq-pill { padding:.65rem 1rem; }
+  .freq-pill-text { font-size:.76rem; }
 
-/* ══ TESTIMONIALS ══ */
-.testimonials-section { background: #060f0a; padding: 8rem 4rem; position: relative; overflow: hidden; }
-.testimonials-section::before { content: '❝'; position: absolute; right: 2rem; top: -3rem; font-size: 24rem; color: rgba(74,222,128,.035); font-family: Georgia; line-height: 1; }
-.testimonials-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; margin-top: 4rem; position: relative; z-index: 1; }
-.testi-card { background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.08); border-radius: 6px; padding: 2.2rem; transition: border-color .3s, transform .3s, box-shadow .3s; }
-.testi-card:hover { border-color: rgba(30,160,90,.4); transform: translateY(-4px); box-shadow: 0 16px 50px rgba(0,0,0,.25); }
-.testi-stars { color: #25c46e; font-size: .95rem; letter-spacing: 2px; margin-bottom: 1.2rem; }
-.testi-text { font-family: 'Playfair Display', serif; font-size: 1rem; font-style: italic; line-height: 1.72; color: rgba(250,245,236,.8); margin-bottom: 1.5rem; }
-.testi-author { font-family: 'Syne', sans-serif; font-size: .8rem; font-weight: 700; color: #25c46e; }
-.testi-loc { font-size: .72rem; color: rgba(250,245,236,.4); margin-top: .2rem; display: flex; align-items: center; gap: .4rem; }
-.testi-arrow { color: #1ea05a; }
+  /* Services */
+  .services-grid { grid-template-columns:1fr; gap:0; }
+  .service-card { padding:2rem 1.5rem; }
 
-/* ══ CTA BAND ══ */
-.cta-band { padding: 6rem 4rem; text-align: center; background: linear-gradient(135deg, #1ea05a 0%, #0d5c30 100%); position: relative; overflow: hidden; }
-.cta-band::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(circle, rgba(255,255,255,.07) 1px, transparent 1px); background-size: 26px 26px; }
-.cta-band h2 { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem,5vw,4rem); font-weight: 900; margin-bottom: 1rem; position: relative; z-index: 1; }
-.cta-band p { font-size: 1rem; color: rgba(255,255,255,.7); margin-bottom: 2.5rem; position: relative; z-index: 1; }
-.btn-cta-white { font-family: 'Syne', sans-serif; font-size: .88rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; background: white; color: #1ea05a; border: none; cursor: pointer; padding: 1.15rem 3.5rem; border-radius: 2px; transition: transform .3s, box-shadow .3s; position: relative; z-index: 1; text-decoration: none; display: inline-block; }
-.btn-cta-white:hover { transform: translateY(-3px); box-shadow: 0 16px 50px rgba(15,60,30,.5); color: #1ea05a; }
+  /* Process */
+  .process-steps { grid-template-columns:1fr; gap:2rem; }
+  .step { flex-direction:row; text-align:left; align-items:flex-start; gap:1.2rem; }
+  .step-num { width:3.2rem; height:3.2rem; font-size:1.1rem; margin-bottom:0; flex-shrink:0; }
+  .step-title { font-size:.88rem; }
 
-/* ══ FOOTER ══ */
-footer { background: #040f09; padding: 5rem 4rem 2.5rem; border-top: 1px solid rgba(30,160,90,.15); }
-.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 4rem; }
-.footer-brand p { font-size: .85rem; line-height: 1.75; color: rgba(240,250,244,.5); max-width: 270px; margin-bottom: 1.5rem; margin-top: 1rem; }
-.footer-socials { display: flex; gap: .55rem; }
-.social-btn { width: 34px; height: 34px; border-radius: 4px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); display: flex; align-items: center; justify-content: center; font-size: .9rem; transition: all .3s; cursor: pointer; text-decoration: none; }
-.social-btn:hover { background: #1ea05a; border-color: #1ea05a; }
-.footer-col h4 { font-family: 'Syne', sans-serif; font-size: .7rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: #1ea05a; margin-bottom: 1.3rem; }
-.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: .65rem; }
-.footer-col a { font-size: .83rem; color: rgba(240,250,244,.5); text-decoration: none; transition: color .3s; }
-.footer-col a:hover { color: var(--cream); }
-.footer-bottom { border-top: 1px solid rgba(30,160,90,.1); padding-top: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
-.footer-bottom p { font-size: .76rem; color: rgba(240,250,244,.35); }
-.footer-bottom a { color: rgba(240,250,244,.5); text-decoration: none; font-size: .76rem; }
-.footer-bottom a:hover { color: var(--cream); }
+  /* Devis */
+  .devis-info h2 { font-size:2rem; }
+  .form-row { grid-template-columns:1fr; }
+  .form-input,.form-select,.form-textarea { font-size:16px; /* évite le zoom iOS */ }
 
-/* ══ REVEAL ══ */
-.reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
-.reveal.visible { opacity: 1; transform: none; }
+  /* Témoignages */
+  .testimonials-grid { grid-template-columns:1fr; }
+  .testi-card { padding:1.5rem; }
 
-/* ══ MODAL ══ */
-.modal-overlay { position: fixed; inset: 0; z-index: 1000; background: rgba(5,12,8,.92); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; }
-.modal-overlay.open { display: flex; }
-.modal { background: var(--deep-blue); border: 1px solid rgba(30,160,90,.4); border-radius: 8px; padding: 3rem; width: 90%; max-width: 490px; animation: popIn .3s ease; position: relative; }
-.modal-close { position: absolute; top: 1rem; right: 1rem; background: none; border: none; cursor: pointer; font-size: 1.4rem; color: rgba(240,250,244,.5); line-height: 1; transition: color .2s; }
-.modal-close:hover { color: var(--cream); }
-.modal h3 { font-family: 'Playfair Display', serif; font-size: 1.9rem; font-weight: 900; margin-bottom: .4rem; }
-.modal p { font-size: .88rem; color: rgba(250,245,236,.48); margin-bottom: 1.8rem; }
-.track-result { background: rgba(74,222,128,.07); border: 1px solid rgba(30,160,90,.3); border-radius: 4px; padding: 1.5rem; margin-top: 1rem; display: none; }
-.track-result.show { display: block; }
-.track-status { font-family: 'Syne', sans-serif; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: #1ea05a; margin-bottom: .5rem; }
-.track-info { font-size: .9rem; color: rgba(250,245,236,.78); line-height: 1.6; }
-.toast { position: fixed; bottom: 2rem; right: 2rem; z-index: 2000; background: #157a42; color: white; padding: 1rem 1.6rem; border-radius: 4px; font-family: 'Syne', sans-serif; font-size: .85rem; font-weight: 600; border: 1px solid rgba(74,222,128,.4); transform: translateX(130%); transition: transform .4s ease; }
-.toast.show { transform: translateX(0); }
+  /* CTA */
+  .cta-band h2 { font-size:1.8rem; }
+  .btn-cta-white { width:100%; padding:1rem; }
 
-/* ══ RESPONSIVE ══ */
-@media (max-width: 1100px) {
-  nav, .hero-body, .dest-section, .services-section, .process-section, .devis-section, .testimonials-section, .cta-band, footer { padding-left: 2rem; padding-right: 2rem; }
-  nav.stuck { padding-left: 2rem; padding-right: 2rem; }
-  .nav-links { display: none; }
-  .hero-cols { flex-direction: column; }
-  .hero-right { width: 100%; }
-  .stats-strip { grid-template-columns: repeat(2,1fr); }
-  .stat-item { padding: 1.4rem 2rem; }
-  .dest-panels { grid-template-columns: 1fr; }
-  .dest-connector { flex-direction: row; padding-top: 0; justify-content: center; }
-  .services-grid { grid-template-columns: 1fr; }
-  .process-steps { grid-template-columns: repeat(2,1fr); gap: 3rem; }
-  .process-steps::before { display: none; }
-  .devis-wrap { grid-template-columns: 1fr; gap: 3rem; }
-  .testimonials-grid { grid-template-columns: 1fr; }
-  .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
-  .hero-logo-stage svg { width: 240px; height: auto; }
+  /* Footer */
+  .footer-grid { grid-template-columns:1fr; gap:2rem; }
+  .footer-bottom { flex-direction:column; align-items:flex-start; }
+
+  /* Modal */
+  .modal { padding:1.8rem; }
+  .modal h3 { font-size:1.5rem; }
+
+  /* WhatsApp */
+  .whatsapp-float { width:52px; height:52px; font-size:1.4rem; }
 }
 </style>
 </head>
 <body>
 
-<!-- Gradient defs partagé -->
+<!-- Gradient SVG partagé -->
 <svg width="0" height="0" style="position:absolute;pointer-events:none">
   <defs>
     <linearGradient id="logoGrad" x1="0" y1="0" x2="1" y2="1">
@@ -345,16 +559,16 @@ footer { background: #040f09; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
   </defs>
 </svg>
 
-<!-- MODAL SUIVI -->
+<!-- ══ MODAL SUIVI ══ -->
 <div class="modal-overlay" id="trackModal">
   <div class="modal">
     <button class="modal-close" onclick="closeModal()">✕</button>
     <h3>Suivre mon colis</h3>
-    <p>Entrez votre numéro de suivi SADA Transport pour localiser votre envoi en temps réel.</p>
-    <p style="margin-top:.8rem;font-size:.82rem;color:rgba(250,245,236,.5)">📞 +33 7 75 78 75 61 &nbsp;|&nbsp; ✉️ sadasy501@gmail.com</p>
-    <div class="form-group" style="margin-top:1.2rem">
+    <p>Entrez votre numéro de suivi SADA Transport pour localiser votre envoi.</p>
+    <p style="font-size:.8rem;color:rgba(250,245,236,.45);margin-bottom:1.5rem">📞 +33 7 75 78 75 61 &nbsp;|&nbsp; ✉️ sadasy501@gmail.com</p>
+    <div class="form-group">
       <label class="form-label">Numéro de suivi</label>
-      <input class="form-input" id="trackInput" placeholder="Ex: TA-2025-78432" />
+      <input class="form-input" id="trackInput" placeholder="Ex: TA-2025-78432" style="font-size:16px" />
     </div>
     <button class="btn-primary" style="width:100%;margin-top:.5rem" onclick="trackPackage()">Rechercher mon colis →</button>
     <div class="track-result" id="trackResult">
@@ -364,20 +578,39 @@ footer { background: #040f09; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
   </div>
 </div>
 
+<!-- ══ MENU MOBILE ══ -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-menu-close" onclick="closeMobileMenu()">✕</button>
+  <a href="#destinations" onclick="closeMobileMenu()">Destinations</a>
+  <a href="#services" onclick="closeMobileMenu()">Services</a>
+  <a href="#process" onclick="closeMobileMenu()">Étapes</a>
+  <a href="#devis" onclick="closeMobileMenu()">Devis</a>
+  <a href="#contact" onclick="closeMobileMenu()">Contact</a>
+  <div class="mobile-menu-cta">
+    <button class="btn-ghost-nav" style="display:block;width:100%;text-align:center;padding:1rem" onclick="closeMobileMenu();openModal()">📦 Suivre mon colis</button>
+    <a href="#devis" class="btn-primary" style="text-align:center;padding:1rem" onclick="closeMobileMenu()">Devis gratuit</a>
+  </div>
+</div>
+
 <div class="toast" id="toast">✅ Demande envoyée — Réponse sous 24h !</div>
 
-<!-- ══ NAV — logo compact, sobre ══ -->
+<!-- ══ BOUTON WHATSAPP ══ -->
+<a href="https://wa.me/33775787561" class="whatsapp-float" target="_blank" rel="noopener" aria-label="Contacter sur WhatsApp">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+</a>
+
+<!-- ══ NAV ══ -->
 <nav id="mainNav">
   <div class="nav-logo">
-    <svg width="118" height="50" viewBox="0 0 260 110" xmlns="http://www.w3.org/2000/svg">
+    <svg width="110" height="46" viewBox="0 0 260 110" xmlns="http://www.w3.org/2000/svg">
       <ellipse cx="130" cy="55" rx="126" ry="52" fill="url(#logoGrad)"/>
       <ellipse cx="130" cy="55" rx="118" ry="44" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
-      <text x="130" y="23" text-anchor="middle" font-family="'Arial Narrow',Arial,sans-serif" font-size="9" font-weight="700" fill="rgba(255,255,255,0.75)" letter-spacing="5">GROUPE</text>
+      <text x="130" y="23" text-anchor="middle" font-family="Arial Narrow,Arial,sans-serif" font-size="9" font-weight="700" fill="rgba(255,255,255,0.75)" letter-spacing="5">GROUPE</text>
       <line x1="20" y1="27" x2="82" y2="27" stroke="rgba(255,255,255,0.25)" stroke-width="0.7"/>
       <line x1="178" y1="27" x2="240" y2="27" stroke="rgba(255,255,255,0.25)" stroke-width="0.7"/>
-      <text x="130" y="68" text-anchor="middle" font-family="'Arial Black',Arial,sans-serif" font-size="42" font-weight="900" fill="white" letter-spacing="3">SADA</text>
+      <text x="130" y="68" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-size="42" font-weight="900" fill="white" letter-spacing="3">SADA</text>
       <line x1="42" y1="76" x2="218" y2="76" stroke="rgba(255,255,255,0.22)" stroke-width="0.7"/>
-      <text x="130" y="93" text-anchor="middle" font-family="'Arial Narrow',Arial,sans-serif" font-size="9.5" font-weight="700" fill="rgba(255,255,255,0.88)" letter-spacing="3.5">TRANSPORT LOGISTIQUE</text>
+      <text x="130" y="93" text-anchor="middle" font-family="Arial Narrow,Arial,sans-serif" font-size="9.5" font-weight="700" fill="rgba(255,255,255,0.88)" letter-spacing="3.5">TRANSPORT LOGISTIQUE</text>
     </svg>
   </div>
   <ul class="nav-links">
@@ -390,6 +623,9 @@ footer { background: #040f09; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
   <div class="nav-right">
     <button class="btn-ghost-nav" onclick="openModal()">📦 Suivre mon colis</button>
     <a href="#devis" class="nav-cta">Devis gratuit</a>
+    <button class="hamburger" id="hamburger" onclick="openMobileMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
 
@@ -403,20 +639,18 @@ footer { background: #040f09; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
   </div>
 
   <div class="hero-body">
-
-    <!-- ★ LOGO CENTRÉ — signature visuelle forte, première chose vue ★ -->
+    <!-- Logo centré -->
     <div class="hero-logo-stage">
-      <svg width="300" height="126" viewBox="0 0 260 110" xmlns="http://www.w3.org/2000/svg">
+      <svg width="290" height="122" viewBox="0 0 260 110" xmlns="http://www.w3.org/2000/svg">
         <ellipse cx="130" cy="55" rx="126" ry="52" fill="url(#logoGrad)"/>
         <ellipse cx="130" cy="55" rx="118" ry="44" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
-        <text x="130" y="23" text-anchor="middle" font-family="'Arial Narrow',Arial,sans-serif" font-size="9" font-weight="700" fill="rgba(255,255,255,0.75)" letter-spacing="5">GROUPE</text>
+        <text x="130" y="23" text-anchor="middle" font-family="Arial Narrow,Arial,sans-serif" font-size="9" font-weight="700" fill="rgba(255,255,255,0.75)" letter-spacing="5">GROUPE</text>
         <line x1="20" y1="27" x2="82" y2="27" stroke="rgba(255,255,255,0.25)" stroke-width="0.7"/>
         <line x1="178" y1="27" x2="240" y2="27" stroke="rgba(255,255,255,0.25)" stroke-width="0.7"/>
-        <text x="130" y="68" text-anchor="middle" font-family="'Arial Black',Arial,sans-serif" font-size="42" font-weight="900" fill="white" letter-spacing="3">SADA</text>
+        <text x="130" y="68" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-size="42" font-weight="900" fill="white" letter-spacing="3">SADA</text>
         <line x1="42" y1="76" x2="218" y2="76" stroke="rgba(255,255,255,0.22)" stroke-width="0.7"/>
-        <text x="130" y="93" text-anchor="middle" font-family="'Arial Narrow',Arial,sans-serif" font-size="9.5" font-weight="700" fill="rgba(255,255,255,0.88)" letter-spacing="3.5">TRANSPORT LOGISTIQUE</text>
+        <text x="130" y="93" text-anchor="middle" font-family="Arial Narrow,Arial,sans-serif" font-size="9.5" font-weight="700" fill="rgba(255,255,255,0.88)" letter-spacing="3.5">TRANSPORT LOGISTIQUE</text>
       </svg>
-      <!-- Règle décorative -->
       <div class="hero-logo-rule">
         <div class="hero-logo-rule-line"></div>
         <span class="hero-logo-rule-text">Spécialiste France → Dakar depuis 2009</span>
@@ -424,25 +658,20 @@ footer { background: #040f09; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
       </div>
     </div>
 
-    <!-- Colonnes : texte gauche + live widget droite -->
     <div class="hero-cols">
       <div class="hero-left">
         <div class="hero-badge"><span class="badge-dot"></span> Service actif — Départs chaque semaine</div>
         <h1 class="hero-title">
-          <span class="line1">Nantes · Rennes</span>
+          <span>Nantes · Rennes</span>
           <span class="line2">Le Mans · Paris</span>
           <div class="route-line">vers Dakar 🇸🇳 <div class="arrow-line"></div></div>
         </h1>
-        <p class="hero-sub">
-          De <strong>Nantes, Rennes, Le Mans et Paris</strong> directement vers <strong>Dakar</strong>.
-          Collecte à domicile, dédouanement inclus, suivi SMS en temps réel.
-        </p>
+        <p class="hero-sub">De <strong>Nantes, Rennes, Le Mans et Paris</strong> directement vers <strong>Dakar</strong>. Collecte à domicile, dédouanement inclus, suivi SMS en temps réel.</p>
         <div class="hero-actions">
           <a href="#devis" class="btn-primary">Demander un devis gratuit</a>
           <a href="#destinations" class="btn-outline">Voir les destinations</a>
         </div>
       </div>
-
       <div class="hero-right">
         <div class="live-box">
           <div class="live-head"><div class="live-dot"></div><div class="live-title">Envois en cours</div></div>
@@ -463,7 +692,7 @@ footer { background: #040f09; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
     <div class="stat-item"><div class="stat-num">8 000+</div><div class="stat-label">Colis livrés</div></div>
     <div class="stat-item"><div class="stat-num">15 ans</div><div class="stat-label">D'expérience</div></div>
     <div class="stat-item"><div class="stat-num">98%</div><div class="stat-label">Clients satisfaits</div></div>
-    <div class="stat-item"><div class="stat-num">3–21j</div><div class="stat-label">Délai de livraison</div></div>
+    <div class="stat-item"><div class="stat-num">3–21j</div><div class="stat-label">Délai livraison</div></div>
   </div>
 
   <div class="waves">
@@ -478,17 +707,17 @@ footer { background: #040f09; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
 <div class="marquee-band">
   <div class="marquee-track">
     <span class="m-item">🌟 Paris → Dakar — 3×/semaine <span class="m-sep">·</span></span>
-    <span class="m-item">🏠 Nantes → Dakar — collecte domicile <span class="m-sep">·</span></span>
-    <span class="m-item">🏠 Rennes → Dakar — collecte domicile <span class="m-sep">·</span></span>
-    <span class="m-item">🏠 Le Mans → Dakar — collecte domicile <span class="m-sep">·</span></span>
+    <span class="m-item">🏠 Nantes → collecte domicile <span class="m-sep">·</span></span>
+    <span class="m-item">🏠 Rennes → collecte domicile <span class="m-sep">·</span></span>
+    <span class="m-item">🏠 Le Mans → collecte domicile <span class="m-sep">·</span></span>
     <span class="m-item">✈️ Express aérien 3–7 jours <span class="m-sep">·</span></span>
     <span class="m-item">🚢 Maritime économique 15–21 jours <span class="m-sep">·</span></span>
     <span class="m-item">🔒 Dédouanement inclus <span class="m-sep">·</span></span>
     <span class="m-item">📱 Suivi SMS en temps réel <span class="m-sep">·</span></span>
     <span class="m-item">🌟 Paris → Dakar — 3×/semaine <span class="m-sep">·</span></span>
-    <span class="m-item">🏠 Nantes → Dakar — collecte domicile <span class="m-sep">·</span></span>
-    <span class="m-item">🏠 Rennes → Dakar — collecte domicile <span class="m-sep">·</span></span>
-    <span class="m-item">🏠 Le Mans → Dakar — collecte domicile <span class="m-sep">·</span></span>
+    <span class="m-item">🏠 Nantes → collecte domicile <span class="m-sep">·</span></span>
+    <span class="m-item">🏠 Rennes → collecte domicile <span class="m-sep">·</span></span>
+    <span class="m-item">🏠 Le Mans → collecte domicile <span class="m-sep">·</span></span>
     <span class="m-item">✈️ Express aérien 3–7 jours <span class="m-sep">·</span></span>
     <span class="m-item">🚢 Maritime économique 15–21 jours <span class="m-sep">·</span></span>
     <span class="m-item">🔒 Dédouanement inclus <span class="m-sep">·</span></span>
@@ -500,45 +729,42 @@ footer { background: #040f09; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
 <section class="dest-section" id="destinations">
   <div class="reveal">
     <div class="section-label">Nos corridors</div>
-    <h2 class="section-title">Nantes · Rennes · Le Mans · Paris → Dakar</h2>
-    <p class="section-sub">Collecte à domicile depuis <strong>Nantes, Rennes, Le Mans et Paris</strong> directement vers <strong>Dakar</strong>. Livraison à domicile incluse, 3 départs par semaine.</p>
+    <h2 class="section-title">France → Dakar</h2>
+    <p class="section-sub">Collecte depuis <strong>Nantes, Rennes, Le Mans et Paris</strong> directement vers <strong>Dakar</strong>. Livraison à domicile incluse, 3 départs par semaine.</p>
   </div>
   <div class="dest-panels reveal">
     <div class="dest-panel">
-      <div class="panel-head"><div class="panel-flag">🇫🇷</div><div><div class="panel-name">France</div><div class="panel-country">Toutes les villes desservies</div></div></div>
+      <div class="panel-head"><div class="panel-flag">🇫🇷</div><div><div class="panel-name">France</div><div class="panel-country">Villes desservies</div></div></div>
       <div class="panel-body">
         <div class="city-row"><div class="city-row-left"><div class="city-bullet main"></div><div class="city-nm">Paris & Île-de-France</div></div><span class="city-tag tag-hub">Hub</span><span class="city-freq-label">3×/sem.</span></div>
         <div class="city-row"><div class="city-row-left"><div class="city-bullet main"></div><div class="city-nm">Nantes</div></div><span class="city-tag tag-freq">Fréquent</span><span class="city-freq-label">2×/sem.</span></div>
         <div class="city-row"><div class="city-row-left"><div class="city-bullet main"></div><div class="city-nm">Rennes</div></div><span class="city-tag tag-freq">Fréquent</span><span class="city-freq-label">2×/sem.</span></div>
         <div class="city-row"><div class="city-row-left"><div class="city-bullet main"></div><div class="city-nm">Le Mans</div></div><span class="city-tag tag-freq">Fréquent</span><span class="city-freq-label">1×/sem.</span></div>
-        <div class="city-row" style="background:rgba(34,197,94,.04);border-top:1px solid rgba(34,197,94,.1);margin-top:4px;padding-top:10px"><div class="city-row-left"><div class="city-bullet" style="background:rgba(250,245,236,.2)"></div><div class="city-nm" style="color:rgba(250,245,236,.5);font-size:.8rem">Collecte à domicile dans toutes ces villes</div></div></div>
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet" style="background:rgba(250,245,236,.2)"></div><div class="city-nm" style="color:rgba(250,245,236,.5);font-size:.8rem">Dépôt possible dans nos agences partenaires</div></div></div>
+        <div class="city-row" style="padding-top:.6rem;border-top:1px solid rgba(74,222,128,.08);margin-top:4px"><div class="city-row-left"><div class="city-bullet" style="background:rgba(250,245,236,.2)"></div><div class="city-nm" style="color:rgba(250,245,236,.45);font-size:.78rem">Collecte à domicile incluse</div></div></div>
       </div>
     </div>
     <div class="dest-connector">
       <div class="conn-dist">4 600<br>km</div>
       <div class="conn-sub">maritime<br>ou aérien</div>
       <div class="conn-dots"><div class="conn-dot"></div><div class="conn-dot"></div><div class="conn-dot"></div></div>
-      <div style="font-size:1.6rem;color:#1ea05a">⇅</div>
+      <div style="font-size:1.5rem;color:var(--green)">⇅</div>
     </div>
     <div class="dest-panel">
       <div class="panel-head"><div class="panel-flag">🇸🇳</div><div><div class="panel-name">Dakar</div><div class="panel-country">Destination unique</div></div></div>
       <div class="panel-body">
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet main"></div><div class="city-nm">Dakar — Centre ville</div></div><span class="city-tag tag-hub">Hub</span><span class="city-freq-label">3×/sem.</span></div>
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet main"></div><div class="city-nm">Pikine / Guédiawaye</div></div><span class="city-tag tag-freq">Inclus</span><span class="city-freq-label">avec Dakar</span></div>
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet main"></div><div class="city-nm">Rufisque / Bargny</div></div><span class="city-tag tag-freq">Inclus</span><span class="city-freq-label">avec Dakar</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet main"></div><div class="city-nm">Dakar Centre</div></div><span class="city-tag tag-hub">Hub</span><span class="city-freq-label">3×/sem.</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet main"></div><div class="city-nm">Pikine / Guédiawaye</div></div><span class="city-tag tag-freq">Inclus</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet main"></div><div class="city-nm">Rufisque / Bargny</div></div><span class="city-tag tag-freq">Inclus</span></div>
         <div class="city-row"><div class="city-row-left"><div class="city-bullet main"></div><div class="city-nm">Livraison à domicile</div></div><span class="city-tag tag-freq">Inclus</span></div>
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet main"></div><div class="city-nm">Retrait en agence</div></div><span class="city-tag tag-freq">Disponible</span></div>
-        <div class="city-row"><div class="city-row-left"><div class="city-bullet main"></div><div class="city-nm">Notification SMS à l'arrivée</div></div><span class="city-tag tag-freq">Inclus</span></div>
+        <div class="city-row"><div class="city-row-left"><div class="city-bullet main"></div><div class="city-nm">SMS à l'arrivée</div></div><span class="city-tag tag-freq">Inclus</span></div>
       </div>
     </div>
   </div>
   <div class="freq-pills reveal">
-    <div class="freq-pill"><div class="freq-pill-icon">🌟</div><div><div class="freq-pill-text">Paris · Nantes · Rennes · Le Mans → Dakar</div><div class="freq-pill-sub">3 départs par semaine</div></div></div>
-    <div class="freq-pill"><div class="freq-pill-icon">✈️</div><div><div class="freq-pill-text">Express aérien</div><div class="freq-pill-sub">3 à 7 jours ouvrés</div></div></div>
+    <div class="freq-pill"><div class="freq-pill-icon">✈️</div><div><div class="freq-pill-text">Express aérien</div><div class="freq-pill-sub">3 à 7 jours</div></div></div>
     <div class="freq-pill"><div class="freq-pill-icon">🚢</div><div><div class="freq-pill-text">Maritime économique</div><div class="freq-pill-sub">15 à 21 jours</div></div></div>
-    <div class="freq-pill"><div class="freq-pill-icon">🏠</div><div><div class="freq-pill-text">Collecte à domicile</div><div class="freq-pill-sub">Partout en France</div></div></div>
-    <div class="freq-pill"><div class="freq-pill-icon">📦</div><div><div class="freq-pill-text">Livraison domicile</div><div class="freq-pill-sub">Dakar & environs</div></div></div>
+    <div class="freq-pill"><div class="freq-pill-icon">🏠</div><div><div class="freq-pill-text">Collecte domicile</div><div class="freq-pill-sub">Partout en France</div></div></div>
+    <div class="freq-pill"><div class="freq-pill-icon">📦</div><div><div class="freq-pill-text">Livraison Dakar</div><div class="freq-pill-sub">À domicile</div></div></div>
   </div>
 </section>
 
@@ -549,12 +775,12 @@ footer { background: #040f09; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
     <h2 class="section-title" style="color:var(--cream)">Des solutions pour chaque besoin</h2>
   </div>
   <div class="services-grid reveal">
-    <div class="service-card"><span class="service-icon">✈️</span><div class="service-name">Express Aérien</div><div class="service-desc">La rapidité avant tout. Vos colis urgents arrivent à Dakar en 3 à 7 jours ouvrés via fret aérien sécurisé.</div><div class="service-price">À partir de 12€ <span>/ kg</span></div><span class="service-badge sbadge-pop">⚡ Le plus rapide</span></div>
-    <div class="service-card"><span class="service-icon">🚢</span><div class="service-name">Maritime Économique</div><div class="service-desc">La solution idéale pour les gros volumes. Conteneur partagé ou dédié, livraison en 15 à 21 jours.</div><div class="service-price">À partir de 3€ <span>/ kg</span></div><span class="service-badge sbadge-eco">💚 Meilleur prix</span></div>
-    <div class="service-card"><span class="service-icon">📦</span><div class="service-name">Colis Standard</div><div class="service-desc">Pour les envois personnels et familiaux : vêtements, cadeaux, produits alimentaires non périssables.</div><div class="service-price">À partir de 6€ <span>/ kg</span></div></div>
-    <div class="service-card"><span class="service-icon">🏭</span><div class="service-name">Fret Commercial</div><div class="service-desc">Pour les entreprises et commerçants : marchandises en gros, équipements, dédouanement professionnel.</div><div class="service-price">Sur devis</div></div>
-    <div class="service-card"><span class="service-icon">🔐</span><div class="service-name">Valeurs Déclarées</div><div class="service-desc">Téléphones, ordinateurs, bijoux, documents officiels. Assurance complète incluse pour vos objets de valeur.</div><div class="service-price">À partir de 15€ <span>/ kg</span></div></div>
-    <div class="service-card"><span class="service-icon">🚐</span><div class="service-name">Collecte & Livraison</div><div class="service-desc">Nous venons chercher vos colis partout en France et les livrons directement chez le destinataire au Sénégal.</div><div class="service-price">+15€ <span>par collecte</span></div></div>
+    <div class="service-card"><span class="service-icon">✈️</span><div class="service-name">Express Aérien</div><div class="service-desc">Vos colis urgents arrivent à Dakar en 3 à 7 jours via fret aérien sécurisé.</div><div class="service-price">À partir de 12€ <span>/ kg</span></div><span class="service-badge sbadge-pop">⚡ Le plus rapide</span></div>
+    <div class="service-card"><span class="service-icon">🚢</span><div class="service-name">Maritime Économique</div><div class="service-desc">Idéal pour les gros volumes. Conteneur partagé ou dédié, 15 à 21 jours.</div><div class="service-price">À partir de 3€ <span>/ kg</span></div><span class="service-badge sbadge-eco">💚 Meilleur prix</span></div>
+    <div class="service-card"><span class="service-icon">📦</span><div class="service-name">Colis Standard</div><div class="service-desc">Envois personnels et familiaux : vêtements, cadeaux, produits alimentaires.</div><div class="service-price">À partir de 6€ <span>/ kg</span></div></div>
+    <div class="service-card"><span class="service-icon">🏭</span><div class="service-name">Fret Commercial</div><div class="service-desc">Pour entreprises et commerçants : marchandises en gros, dédouanement professionnel.</div><div class="service-price">Sur devis</div></div>
+    <div class="service-card"><span class="service-icon">🔐</span><div class="service-name">Valeurs Déclarées</div><div class="service-desc">Téléphones, ordinateurs, bijoux, documents. Assurance complète incluse.</div><div class="service-price">À partir de 15€ <span>/ kg</span></div></div>
+    <div class="service-card"><span class="service-icon">🚐</span><div class="service-name">Collecte & Livraison</div><div class="service-desc">Nous récupérons partout en France et livrons à domicile au Sénégal.</div><div class="service-price">+15€ <span>par collecte</span></div></div>
   </div>
 </section>
 
@@ -565,10 +791,10 @@ footer { background: #040f09; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
     <h2 class="section-title" style="color:var(--cream)">Simple, rapide, fiable</h2>
   </div>
   <div class="process-steps reveal">
-    <div class="step"><div class="step-num">1</div><div class="step-title">Demandez votre devis</div><div class="step-desc">Remplissez notre formulaire en ligne. Estimation tarifaire sous 24h, sans engagement.</div></div>
-    <div class="step"><div class="step-num">2</div><div class="step-title">Déposez ou faites collecter</div><div class="step-desc">En agence, point relais, ou collecte à domicile partout en France à votre adresse.</div></div>
-    <div class="step"><div class="step-num">3</div><div class="step-title">Suivi en temps réel</div><div class="step-desc">Suivez votre colis étape par étape via notre espace client ou par SMS à chaque étape.</div></div>
-    <div class="step"><div class="step-num">4</div><div class="step-title">Livraison au Sénégal</div><div class="step-desc">Remise à domicile partout au Sénégal ou retrait en agence. SMS de notification à l'arrivée.</div></div>
+    <div class="step"><div class="step-num">1</div><div><div class="step-title">Demandez votre devis</div><div class="step-desc">Formulaire en ligne, réponse sous 24h, sans engagement.</div></div></div>
+    <div class="step"><div class="step-num">2</div><div><div class="step-title">Déposez ou collecte</div><div class="step-desc">En agence, point relais, ou collecte à domicile partout en France.</div></div></div>
+    <div class="step"><div class="step-num">3</div><div><div class="step-title">Suivi en temps réel</div><div class="step-desc">Suivez votre colis étape par étape par SMS à chaque étape.</div></div></div>
+    <div class="step"><div class="step-num">4</div><div><div class="step-title">Livraison au Sénégal</div><div class="step-desc">Remise à domicile partout au Sénégal. SMS de notification à l'arrivée.</div></div></div>
   </div>
 </section>
 
@@ -577,37 +803,37 @@ footer { background: #040f09; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
   <div class="devis-wrap">
     <div class="devis-info reveal">
       <div class="section-label">Obtenir un tarif</div>
-      <h2>Demandez votre devis gratuit</h2>
-      <p>Décrivez votre envoi et recevez une offre personnalisée sous 24 heures. Aucun engagement requis.</p>
+      <h2>Devis gratuit</h2>
+      <p>Réponse personnalisée sous 24h. Aucun engagement requis.</p>
       <div class="info-points">
-        <div class="info-point"><div class="info-point-icon">🔒</div><div class="info-point-text"><strong>Expédition assurée</strong>Tous vos colis sont assurés contre la perte et les dommages.</div></div>
-        <div class="info-point"><div class="info-point-icon">📋</div><div class="info-point-text"><strong>Dédouanement inclus</strong>Nous gérons toutes les formalités douanières pour vous.</div></div>
-        <div class="info-point"><div class="info-point-icon">📱</div><div class="info-point-text"><strong>Suivi SMS & email</strong>Vous et votre destinataire êtes informés à chaque étape.</div></div>
-        <div class="info-point"><div class="info-point-icon">🏠</div><div class="info-point-text"><strong>Collecte partout en France</strong>Nous venons récupérer vos colis à votre adresse.</div></div>
+        <div class="info-point"><div class="info-point-icon">🔒</div><div class="info-point-text"><strong>Expédition assurée</strong>Assurance contre la perte et les dommages.</div></div>
+        <div class="info-point"><div class="info-point-icon">📋</div><div class="info-point-text"><strong>Dédouanement inclus</strong>Nous gérons toutes les formalités douanières.</div></div>
+        <div class="info-point"><div class="info-point-icon">📱</div><div class="info-point-text"><strong>Suivi SMS & email</strong>Vous et votre destinataire informés à chaque étape.</div></div>
+        <div class="info-point"><div class="info-point-icon">🏠</div><div class="info-point-text"><strong>Collecte à domicile</strong>Nous venons récupérer vos colis chez vous.</div></div>
       </div>
     </div>
     <div class="reveal">
       <form id="devisForm" action="https://formspree.io/f/mojkngdn" method="POST">
-        <input type="hidden" name="_subject" value="🚀 Nouveau devis SADA TRANSPORT LOGISTIQUE" />
-        <input type="hidden" name="_language" value="fr" />
+        <input type="hidden" name="_subject" value="🚀 Nouveau devis SADA TRANSPORT LOGISTIQUE"/>
+        <input type="hidden" name="_language" value="fr"/>
         <div class="form-row">
-          <div class="form-group"><label class="form-label">Prénom</label><input type="text" name="prenom" class="form-input" placeholder="Mamadou" required /></div>
-          <div class="form-group"><label class="form-label">Nom</label><input type="text" name="nom" class="form-input" placeholder="Diallo" required /></div>
+          <div class="form-group"><label class="form-label">Prénom</label><input type="text" name="prenom" class="form-input" placeholder="Mamadou" required/></div>
+          <div class="form-group"><label class="form-label">Nom</label><input type="text" name="nom" class="form-input" placeholder="Diallo" required/></div>
         </div>
-        <div class="form-group"><label class="form-label">Email</label><input type="email" name="email" class="form-input" placeholder="mamadou@email.com" required /></div>
-        <div class="form-group"><label class="form-label">Téléphone</label><input type="tel" name="telephone" class="form-input" placeholder="+33 6 00 00 00 00" required /></div>
+        <div class="form-group"><label class="form-label">Email</label><input type="email" name="email" class="form-input" placeholder="mamadou@email.com" required/></div>
+        <div class="form-group"><label class="form-label">Téléphone</label><input type="tel" name="telephone" class="form-input" placeholder="+33 6 00 00 00 00" required/></div>
         <div class="form-row">
-          <div class="form-group"><label class="form-label">Ville de départ (France)</label><select name="ville_depart" class="form-select" required><option value="">Choisir une ville</option><option>Paris / Île-de-France</option><option>Nantes</option><option>Rennes</option><option>Le Mans</option></select></div>
-          <div class="form-group"><label class="form-label">Destination (Sénégal)</label><select name="destination" class="form-select" required><option value="Dakar" selected>Dakar 🇸🇳</option></select></div>
+          <div class="form-group"><label class="form-label">Ville de départ</label><select name="ville_depart" class="form-select" required><option value="">Choisir</option><option>Paris / Île-de-France</option><option>Nantes</option><option>Rennes</option><option>Le Mans</option></select></div>
+          <div class="form-group"><label class="form-label">Destination</label><select name="destination" class="form-select"><option value="Dakar">Dakar 🇸🇳</option></select></div>
         </div>
         <div class="form-row">
-          <div class="form-group"><label class="form-label">Poids estimé (kg)</label><input type="number" name="poids_kg" class="form-input" placeholder="10" min="1" required /></div>
-          <div class="form-group"><label class="form-label">Type d'envoi</label><select name="type_envoi" class="form-select"><option>Colis personnel</option><option>Fret commercial</option><option>Valeurs déclarées</option><option>Documents officiels</option></select></div>
+          <div class="form-group"><label class="form-label">Poids (kg)</label><input type="number" name="poids_kg" class="form-input" placeholder="10" min="1" required/></div>
+          <div class="form-group"><label class="form-label">Type d'envoi</label><select name="type_envoi" class="form-select"><option>Colis personnel</option><option>Fret commercial</option><option>Valeurs déclarées</option><option>Documents</option></select></div>
         </div>
         <div class="form-group"><label class="form-label">Mode de transport</label><select name="transport" class="form-select"><option>Express Aérien (3–7 jours)</option><option>Maritime Économique (15–21 jours)</option><option>Indifférent – meilleur prix</option></select></div>
-        <div class="form-group"><label class="form-label">Description du contenu</label><textarea name="description" class="form-textarea" placeholder="Décrivez brièvement le contenu de votre colis..."></textarea></div>
-        <div id="form-success" style="display:none; background:rgba(30,160,90,.15); border:1px solid rgba(30,160,90,.4); border-radius:6px; padding:1rem 1.2rem; margin-bottom:1rem; color:#25c46e; font-size:.9rem; font-weight:600;">✅ Demande envoyée ! Nous vous répondrons sous 24h.</div>
-        <div id="form-error" style="display:none; background:rgba(13,92,48,.1); border:1px solid rgba(13,92,48,.3); border-radius:6px; padding:1rem 1.2rem; margin-bottom:1rem; color:#25c46e; font-size:.9rem; font-weight:600;">❌ Une erreur est survenue. Veuillez réessayer ou nous contacter par téléphone.</div>
+        <div class="form-group"><label class="form-label">Description du contenu</label><textarea name="description" class="form-textarea" placeholder="Décrivez brièvement le contenu..."></textarea></div>
+        <div id="form-success" style="display:none;background:rgba(30,160,90,.15);border:1px solid rgba(30,160,90,.4);border-radius:6px;padding:1rem 1.2rem;margin-bottom:1rem;color:#25c46e;font-size:.9rem;font-weight:600;">✅ Demande envoyée ! Réponse sous 24h.</div>
+        <div id="form-error" style="display:none;background:rgba(13,92,48,.1);border:1px solid rgba(13,92,48,.3);border-radius:6px;padding:1rem 1.2rem;margin-bottom:1rem;color:#157a42;font-size:.9rem;font-weight:600;">❌ Erreur. Veuillez réessayer ou nous appeler.</div>
         <button type="submit" class="form-submit" id="submitBtn">Envoyer ma demande →</button>
       </form>
     </div>
@@ -621,20 +847,20 @@ footer { background: #040f09; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
     <h2 class="section-title">Ce que disent nos clients</h2>
   </div>
   <div class="testimonials-grid reveal">
-    <div class="testi-card"><div class="testi-stars">★★★★★</div><div class="testi-text">"Colis reçu en parfait état en 5 jours par voie aérienne. Le suivi SMS est très pratique, j'ai pu informer ma famille au Sénégal en temps réel."</div><div class="testi-author">Fatou N.</div><div class="testi-loc">Paris 18ème <span class="testi-arrow">→</span> Médina, Dakar</div></div>
-    <div class="testi-card"><div class="testi-stars">★★★★★</div><div class="testi-text">"Service irréprochable depuis Nantes. L'équipe a géré toutes les formalités douanières sans aucun problème. Je recommande vivement !"</div><div class="testi-author">Ibrahima S.</div><div class="testi-loc">Nantes <span class="testi-arrow">→</span> Dakar</div></div>
-    <div class="testi-card"><div class="testi-stars">★★★★☆</div><div class="testi-text">"Très bon rapport qualité-prix pour la voie maritime. Ma famille a reçu tous les colis intacts depuis Rennes jusqu'à Dakar."</div><div class="testi-author">Aminata D.</div><div class="testi-loc">Rennes <span class="testi-arrow">→</span> Dakar</div></div>
-    <div class="testi-card"><div class="testi-stars">★★★★★</div><div class="testi-text">"J'envoie des colis du Mans vers Dakar depuis 3 ans. SADA Transport est fiable, ponctuel et professionnel. Je recommande !"</div><div class="testi-author">Ousmane B.</div><div class="testi-loc">Le Mans <span class="testi-arrow">→</span> Dakar</div></div>
-    <div class="testi-card"><div class="testi-stars">★★★★★</div><div class="testi-text">"La collecte à domicile à Paris est un vrai plus. Je n'ai pas à me déplacer. Mon colis arrive à Dakar en 5 jours par avion."</div><div class="testi-author">Mariama K.</div><div class="testi-loc">Paris <span class="testi-arrow">→</span> Dakar</div></div>
-    <div class="testi-card"><div class="testi-stars">★★★★★</div><div class="testi-text">"Téléphone et documents importants envoyés depuis Rennes, assurés et livrés en main propre à Dakar. Sérieux et transparent."</div><div class="testi-author">Seydou F.</div><div class="testi-loc">Nantes <span class="testi-arrow">→</span> Dakar</div></div>
+    <div class="testi-card"><div class="testi-stars">★★★★★</div><div class="testi-text">"Colis reçu en parfait état en 5 jours. Le suivi SMS est très pratique, j'ai pu informer ma famille en temps réel."</div><div class="testi-author">Fatou N.</div><div class="testi-loc">Paris 18ème → Médina, Dakar</div></div>
+    <div class="testi-card"><div class="testi-stars">★★★★★</div><div class="testi-text">"Service irréprochable depuis Nantes. L'équipe a géré toutes les formalités douanières sans aucun problème."</div><div class="testi-author">Ibrahima S.</div><div class="testi-loc">Nantes → Dakar</div></div>
+    <div class="testi-card"><div class="testi-stars">★★★★☆</div><div class="testi-text">"Très bon rapport qualité-prix pour la voie maritime. Tous les colis reçus intacts depuis Rennes."</div><div class="testi-author">Aminata D.</div><div class="testi-loc">Rennes → Dakar</div></div>
+    <div class="testi-card"><div class="testi-stars">★★★★★</div><div class="testi-text">"J'envoie du Mans vers Dakar depuis 3 ans. SADA Transport est fiable, ponctuel et professionnel."</div><div class="testi-author">Ousmane B.</div><div class="testi-loc">Le Mans → Dakar</div></div>
+    <div class="testi-card"><div class="testi-stars">★★★★★</div><div class="testi-text">"La collecte à domicile à Paris est un vrai plus. Mon colis arrive à Dakar en 5 jours par avion."</div><div class="testi-author">Mariama K.</div><div class="testi-loc">Paris → Dakar</div></div>
+    <div class="testi-card"><div class="testi-stars">★★★★★</div><div class="testi-text">"Téléphone et documents importants envoyés depuis Rennes, assurés et livrés en main propre à Dakar."</div><div class="testi-author">Seydou F.</div><div class="testi-loc">Nantes → Dakar</div></div>
   </div>
 </section>
 
 <!-- CTA -->
 <div class="cta-band">
   <h2>Prêt à expédier votre colis ?</h2>
-  <p>Devis gratuit en quelques minutes. Collecte partout en France, livraison à Dakar.</p>
-  <p style="font-size:.9rem;color:rgba(255,255,255,.8);margin-bottom:1rem">📞 +33 7 75 78 75 61 &nbsp;·&nbsp; ✉️ sadasy501@gmail.com</p>
+  <p>Devis gratuit en quelques minutes. Collecte partout en France.</p>
+  <p style="font-size:.88rem;color:rgba(255,255,255,.8);margin-bottom:1.5rem">📞 +33 7 75 78 75 61 &nbsp;·&nbsp; ✉️ sadasy501@gmail.com</p>
   <a href="#devis" class="btn-cta-white">Demander un devis gratuit</a>
 </div>
 
@@ -642,38 +868,46 @@ footer { background: #040f09; padding: 5rem 4rem 2.5rem; border-top: 1px solid r
 <footer id="contact">
   <div class="footer-grid">
     <div class="footer-brand">
-      <svg width="110" height="46" viewBox="0 0 260 110" xmlns="http://www.w3.org/2000/svg">
+      <svg width="100" height="42" viewBox="0 0 260 110" xmlns="http://www.w3.org/2000/svg">
         <ellipse cx="130" cy="55" rx="126" ry="52" fill="url(#logoGrad)"/>
         <ellipse cx="130" cy="55" rx="118" ry="44" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
-        <text x="130" y="23" text-anchor="middle" font-family="'Arial Narrow',Arial,sans-serif" font-size="9" font-weight="700" fill="rgba(255,255,255,0.75)" letter-spacing="5">GROUPE</text>
+        <text x="130" y="23" text-anchor="middle" font-family="Arial Narrow,Arial,sans-serif" font-size="9" font-weight="700" fill="rgba(255,255,255,0.75)" letter-spacing="5">GROUPE</text>
         <line x1="20" y1="27" x2="82" y2="27" stroke="rgba(255,255,255,0.25)" stroke-width="0.7"/>
         <line x1="178" y1="27" x2="240" y2="27" stroke="rgba(255,255,255,0.25)" stroke-width="0.7"/>
-        <text x="130" y="68" text-anchor="middle" font-family="'Arial Black',Arial,sans-serif" font-size="42" font-weight="900" fill="white" letter-spacing="3">SADA</text>
+        <text x="130" y="68" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-size="42" font-weight="900" fill="white" letter-spacing="3">SADA</text>
         <line x1="42" y1="76" x2="218" y2="76" stroke="rgba(255,255,255,0.22)" stroke-width="0.7"/>
-        <text x="130" y="93" text-anchor="middle" font-family="'Arial Narrow',Arial,sans-serif" font-size="9.5" font-weight="700" fill="rgba(255,255,255,0.88)" letter-spacing="3.5">TRANSPORT LOGISTIQUE</text>
+        <text x="130" y="93" text-anchor="middle" font-family="Arial Narrow,Arial,sans-serif" font-size="9.5" font-weight="700" fill="rgba(255,255,255,0.88)" letter-spacing="3.5">TRANSPORT LOGISTIQUE</text>
       </svg>
       <p>Spécialiste du transport de colis depuis Nantes, Rennes, Le Mans et Paris vers Dakar depuis 2009.</p>
       <div class="footer-socials">
         <a class="social-btn" href="#">📘</a>
         <a class="social-btn" href="#">📸</a>
-        <a class="social-btn" href="#">💬</a>
+        <a class="social-btn" href="https://wa.me/33775787561">💬</a>
       </div>
     </div>
-    <div class="footer-col"><h4>Services</h4><ul><li><a href="#">Express Aérien</a></li><li><a href="#">Maritime Économique</a></li><li><a href="#">Fret Commercial</a></li><li><a href="#">Collecte à domicile</a></li><li><a href="#">Valeurs déclarées</a></li></ul></div>
+    <div class="footer-col"><h4>Services</h4><ul><li><a href="#">Express Aérien</a></li><li><a href="#">Maritime Économique</a></li><li><a href="#">Fret Commercial</a></li><li><a href="#">Collecte domicile</a></li><li><a href="#">Valeurs déclarées</a></li></ul></div>
     <div class="footer-col"><h4>Destinations</h4><ul><li><a href="#">Paris → Dakar</a></li><li><a href="#">Nantes → Dakar</a></li><li><a href="#">Rennes → Dakar</a></li><li><a href="#">Le Mans → Dakar</a></li></ul></div>
-    <div class="footer-col"><h4>Informations</h4><ul><li><a href="#">Tarifs & Délais</a></li><li><a href="#">Produits acceptés</a></li><li><a href="#">Dédouanement</a></li><li><a href="#">Assurance colis</a></li><li><a href="#">FAQ</a></li></ul></div>
-    <div class="footer-col"><h4>Contact</h4><ul><li><a href="tel:+33775787561">📞 +33 7 75 78 75 61</a></li><li><a href="mailto:sadasy501@gmail.com">✉️ sadasy501@gmail.com</a></li><li><a href="#">📍 Paris, France</a></li><li><a href="#">📍 Dakar, Sénégal</a></li><li><a href="#">⏰ Lun–Sam 8h–20h</a></li></ul></div>
+    <div class="footer-col"><h4>Infos</h4><ul><li><a href="#">Tarifs & Délais</a></li><li><a href="#">Produits acceptés</a></li><li><a href="#">Dédouanement</a></li><li><a href="#">Assurance colis</a></li><li><a href="#">FAQ</a></li></ul></div>
+    <div class="footer-col"><h4>Contact</h4><ul>
+      <li><a href="tel:+33775787561">📞 +33 7 75 78 75 61</a></li>
+      <li><a href="mailto:sadasy501@gmail.com">✉️ sadasy501@gmail.com</a></li>
+      <li><a href="https://wa.me/33775787561">💬 WhatsApp</a></li>
+      <li><a href="#">📍 Paris, France</a></li>
+      <li><a href="#">⏰ Lun–Sam 8h–20h</a></li>
+    </ul></div>
   </div>
   <div class="footer-bottom">
     <p>© 2025 SADA TRANSPORT LOGISTIQUE — Tous droits réservés</p>
-    <div style="display:flex;gap:1.5rem"><a href="#">Mentions légales</a><a href="#">Confidentialité</a><a href="#">CGV</a></div>
+    <div style="display:flex;gap:1.2rem;flex-wrap:wrap"><a href="#">Mentions légales</a><a href="#">Confidentialité</a><a href="#">CGV</a></div>
   </div>
 </footer>
 
 <script>
+/* Nav scroll */
 const nav = document.getElementById('mainNav');
 window.addEventListener('scroll', () => nav.classList.toggle('stuck', window.scrollY > 60));
 
+/* Reveal on scroll */
 const observer = new IntersectionObserver((entries) => {
   entries.forEach((entry, i) => {
     if (entry.isIntersecting) setTimeout(() => entry.target.classList.add('visible'), i * 80);
@@ -681,71 +915,79 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.1 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
+/* Menu mobile */
+function openMobileMenu() {
+  document.getElementById('mobileMenu').classList.add('open');
+  document.getElementById('hamburger').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeMobileMenu() {
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+/* Modal suivi */
 function openModal() { document.getElementById('trackModal').classList.add('open'); }
 function closeModal() {
   document.getElementById('trackModal').classList.remove('open');
   document.getElementById('trackResult').classList.remove('show');
   document.getElementById('trackInput').value = '';
 }
-document.getElementById('trackModal').addEventListener('click', (e) => {
-  if (e.target === e.currentTarget) closeModal();
-});
+document.getElementById('trackModal').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
 function trackPackage() {
   if (document.getElementById('trackInput').value.trim())
     document.getElementById('trackResult').classList.add('show');
 }
 
+/* Formulaire devis */
 const devisForm = document.getElementById('devisForm');
 if (devisForm) {
   devisForm.addEventListener('submit', async function(e) {
     e.preventDefault();
     const btn = document.getElementById('submitBtn');
-    const successMsg = document.getElementById('form-success');
-    const errorMsg = document.getElementById('form-error');
+    const ok = document.getElementById('form-success');
+    const err = document.getElementById('form-error');
     btn.textContent = 'Envoi en cours...';
-    btn.disabled = true;
-    btn.style.opacity = '0.7';
-    successMsg.style.display = 'none';
-    errorMsg.style.display = 'none';
+    btn.disabled = true; btn.style.opacity = '.7';
+    ok.style.display = 'none'; err.style.display = 'none';
     try {
-      const response = await fetch('https://formspree.io/f/mojkngdn', {
-        method: 'POST',
-        body: new FormData(devisForm),
-        headers: { 'Accept': 'application/json' }
+      const res = await fetch('https://formspree.io/f/mojkngdn', {
+        method:'POST', body:new FormData(devisForm), headers:{'Accept':'application/json'}
       });
-      if (response.ok) {
-        successMsg.style.display = 'block';
+      if (res.ok) {
+        ok.style.display = 'block';
         devisForm.reset();
         btn.textContent = '✅ Demande envoyée !';
         btn.style.background = '#157a42';
-        successMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      } else { throw new Error(); }
+        ok.scrollIntoView({ behavior:'smooth', block:'center' });
+      } else throw new Error();
     } catch {
-      errorMsg.style.display = 'block';
+      err.style.display = 'block';
       btn.textContent = 'Envoyer ma demande →';
-      btn.disabled = false;
-      btn.style.opacity = '1';
+      btn.disabled = false; btn.style.opacity = '1';
     }
   });
 }
 
+/* Smooth scroll */
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
-    const target = document.querySelector(a.getAttribute('href'));
-    if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) { e.preventDefault(); t.scrollIntoView({ behavior:'smooth' }); }
   });
 });
 
-const statNums = document.querySelectorAll('.stat-num');
-const statObs = new IntersectionObserver((entries) => {
+/* Stats animation */
+const statObs = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       entry.target.style.animation = 'countUp .6s ease both';
       statObs.unobserve(entry.target);
     }
   });
-}, { threshold: 0.5 });
-statNums.forEach(el => statObs.observe(el));
+}, { threshold:.5 });
+document.querySelectorAll('.stat-num').forEach(el => statObs.observe(el));
 </script>
 </body>
 </html>
