@@ -180,11 +180,32 @@ nav.stuck { background: rgba(4,15,9,.97); backdrop-filter: blur(18px); border-co
 .badge-dot { width:7px; height:7px; border-radius:50%; background:var(--green); animation:blink 1.4s infinite; }
 
 .hero-title {
-  font-family:'Playfair Display',serif; font-size:clamp(1.9rem,5vw,3.4rem);
-  font-weight:900; line-height:1.06; letter-spacing:-.02em; margin-bottom:1.3rem;
+  font-family:'Playfair Display',serif;
+  font-weight:900; line-height:1.0;
+  letter-spacing:-.03em; margin-bottom:1.3rem;
 }
-.hero-title .line2 { display:block; color:var(--green); font-style:italic; }
-.hero-title .route-line { display:flex; align-items:center; gap:.8rem; color:var(--green); margin-top:.1em; flex-wrap:wrap; }
+.hero-title .line-main {
+  display:block;
+  font-size:clamp(3rem,8vw,5.8rem);
+  color:#ffffff;
+}
+.hero-title .line-arrow {
+  display:inline-block;
+  color:var(--green);
+  font-style:normal;
+  margin:0 .2em;
+}
+.hero-title .line-sub {
+  display:block;
+  font-family:'Syne',sans-serif;
+  font-size:clamp(.75rem,1.8vw,.95rem);
+  font-weight:600;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:rgba(134,239,172,.6);
+  margin-top:.7em;
+  line-height:1.5;
+}
 .arrow-line { flex:1; min-width:40px; max-width:110px; height:2px; background:var(--green); position:relative; }
 .arrow-line::after { content:''; position:absolute; right:-6px; top:-4px; border:5px solid transparent; border-left:8px solid var(--green); }
 
@@ -256,8 +277,106 @@ nav.stuck { background: rgba(4,15,9,.97); backdrop-filter: blur(18px); border-co
 .whatsapp-float:hover { transform:scale(1.1); box-shadow:0 8px 30px rgba(37,211,102,.6); }
 
 /* ════════════════════════════════
-   MARQUEE
+   CALCULATEUR DE PRIX
 ════════════════════════════════ */
+.calc-section { background: #0a1f12; padding: 5rem 2.5rem; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.calc-wrap { max-width: 780px; margin: 0 auto; }
+.calc-header { text-align: center; margin-bottom: 2.8rem; }
+.calc-header .section-label { justify-content: center; display: flex; }
+.calc-header h2 { font-family:'Playfair Display',serif; font-size:clamp(1.8rem,4vw,2.8rem); font-weight:900; color:var(--cream); margin-top:.4rem; }
+.calc-header p { font-size:.9rem; color:var(--muted); margin-top:.6rem; }
+
+.calc-box {
+  background: rgba(255,255,255,.03);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 2.5rem;
+  backdrop-filter: blur(10px);
+}
+.calc-fields { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.2rem; margin-bottom: 1.5rem; }
+.calc-field label {
+  font-family:'Syne',sans-serif; font-size:.65rem; font-weight:700;
+  letter-spacing:.15em; text-transform:uppercase;
+  color:rgba(134,239,172,.6); display:block; margin-bottom:.5rem;
+}
+.calc-field input, .calc-field select {
+  width:100%; background:rgba(255,255,255,.06);
+  border:1px solid rgba(30,160,90,.3); border-radius:6px;
+  padding:.85rem 1rem; font-family:'DM Sans',sans-serif;
+  font-size:1rem; color:var(--cream);
+  outline:none; transition:border-color .3s, box-shadow .3s;
+  appearance:none; -webkit-appearance:none;
+}
+.calc-field input:focus, .calc-field select:focus {
+  border-color:var(--green);
+  box-shadow: 0 0 0 3px rgba(30,160,90,.15);
+}
+.calc-field input::placeholder { color:rgba(240,250,244,.3); }
+.calc-field select option { background:#0d2b1a; color:var(--cream); }
+
+.calc-btn {
+  width:100%; padding:1.1rem;
+  font-family:'Syne',sans-serif; font-size:.9rem; font-weight:700;
+  letter-spacing:.08em; text-transform:uppercase;
+  background:var(--green); color:white; border:none;
+  border-radius:6px; cursor:pointer;
+  transition:background .3s, transform .2s, box-shadow .3s;
+}
+.calc-btn:hover { background:var(--green-dark); transform:translateY(-2px); box-shadow:0 10px 30px rgba(30,160,90,.4); }
+
+/* Résultat */
+.calc-result {
+  display:none; margin-top:1.8rem;
+  border-top:1px solid rgba(30,160,90,.2); padding-top:1.8rem;
+}
+.calc-result.show { display:block; animation:fadeUp .4s ease; }
+.calc-result-title {
+  font-family:'Syne',sans-serif; font-size:.68rem; font-weight:700;
+  letter-spacing:.15em; text-transform:uppercase;
+  color:rgba(134,239,172,.6); margin-bottom:1.2rem; text-align:center;
+}
+.calc-cards { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+.calc-card {
+  border-radius:8px; padding:1.5rem 1.8rem;
+  border:1px solid rgba(30,160,90,.2);
+  background:rgba(30,160,90,.06);
+  transition:border-color .3s, transform .3s;
+  cursor:default;
+}
+.calc-card:hover { border-color:var(--green); transform:translateY(-3px); }
+.calc-card.featured { border-color:var(--green); background:rgba(30,160,90,.12); }
+.calc-card-mode {
+  font-family:'Syne',sans-serif; font-size:.7rem; font-weight:700;
+  letter-spacing:.12em; text-transform:uppercase;
+  color:var(--green-bright); margin-bottom:.4rem;
+  display:flex; align-items:center; gap:.5rem;
+}
+.calc-card-price {
+  font-family:'Playfair Display',serif; font-size:2.4rem;
+  font-weight:900; color:#ffffff; line-height:1;
+}
+.calc-card-price span { font-family:'DM Sans',sans-serif; font-size:1rem; color:var(--muted); }
+.calc-card-delay {
+  font-size:.78rem; color:var(--muted); margin-top:.5rem;
+}
+.calc-card-included {
+  margin-top:.8rem; padding-top:.8rem;
+  border-top:1px solid rgba(30,160,90,.15);
+  font-size:.72rem; color:rgba(134,239,172,.6);
+  display:flex; flex-direction:column; gap:.3rem;
+}
+.calc-note {
+  text-align:center; margin-top:1.2rem;
+  font-size:.76rem; color:rgba(240,250,244,.35);
+}
+.calc-note a { color:var(--green); text-decoration:none; }
+.calc-note a:hover { text-decoration:underline; }
+
+@media (max-width:600px) {
+  .calc-fields { grid-template-columns:1fr; }
+  .calc-cards { grid-template-columns:1fr; }
+  .calc-box { padding:1.5rem; }
+}
 .marquee-band { background:var(--green); overflow:hidden; padding:.65rem 0; border-top:1px solid rgba(255,255,255,.1); }
 .marquee-track { display:flex; width:max-content; animation:marquee 30s linear infinite; }
 .marquee-track:hover { animation-play-state:paused; }
@@ -273,6 +392,10 @@ nav.stuck { background: rgba(4,15,9,.97); backdrop-filter: blur(18px); border-co
 
 .reveal { opacity:0; transform:translateY(26px); transition:opacity .7s ease,transform .7s ease; }
 .reveal.visible { opacity:1; transform:none; }
+/* Fallback si JS désactivé */
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity:1; transform:none; }
+}
 
 /* ════════════════════════════════
    DESTINATIONS
@@ -433,6 +556,10 @@ footer { background:var(--bg-dark); padding:4.5rem 2.5rem 2rem; border-top:1px s
   .stats-strip { grid-template-columns:repeat(2,1fr); }
   .stat-item { padding:1.3rem 1.8rem; }
 
+  /* Calculateur tablette */
+  .calc-fields { grid-template-columns:1fr 1fr; }
+  .calc-cards { grid-template-columns:1fr 1fr; }
+
   .dest-panels { grid-template-columns:1fr; }
   .dest-connector { flex-direction:row; padding-top:0; justify-content:center; }
 
@@ -482,6 +609,7 @@ footer { background:var(--bg-dark); padding:4.5rem 2.5rem 2rem; border-top:1px s
   .m-item { font-size:.65rem; padding:0 1.2rem; }
 
   /* Sections */
+  .calc-section,
   .dest-section,
   .services-section,
   .process-section,
@@ -489,6 +617,7 @@ footer { background:var(--bg-dark); padding:4.5rem 2.5rem 2rem; border-top:1px s
   .testimonials-section,
   .cta-band,
   footer { padding-left:1.2rem; padding-right:1.2rem; }
+  .calc-section { padding-top:3.5rem; padding-bottom:3.5rem; }
   .dest-section { padding-top:4rem; padding-bottom:4rem; }
   .services-section { padding-top:4rem; padding-bottom:4rem; }
   .process-section { padding-top:4rem; padding-bottom:4rem; }
@@ -539,11 +668,28 @@ footer { background:var(--bg-dark); padding:4.5rem 2.5rem 2rem; border-top:1px s
   .footer-bottom { flex-direction:column; align-items:flex-start; }
 
   /* Modal */
-  .modal { padding:1.8rem; }
-  .modal h3 { font-size:1.5rem; }
+  .modal { padding:1.5rem; }
+  .modal h3 { font-size:1.4rem; }
+  /* Modale devis : colonnes en 1 seule sur mobile */
+  .modal [style*="grid-template-columns:1fr 1fr"] {
+    display:grid !important;
+    grid-template-columns:1fr !important;
+  }
+
+  /* Calculateur */
+  .calc-section { padding-left:1.2rem; padding-right:1.2rem; }
+  .calc-box { padding:1.4rem 1.2rem; }
+  .calc-fields { grid-template-columns:1fr; gap:.9rem; }
+  .calc-cards { grid-template-columns:1fr; gap:.8rem; }
+  .calc-card { padding:1.2rem 1.4rem; }
+  .calc-card-price { font-size:2rem; }
+  .calc-header h2 { font-size:1.7rem; }
+  .calc-btn { font-size:.82rem; padding:1rem; }
 
   /* WhatsApp */
-  .whatsapp-float { width:52px; height:52px; font-size:1.4rem; }
+  .whatsapp-float { width:52px; height:52px; font-size:1.4rem; bottom:1.2rem; right:1.2rem; }
+  .toast { bottom:5rem; right:1.2rem; left:1.2rem; transform:translateY(120%); font-size:.8rem; }
+  .toast.show { transform:translateY(0); }
 }
 </style>
 </head>
@@ -559,13 +705,55 @@ footer { background:var(--bg-dark); padding:4.5rem 2.5rem 2rem; border-top:1px s
   </defs>
 </svg>
 
+<!-- ══ MODALE DEVIS ══ -->
+<div class="modal-overlay" id="devisModal">
+  <div class="modal" style="max-width:620px;max-height:90vh;overflow-y:auto;">
+    <button class="modal-close" onclick="closeDevisModal()">✕</button>
+    <div style="margin-bottom:1.4rem">
+      <div style="font-family:'Syne',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:.17em;text-transform:uppercase;color:#1ea05a;margin-bottom:.4rem">Obtenir un tarif</div>
+      <h3 style="font-size:1.65rem;margin-bottom:.3rem">Demandez votre devis gratuit</h3>
+      <p style="font-size:.84rem;color:rgba(250,245,236,.45)">Réponse sous 24h — aucun engagement requis.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.55rem;margin-bottom:1.4rem">
+      <div style="display:flex;align-items:center;gap:.55rem;background:rgba(30,160,90,.07);border-radius:4px;padding:.55rem .8rem;font-size:.76rem;color:rgba(240,250,244,.7)">🔒 Expédition assurée</div>
+      <div style="display:flex;align-items:center;gap:.55rem;background:rgba(30,160,90,.07);border-radius:4px;padding:.55rem .8rem;font-size:.76rem;color:rgba(240,250,244,.7)">📋 Dédouanement inclus</div>
+      <div style="display:flex;align-items:center;gap:.55rem;background:rgba(30,160,90,.07);border-radius:4px;padding:.55rem .8rem;font-size:.76rem;color:rgba(240,250,244,.7)">📱 Suivi SMS & email</div>
+      <div style="display:flex;align-items:center;gap:.55rem;background:rgba(30,160,90,.07);border-radius:4px;padding:.55rem .8rem;font-size:.76rem;color:rgba(240,250,244,.7)">🏠 Collecte à domicile</div>
+    </div>
+    <form id="devisForm" action="https://formspree.io/f/mojkngdn" method="POST">
+      <input type="hidden" name="_subject" value="🚀 Nouveau devis SADA TRANSPORT LOGISTIQUE"/>
+      <input type="hidden" name="_language" value="fr"/>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.8rem">
+        <div class="form-group"><label class="form-label">Prénom</label><input type="text" name="prenom" class="form-input" placeholder="Mamadou" required style="font-size:16px"/></div>
+        <div class="form-group"><label class="form-label">Nom</label><input type="text" name="nom" class="form-input" placeholder="Diallo" required style="font-size:16px"/></div>
+      </div>
+      <div class="form-group"><label class="form-label">Email</label><input type="email" name="email" class="form-input" placeholder="mamadou@email.com" required style="font-size:16px"/></div>
+      <div class="form-group"><label class="form-label">Téléphone</label><input type="tel" name="telephone" class="form-input" placeholder="+33 6 00 00 00 00" required style="font-size:16px"/></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.8rem">
+        <div class="form-group"><label class="form-label">Ville de départ</label><select name="ville_depart" class="form-select" required style="font-size:16px"><option value="">Choisir</option><option>Paris / Île-de-France</option><option>Nantes</option><option>Rennes</option><option>Le Mans</option></select></div>
+        <div class="form-group"><label class="form-label">Destination</label><select name="destination" class="form-select" style="font-size:16px"><option value="Dakar">Dakar 🇸🇳</option></select></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.8rem">
+        <div class="form-group"><label class="form-label">Poids estimé (kg)</label><input type="number" name="poids_kg" class="form-input" placeholder="10" min="1" required style="font-size:16px"/></div>
+        <div class="form-group"><label class="form-label">Type d'envoi</label><select name="type_envoi" class="form-select" style="font-size:16px"><option>Colis personnel</option><option>Fret commercial</option><option>Valeurs déclarées</option><option>Documents</option></select></div>
+      </div>
+      <div class="form-group"><label class="form-label">Mode de transport</label><select name="transport" class="form-select" style="font-size:16px"><option>Express Aérien (3–7 jours)</option><option>Maritime Économique (15–21 jours)</option><option>Indifférent – meilleur prix</option></select></div>
+      <div class="form-group"><label class="form-label">Description du contenu</label><textarea name="description" class="form-textarea" placeholder="Décrivez brièvement le contenu de votre colis..." style="font-size:16px"></textarea></div>
+      <div id="form-success" style="display:none;background:rgba(30,160,90,.15);border:1px solid rgba(30,160,90,.4);border-radius:6px;padding:1rem 1.2rem;margin-bottom:1rem;color:#25c46e;font-size:.9rem;font-weight:600;">✅ Demande envoyée ! Nous vous répondrons sous 24h.</div>
+      <div id="form-error" style="display:none;background:rgba(13,92,48,.1);border:1px solid rgba(13,92,48,.3);border-radius:6px;padding:1rem 1.2rem;margin-bottom:1rem;color:#1ea05a;font-size:.9rem;">❌ Erreur. Réessayez ou appelez le +33 7 75 78 75 61.</div>
+      <button type="submit" class="form-submit" id="submitBtn">Envoyer ma demande →</button>
+      <p style="text-align:center;margin-top:1rem;font-size:.76rem;color:rgba(250,245,236,.35)">Ou appelez-nous : <a href="tel:+33775787561" style="color:#1ea05a;text-decoration:none;font-weight:600">+33 7 75 78 75 61</a></p>
+    </form>
+  </div>
+</div>
+
 <!-- ══ MODAL SUIVI ══ -->
 <div class="modal-overlay" id="trackModal">
   <div class="modal">
     <button class="modal-close" onclick="closeModal()">✕</button>
     <h3>Suivre mon colis</h3>
     <p>Entrez votre numéro de suivi SADA Transport pour localiser votre envoi.</p>
-    <p style="font-size:.8rem;color:rgba(250,245,236,.45);margin-bottom:1.5rem">📞 +33 7 75 78 75 61 &nbsp;|&nbsp; ✉️ sadasy501@gmail.com</p>
+    <p style="font-size:.8rem;color:rgba(250,245,236,.45);margin-bottom:1.5rem">📞 +33 7 75 78 75 61 &nbsp;|&nbsp; ✉️ sada.transport.logistique@sfr.fr</p>
     <div class="form-group">
       <label class="form-label">Numéro de suivi</label>
       <input class="form-input" id="trackInput" placeholder="Ex: TA-2025-78432" style="font-size:16px" />
@@ -584,11 +772,11 @@ footer { background:var(--bg-dark); padding:4.5rem 2.5rem 2rem; border-top:1px s
   <a href="#destinations" onclick="closeMobileMenu()">Destinations</a>
   <a href="#services" onclick="closeMobileMenu()">Services</a>
   <a href="#process" onclick="closeMobileMenu()">Étapes</a>
-  <a href="#devis" onclick="closeMobileMenu()">Devis</a>
+  <a href="#" onclick="closeMobileMenu();openDevisModal();return false;">Devis</a>
   <a href="#contact" onclick="closeMobileMenu()">Contact</a>
   <div class="mobile-menu-cta">
     <button class="btn-ghost-nav" style="display:block;width:100%;text-align:center;padding:1rem" onclick="closeMobileMenu();openModal()">📦 Suivre mon colis</button>
-    <a href="#devis" class="btn-primary" style="text-align:center;padding:1rem" onclick="closeMobileMenu()">Devis gratuit</a>
+    <a href="#" class="btn-primary" style="text-align:center;padding:1rem" onclick="closeMobileMenu();openDevisModal();return false;">Devis gratuit</a>
   </div>
 </div>
 
@@ -614,15 +802,16 @@ footer { background:var(--bg-dark); padding:4.5rem 2.5rem 2rem; border-top:1px s
     </svg>
   </div>
   <ul class="nav-links">
+    <li><a href="#calculateur">Tarifs</a></li>
     <li><a href="#destinations">Destinations</a></li>
     <li><a href="#services">Services</a></li>
     <li><a href="#process">Étapes</a></li>
-    <li><a href="#devis">Devis</a></li>
+    <li><a href="#" onclick="openDevisModal();return false;">Devis</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
   <div class="nav-right">
     <button class="btn-ghost-nav" onclick="openModal()">📦 Suivre mon colis</button>
-    <a href="#devis" class="nav-cta">Devis gratuit</a>
+    <a href="#" onclick="openDevisModal();return false;" class="nav-cta">Devis gratuit</a>
     <button class="hamburger" id="hamburger" onclick="openMobileMenu()" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
@@ -662,13 +851,12 @@ footer { background:var(--bg-dark); padding:4.5rem 2.5rem 2rem; border-top:1px s
       <div class="hero-left">
         <div class="hero-badge"><span class="badge-dot"></span> Service actif — Départs chaque semaine</div>
         <h1 class="hero-title">
-          <span>Nantes · Rennes</span>
-          <span class="line2">Le Mans · Paris</span>
-          <div class="route-line">vers Dakar 🇸🇳 <div class="arrow-line"></div></div>
+          <span class="line-main">France <span class="line-arrow">→</span> Sénégal</span>
+          <span class="line-sub">Nantes &nbsp;·&nbsp; Rennes &nbsp;·&nbsp; Le Mans &nbsp;·&nbsp; Paris &nbsp;→&nbsp; Dakar 🇸🇳</span>
         </h1>
         <p class="hero-sub">De <strong>Nantes, Rennes, Le Mans et Paris</strong> directement vers <strong>Dakar</strong>. Collecte à domicile, dédouanement inclus, suivi SMS en temps réel.</p>
         <div class="hero-actions">
-          <a href="#devis" class="btn-primary">Demander un devis gratuit</a>
+          <a href="#" onclick="openDevisModal();return false;" class="btn-primary">Demander un devis gratuit</a>
           <a href="#destinations" class="btn-outline">Voir les destinations</a>
         </div>
       </div>
@@ -724,6 +912,53 @@ footer { background:var(--bg-dark); padding:4.5rem 2.5rem 2rem; border-top:1px s
     <span class="m-item">📱 Suivi SMS en temps réel <span class="m-sep">·</span></span>
   </div>
 </div>
+
+<!-- ══ CALCULATEUR DE PRIX ══ -->
+<section class="calc-section" id="calculateur">
+  <div class="calc-wrap reveal">
+    <div class="calc-header">
+      <div class="section-label">Estimation instantanée</div>
+      <h2>Combien coûte votre envoi ?</h2>
+      <p>Renseignez le poids de votre colis et obtenez un prix en 2 secondes.</p>
+    </div>
+    <div class="calc-box">
+      <div class="calc-fields">
+        <div class="calc-field">
+          <label>📍 Ville de départ</label>
+          <select id="calc-ville">
+            <option value="">Choisir une ville</option>
+            <option value="paris">Paris / Île-de-France</option>
+            <option value="nantes">Nantes</option>
+            <option value="rennes">Rennes</option>
+            <option value="lemans">Le Mans</option>
+          </select>
+        </div>
+        <div class="calc-field">
+          <label>📦 Poids du colis (kg)</label>
+          <input type="number" id="calc-poids" placeholder="Ex : 10" min="0.5" step="0.5" style="font-size:16px"/>
+        </div>
+        <div class="calc-field">
+          <label>🗓 Mode de transport</label>
+          <select id="calc-mode">
+            <option value="les2">Comparer les 2</option>
+            <option value="aerien">Express Aérien uniquement</option>
+            <option value="maritime">Maritime uniquement</option>
+          </select>
+        </div>
+      </div>
+      <button class="calc-btn" onclick="calculerPrix()">Calculer mon tarif →</button>
+
+      <div class="calc-result" id="calc-result">
+        <div class="calc-result-title">Estimation pour votre envoi vers Dakar 🇸🇳</div>
+        <div class="calc-cards" id="calc-cards"></div>
+        <p class="calc-note">
+          Prix indicatifs TTC, dédouanement inclus. 
+          <a href="#" onclick="openDevisModal();return false;">Demandez un devis précis →</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- DESTINATIONS -->
 <section class="dest-section" id="destinations">
@@ -798,47 +1033,8 @@ footer { background:var(--bg-dark); padding:4.5rem 2.5rem 2rem; border-top:1px s
   </div>
 </section>
 
-<!-- DEVIS -->
-<section class="devis-section" id="devis">
-  <div class="devis-wrap">
-    <div class="devis-info reveal">
-      <div class="section-label">Obtenir un tarif</div>
-      <h2>Devis gratuit</h2>
-      <p>Réponse personnalisée sous 24h. Aucun engagement requis.</p>
-      <div class="info-points">
-        <div class="info-point"><div class="info-point-icon">🔒</div><div class="info-point-text"><strong>Expédition assurée</strong>Assurance contre la perte et les dommages.</div></div>
-        <div class="info-point"><div class="info-point-icon">📋</div><div class="info-point-text"><strong>Dédouanement inclus</strong>Nous gérons toutes les formalités douanières.</div></div>
-        <div class="info-point"><div class="info-point-icon">📱</div><div class="info-point-text"><strong>Suivi SMS & email</strong>Vous et votre destinataire informés à chaque étape.</div></div>
-        <div class="info-point"><div class="info-point-icon">🏠</div><div class="info-point-text"><strong>Collecte à domicile</strong>Nous venons récupérer vos colis chez vous.</div></div>
-      </div>
-    </div>
-    <div class="reveal">
-      <form id="devisForm" action="https://formspree.io/f/mojkngdn" method="POST">
-        <input type="hidden" name="_subject" value="🚀 Nouveau devis SADA TRANSPORT LOGISTIQUE"/>
-        <input type="hidden" name="_language" value="fr"/>
-        <div class="form-row">
-          <div class="form-group"><label class="form-label">Prénom</label><input type="text" name="prenom" class="form-input" placeholder="Mamadou" required/></div>
-          <div class="form-group"><label class="form-label">Nom</label><input type="text" name="nom" class="form-input" placeholder="Diallo" required/></div>
-        </div>
-        <div class="form-group"><label class="form-label">Email</label><input type="email" name="email" class="form-input" placeholder="mamadou@email.com" required/></div>
-        <div class="form-group"><label class="form-label">Téléphone</label><input type="tel" name="telephone" class="form-input" placeholder="+33 6 00 00 00 00" required/></div>
-        <div class="form-row">
-          <div class="form-group"><label class="form-label">Ville de départ</label><select name="ville_depart" class="form-select" required><option value="">Choisir</option><option>Paris / Île-de-France</option><option>Nantes</option><option>Rennes</option><option>Le Mans</option></select></div>
-          <div class="form-group"><label class="form-label">Destination</label><select name="destination" class="form-select"><option value="Dakar">Dakar 🇸🇳</option></select></div>
-        </div>
-        <div class="form-row">
-          <div class="form-group"><label class="form-label">Poids (kg)</label><input type="number" name="poids_kg" class="form-input" placeholder="10" min="1" required/></div>
-          <div class="form-group"><label class="form-label">Type d'envoi</label><select name="type_envoi" class="form-select"><option>Colis personnel</option><option>Fret commercial</option><option>Valeurs déclarées</option><option>Documents</option></select></div>
-        </div>
-        <div class="form-group"><label class="form-label">Mode de transport</label><select name="transport" class="form-select"><option>Express Aérien (3–7 jours)</option><option>Maritime Économique (15–21 jours)</option><option>Indifférent – meilleur prix</option></select></div>
-        <div class="form-group"><label class="form-label">Description du contenu</label><textarea name="description" class="form-textarea" placeholder="Décrivez brièvement le contenu..."></textarea></div>
-        <div id="form-success" style="display:none;background:rgba(30,160,90,.15);border:1px solid rgba(30,160,90,.4);border-radius:6px;padding:1rem 1.2rem;margin-bottom:1rem;color:#25c46e;font-size:.9rem;font-weight:600;">✅ Demande envoyée ! Réponse sous 24h.</div>
-        <div id="form-error" style="display:none;background:rgba(13,92,48,.1);border:1px solid rgba(13,92,48,.3);border-radius:6px;padding:1rem 1.2rem;margin-bottom:1rem;color:#157a42;font-size:.9rem;font-weight:600;">❌ Erreur. Veuillez réessayer ou nous appeler.</div>
-        <button type="submit" class="form-submit" id="submitBtn">Envoyer ma demande →</button>
-      </form>
-    </div>
-  </div>
-</section>
+<!-- ANCRE DEVIS (vide — le formulaire est dans la modale) -->
+<div id="devis"></div>
 
 <!-- TÉMOIGNAGES -->
 <section class="testimonials-section">
@@ -860,8 +1056,8 @@ footer { background:var(--bg-dark); padding:4.5rem 2.5rem 2rem; border-top:1px s
 <div class="cta-band">
   <h2>Prêt à expédier votre colis ?</h2>
   <p>Devis gratuit en quelques minutes. Collecte partout en France.</p>
-  <p style="font-size:.88rem;color:rgba(255,255,255,.8);margin-bottom:1.5rem">📞 +33 7 75 78 75 61 &nbsp;·&nbsp; ✉️ sadasy501@gmail.com</p>
-  <a href="#devis" class="btn-cta-white">Demander un devis gratuit</a>
+  <p style="font-size:.88rem;color:rgba(255,255,255,.8);margin-bottom:1.5rem">📞 +33 7 75 78 75 61 &nbsp;·&nbsp; ✉️ sada.transport.logistique@sfr.fr</p>
+  <a href="#" onclick="openDevisModal();return false;" class="btn-cta-white">Demander un devis gratuit</a>
 </div>
 
 <!-- FOOTER -->
@@ -890,7 +1086,7 @@ footer { background:var(--bg-dark); padding:4.5rem 2.5rem 2rem; border-top:1px s
     <div class="footer-col"><h4>Infos</h4><ul><li><a href="#">Tarifs & Délais</a></li><li><a href="#">Produits acceptés</a></li><li><a href="#">Dédouanement</a></li><li><a href="#">Assurance colis</a></li><li><a href="#">FAQ</a></li></ul></div>
     <div class="footer-col"><h4>Contact</h4><ul>
       <li><a href="tel:+33775787561">📞 +33 7 75 78 75 61</a></li>
-      <li><a href="mailto:sadasy501@gmail.com">✉️ sadasy501@gmail.com</a></li>
+      <li><a href="mailto:sada.transport.logistique@sfr.fr">✉️ sada.transport.logistique@sfr.fr</a></li>
       <li><a href="https://wa.me/33775787561">💬 WhatsApp</a></li>
       <li><a href="#">📍 Paris, France</a></li>
       <li><a href="#">⏰ Lun–Sam 8h–20h</a></li>
@@ -902,18 +1098,98 @@ footer { background:var(--bg-dark); padding:4.5rem 2.5rem 2rem; border-top:1px s
   </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+/* ── Calculateur de prix ── */
+function calculerPrix() {
+  const poids = parseFloat(document.getElementById('calc-poids').value);
+  const ville = document.getElementById('calc-ville').value;
+  const mode  = document.getElementById('calc-mode').value;
+
+  if (!poids || poids <= 0) {
+    document.getElementById('calc-poids').focus();
+    document.getElementById('calc-poids').style.borderColor = '#e05555';
+    setTimeout(() => document.getElementById('calc-poids').style.borderColor = '', 1500);
+    return;
+  }
+  if (!ville) {
+    document.getElementById('calc-ville').style.borderColor = '#e05555';
+    setTimeout(() => document.getElementById('calc-ville').style.borderColor = '', 1500);
+    return;
+  }
+
+  const tarifAerien   = 10;  // €/kg
+  const tarifMaritime = 4;   // €/kg
+  const prixAerien    = Math.round(poids * tarifAerien);
+  const prixMaritime  = Math.round(poids * tarifMaritime);
+
+  const villeLabel = {
+    paris:'Paris / Île-de-France', nantes:'Nantes',
+    rennes:'Rennes', lemans:'Le Mans'
+  }[ville];
+
+  let html = '';
+
+  if (mode === 'les2' || mode === 'aerien') {
+    html += `
+    <div class="calc-card featured">
+      <div class="calc-card-mode">✈️ Express Aérien</div>
+      <div class="calc-card-price">${prixAerien}<span> €</span></div>
+      <div class="calc-card-delay">⏱ Livraison en 3 à 7 jours</div>
+      <div class="calc-card-included">
+        <span>✓ Dédouanement inclus</span>
+        <span>✓ Suivi SMS inclus</span>
+        <span>✓ Livraison domicile Dakar</span>
+      </div>
+    </div>`;
+  }
+
+  if (mode === 'les2' || mode === 'maritime') {
+    html += `
+    <div class="calc-card">
+      <div class="calc-card-mode">🚢 Maritime Économique</div>
+      <div class="calc-card-price">${prixMaritime}<span> €</span></div>
+      <div class="calc-card-delay">⏱ Livraison en 15 à 21 jours</div>
+      <div class="calc-card-included">
+        <span>✓ Dédouanement inclus</span>
+        <span>✓ Suivi SMS inclus</span>
+        <span>✓ Livraison domicile Dakar</span>
+      </div>
+    </div>`;
+  }
+
+  document.getElementById('calc-cards').innerHTML = html;
+  const result = document.getElementById('calc-result');
+  result.classList.add('show');
+  result.scrollIntoView({ behavior:'smooth', block:'nearest' });
+}
+/* Touche Entrée pour calculer */
+document.addEventListener('DOMContentLoaded', () => {
+  ['calc-poids','calc-ville','calc-mode'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('keydown', e => { if (e.key === 'Enter') calculerPrix(); });
+  });
+});
+
 /* Nav scroll */
 const nav = document.getElementById('mainNav');
 window.addEventListener('scroll', () => nav.classList.toggle('stuck', window.scrollY > 60));
 
 /* Reveal on scroll */
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry, i) => {
-    if (entry.isIntersecting) setTimeout(() => entry.target.classList.add('visible'), i * 80);
-  });
-}, { threshold: 0.1 });
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+/* Reveal on scroll */
+if ('IntersectionObserver' in window) {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+} else {
+  // Fallback : tout afficher directement
+  document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+}
 
 /* Menu mobile */
 function openMobileMenu() {
@@ -926,6 +1202,19 @@ function closeMobileMenu() {
   document.getElementById('hamburger').classList.remove('open');
   document.body.style.overflow = '';
 }
+
+/* Modale Devis */
+function openDevisModal() {
+  document.getElementById('devisModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeDevisModal() {
+  document.getElementById('devisModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('devisModal').addEventListener('click', e => {
+  if (e.target === e.currentTarget) closeDevisModal();
+});
 
 /* Modal suivi */
 function openModal() { document.getElementById('trackModal').classList.add('open'); }
@@ -973,7 +1262,9 @@ if (devisForm) {
 /* Smooth scroll */
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
-    const t = document.querySelector(a.getAttribute('href'));
+    const href = a.getAttribute('href');
+    if (href === '#' || !href || href.length < 2) return;
+    const t = document.querySelector(href);
     if (t) { e.preventDefault(); t.scrollIntoView({ behavior:'smooth' }); }
   });
 });
